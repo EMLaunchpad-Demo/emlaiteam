@@ -1,0 +1,10 @@
+# Alleen de website gaat naar GitHub (Martijn, 31/10/2026). Interne werkbestanden blijven in OneDrive.
+controle/
+_backup-*/
+.taste-skill/
+node_modules/
+.env*
+*.log
+.DS_Store
+Thumbs.db
+desktop.ini
