@@ -1,0 +1,20 @@
+# Deze bestanden horen niet publiek op de site (gitignore-syntax). Zie README.md.
+.git
+.gitattributes
+.gitignore
+.assetsignore
+.claude
+.taste-skill
+_bron
+_backup-*
+controle
+README.md
+*.md
+# Door de Cloudflare-build gebruikt of aangemaakt
+wrangler.jsonc
+wrangler.json
+wrangler.toml
+.wrangler
+node_modules
+package.json
+package-lock.json

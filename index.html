@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>AI-agents voor bedrijven: je eigen AI-team | EML AI Team</title>
 <meta name="description" content="Een AI-team op maat: AI-agents per afdeling nemen het herhaalwerk op, jij keurt goed. Gratis analyse. Vanaf €3.500 setup + €750 per maand, excl. btw.">
-<!-- DOMEIN: https://emlteam.ai is een placeholder (open vraag). Bij een ander domein: vervang het overal in dit bestand (canonical, hreflang, og en JSON-LD). -->
+<!-- DOMEIN: https://emlteam.ai wordt ingevuld door _bron/maak-netwerk.mjs (constante DOMEIN). Nog een tijdelijke waarde: pas het daar aan, niet hier. -->
 <link rel="canonical" href="https://emlteam.ai/">
 <link rel="alternate" hreflang="nl" href="https://emlteam.ai/">
 <link rel="alternate" hreflang="x-default" href="https://emlteam.ai/">
@@ -24,7 +24,7 @@
 <link rel="icon" href="assets/img/favicon.png" type="image/png" sizes="32x32">
 <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
 <link rel="preload" href="assets/fonts/archivo-latin.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="assets/css/site.css?v=7">
+<link rel="stylesheet" href="assets/css/site.css?v=10">
 <script>document.documentElement.classList.add('js')</script>
 <script type="application/ld+json">
 {
@@ -147,7 +147,7 @@
     <a class="lock" href="./" aria-label="EML AI Team, een onderdeel van EM Launchpad, naar de startpagina">
       <picture><source type="image/webp" srcset="assets/img/em-logo-3d-96.webp 152w, assets/img/em-logo-3d-192.webp 304w" sizes="57px"><img class="lock-logo" src="assets/img/em-logo-3d-96.png" srcset="assets/img/em-logo-3d-96.png 152w, assets/img/em-logo-3d-192.png 304w" sizes="57px" width="152" height="96" alt=""></picture>
     </a>
-    <p class="sbar-status" aria-hidden="true"><span class="live"></span>voorbeeld <b>·</b> 7 agents online <b>·</b> <span class="clock">08:32:00</span></p>
+    <p class="sbar-status" aria-hidden="true"><span class="live"></span>7 agents online <b>·</b> <span class="clock">08:32:00</span></p>
     <nav class="sbar-nav" aria-label="Hoofdmenu">
       <a href="#zo-werkt-het">Zo werkt het</a>
       <a href="#team">Stel je team samen</a>
@@ -182,14 +182,18 @@
       <div class="step step--hero" data-floor="-1">
         <div class="wrap">
           <div class="hero-copy">
+            <div class="hero-main">
             <p class="code" data-load style="--d:60ms">HQ-00 <b>/</b> Een onderdeel van EM Launchpad</p>
-            <h1 id="hero-h">Je eigen AI-team, <span class="grad">per afdeling.</span></h1>
+            <h1 id="hero-h">Je eigen <span class="nw">AI-team,</span> <span class="grad">per afdeling.</span></h1>
+            </div>
+            <div class="hero-side">
             <p class="lede" data-load style="--d:380ms">Het hoofdkwartier van je bedrijf. Per afdeling zetten AI-agents het werk klaar, een Chief of Staff houdt het overzicht en jij keurt goed. Taken geef je door in Telegram.</p>
             <div class="cta" data-load style="--d:480ms">
               <a class="btn" href="#gratis-analyse" data-boeking>Plan je gratis analyse <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a>
               <a class="tlink" href="#zo-werkt-het">Ga binnen <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 3v10M4 9l4 4 4-4"/></svg></a>
             </div>
             <p class="fact" data-load style="--d:560ms">Gratis analyse. Pakketten vanaf €3.500 setup + €750 per maand, excl. btw, vast contract van 12 maanden.</p>
+            </div>
             <!-- gsm: een stilstaande render van het 3D-gebouw (desktop laadt dit beeld niet: daar blijft de img een leeg pixeltje) -->
             <picture class="hero-pic">
               <source media="(max-width: 720px), (hover: none) and (pointer: coarse) and (max-width: 1023px)" type="image/webp" srcset="assets/img/hq-gebouw-720.webp 720w, assets/img/hq-gebouw-1080.webp 1080w" sizes="(min-width: 600px) 560px, 100vw">
@@ -212,10 +216,12 @@
 
       <article class="step" data-floor="0" id="zo-werkt-het" aria-labelledby="f0-h">
         <div class="wrap"><div class="floor panel hud">
+          <div class="floor-main">
           <p class="code">HQ-01 <b>/</b> Verdieping 1</p>
           <h2 class="floor-h" id="f0-h">Sales en opvolging</h2>
           <p class="floor-agents"><b>Voorbeeldagents</b> Leadopvolger, Offertemaker, Afsprakenplanner</p>
           <p class="floor-task"><span class="st st--wait">Voorbeeldtaak</span> De Offertemaker zet de offerte voor de renovatie in de Kerkstraat klaar, op basis van de aanvraag van gisteren.</p>
+          </div>
           <ul class="limits">
             <li><b class="lim lim--ok">Mag zelf</b>Een concept opmaken uit de aanvraag.</li>
             <li><b class="lim lim--ask">Vraagt eerst akkoord</b>De offerte naar de klant sturen.</li>
@@ -226,10 +232,12 @@
 
       <article class="step" data-floor="1" aria-labelledby="f1-h">
         <div class="wrap"><div class="floor panel hud">
+          <div class="floor-main">
           <p class="code">HQ-02 <b>/</b> Verdieping 2</p>
           <h2 class="floor-h" id="f1-h">Planning</h2>
           <p class="floor-agents"><b>Voorbeeldagents</b> Planner, Weerwacht, Materiaalbesteller</p>
           <p class="floor-task"><span class="st st--wait">Voorbeeldtaak</span> De Planner vraagt in de groep: "Morgen om 10:00 past in de route van technieker 2. Zal ik het inplannen?"</p>
+          </div>
           <ul class="limits">
             <li><b class="lim lim--ok">Mag zelf</b>Inplannen binnen je vrije momenten.</li>
             <li><b class="lim lim--ask">Vraagt eerst akkoord</b>Inplannen buiten je vrije momenten.</li>
@@ -240,10 +248,12 @@
 
       <article class="step" data-floor="2" aria-labelledby="f2-h">
         <div class="wrap"><div class="floor panel hud">
+          <div class="floor-main">
           <p class="code">HQ-03 <b>/</b> Verdieping 3</p>
           <h2 class="floor-h" id="f2-h">Klantenservice</h2>
           <p class="floor-agents"><b>Voorbeeldagents</b> Storingsdesk, Onderhoudsherinnering</p>
           <p class="floor-task"><span class="st st--wait">Voorbeeldtaak</span> De Storingsdesk zet een antwoord klaar op een storingsmelding en stelt een moment voor de technieker voor.</p>
+          </div>
           <ul class="limits">
             <li><b class="lim lim--ok">Mag zelf</b>Het standaardantwoord op "Wanneer komt de technieker?" sturen, als je het vooraf goedkeurde.</li>
             <li><b class="lim lim--ask">Vraagt eerst akkoord</b>Elk ander antwoord naar een klant.</li>
@@ -254,10 +264,12 @@
 
       <article class="step" data-floor="3" aria-labelledby="f3-h">
         <div class="wrap"><div class="floor panel hud">
+          <div class="floor-main">
           <p class="code">HQ-04 <b>/</b> Verdieping 4</p>
           <h2 class="floor-h" id="f3-h">Marketing</h2>
           <p class="floor-agents"><b>Voorbeeldagents</b> Reviewvrager, Advertentie-opvolger, E-mailschrijver</p>
           <p class="floor-task"><span class="st st--wait">Voorbeeldtaak</span> De Reviewvrager zet een reviewvraag klaar voor de klanten van de werven die deze week klaar waren.</p>
+          </div>
           <ul class="limits">
             <li><b class="lim lim--ok">Mag zelf</b>Concepten schrijven in de toon van je bedrijf.</li>
             <li><b class="lim lim--ask">Vraagt eerst akkoord</b>Een mail versturen of een antwoord op een review plaatsen.</li>
@@ -268,10 +280,12 @@
 
       <article class="step" data-floor="4" aria-labelledby="f4-h">
         <div class="wrap"><div class="floor panel hud">
+          <div class="floor-main">
           <p class="code">HQ-05 <b>/</b> Verdieping 5</p>
           <h2 class="floor-h" id="f4-h">Administratie</h2>
           <p class="floor-agents"><b>Voorbeeldagents</b> Factuurjager, Dossier-checker</p>
           <p class="floor-task"><span class="st st--wait">Voorbeeldtaak</span> De Factuurjager zet herinneringen klaar voor 4 facturen die langer dan 30 dagen openstaan.</p>
+          </div>
           <ul class="limits">
             <li><b class="lim lim--ok">Mag zelf</b>Nakijken welke facturen openstaan.</li>
             <li><b class="lim lim--ask">Vraagt eerst akkoord</b>Een herinnering naar een klant sturen.</li>
@@ -517,7 +531,7 @@
         <div class="decide-head"><span class="av av--cos" aria-hidden="true">CS</span><p class="decide-who">Chief of Staff <span>nu</span></p></div>
         <p class="decide-q" id="decide-q">Eén beslissing voor jou: plan je de gratis analyse voor je AI-team?</p>
         <div class="decide-btns">
-          <!-- Boekingslink: EMLaunchpad Agenda (Martijn, 31/10/2026). Staat ook als BOEKINGSLINK in site.js. -->
+          <!-- Zonder JavaScript: rechtstreeks naar de EMLaunchpad Agenda (Martijn, 31/10/2026). Met JavaScript opent site.js eerst het formulier (venster #ga hieronder). -->
           <a class="btn" href="https://api.leadconnectorhq.com/widget/booking/OoJsvpiXXpwS5oGbQGIE" target="_blank" rel="noopener" data-boeking data-slot>Plan je gratis analyse <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a>
           <a class="btn-ghost" href="mailto:ebert@emlaunchpad.com?subject=Vraag%20over%20EML%20AI%20Team">Eerst een vraag</a>
         </div>
@@ -545,6 +559,41 @@
   </div>
 </footer>
 
-<script src="assets/js/site.js?v=5" defer></script>
+<!-- ════════ GRATIS ANALYSE: eerst het formulier, dan een moment kiezen ════════
+     Het formulier "EML AI Team · Gratis analyse" en de EMLaunchpad Agenda komen uit ons platform (sub-account EM Launchpad).
+     Ze laden pas als iemand op een knop met data-boeking klikt (site.js), zodat de pagina even snel blijft. -->
+<dialog class="ga" id="ga" aria-labelledby="ga-title">
+  <div class="ga-panel">
+    <header class="ga-head">
+      <p class="code">HQ-12 <b>/</b> Gratis analyse</p>
+      <h2 class="ga-title" id="ga-title" tabindex="-1">Plan je gratis analyse</h2>
+      <ol class="ga-steps">
+        <li class="is-on" data-ga-stap="1" aria-current="step"><span>01</span>Over jou en je bedrijf</li>
+        <li data-ga-stap="2"><span>02</span>Kies een moment</li>
+      </ol>
+      <button class="ga-close" type="button" aria-label="Sluiten"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 4l8 8M12 4l-8 8"/></svg></button>
+    </header>
+    <div class="ga-body">
+      <section class="ga-step" data-ga-stap="1">
+        <p class="ga-lede">Een paar korte vragen, zodat we het gesprek goed voorbereiden. Daarna kies je meteen een moment: 30 minuten in Microsoft Teams.</p>
+        <div class="ga-frame ga-frame--form">
+          <div class="ga-skel" aria-hidden="true"><span></span><span></span><span></span><span></span><span class="ga-skel-big"></span><span class="ga-skel-btn"></span></div>
+          <p class="ga-load" role="status">Formulier laden…</p>
+        </div>
+        <p class="ga-note">We gebruiken je antwoorden alleen om de analyse voor te bereiden. Meer in ons <a href="https://emlaunchpad.com/privacy#eml-ai-team" target="_blank" rel="noopener">privacybeleid</a>. Lukt het formulier niet? <a href="https://api.leadconnectorhq.com/widget/booking/OoJsvpiXXpwS5oGbQGIE" target="_blank" rel="noopener">Kies meteen een moment</a>.</p>
+      </section>
+      <section class="ga-step" data-ga-stap="2" hidden>
+        <p class="ga-lede ga-lede--ok"><b>Bedankt<span data-ga-naam></span>, we hebben je antwoorden.</b> Kies nu een moment dat jou past: 30 minuten in Microsoft Teams.</p>
+        <div class="ga-frame ga-frame--agenda">
+          <div class="ga-skel" aria-hidden="true"><span class="ga-skel-big"></span><span></span><span></span></div>
+          <p class="ga-load" role="status">Agenda laden…</p>
+        </div>
+        <p class="ga-note">Liever eerst een vraag? Mail <a href="mailto:ebert@emlaunchpad.com?subject=Vraag%20over%20EML%20AI%20Team">ebert@emlaunchpad.com</a>.</p>
+      </section>
+    </div>
+  </div>
+</dialog>
+
+<script src="assets/js/site.js?v=8" defer></script>
 </body>
 </html>

@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pagina niet gevonden | EML AI Team</title>
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#0b1526">
+<link rel="icon" href="/assets/img/favicon.png" type="image/png" sizes="32x32">
+<link rel="apple-touch-icon" href="/assets/img/apple-touch-icon.png">
+<link rel="preload" href="/assets/fonts/archivo-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/assets/css/site.css?v=10">
+<!-- Cloudflare toont deze pagina bij elk adres dat niet bestaat (wrangler.jsonc: not_found_handling "404-page").
+     Daarom staan alle paden hier absoluut (/assets/...), want de pagina kan op elke diepte geladen worden. -->
+<style>
+  .nf{min-height:100vh;min-height:100dvh;display:grid;place-items:center;padding:40px 16px;
+      background:radial-gradient(120% 80% at 50% 0%,rgba(47,116,224,.16),transparent 60%),var(--ground)}
+  .nf-card{width:min(560px,100%);padding:clamp(28px,5vw,44px);border-radius:20px;border:1px solid var(--line-2);
+      background:linear-gradient(155deg,rgba(255,255,255,.07),rgba(255,255,255,.02) 45%),rgba(10,19,35,.72);position:relative;overflow:hidden}
+  .nf-card::before{content:"";position:absolute;inset:0 0 auto;height:2px;background:var(--uline)}
+  .nf-logo{display:flex;align-items:center;gap:10px;font-weight:700;color:var(--ink);margin-bottom:28px}
+  .nf-logo img{width:57px;height:36px}
+  .nf .nf-code{font-family:var(--mono);font-size:13px;letter-spacing:.06em;color:var(--green-l);margin-bottom:12px}
+  .nf h1{font-size:clamp(28px,5vw,40px);line-height:1.12;font-weight:800;margin-bottom:14px}
+  .nf p{color:var(--mid);margin-bottom:26px}
+  .nf-acties{display:flex;flex-wrap:wrap;gap:12px}
+</style>
+</head>
+<body>
+<main class="nf">
+  <div class="nf-card">
+    <a class="nf-logo" href="/"><img src="/assets/img/em-logo-3d-96.png" width="57" height="36" alt="">EML AI Team</a>
+    <p class="nf-code">404 / Pagina niet gevonden</p>
+    <h1>Deze pagina bestaat niet.</h1>
+    <p>Misschien is de link oud of zit er een typfout in. Op de homepage vind je het hele AI-team en plan je meteen je gratis analyse.</p>
+    <div class="nf-acties">
+      <a class="btn" href="/">Naar de homepage <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a>
+      <a class="btn-ghost" href="mailto:ebert@emlaunchpad.com?subject=Vraag%20over%20EML%20AI%20Team">Stel je vraag</a>
+    </div>
+  </div>
+</main>
+</body>
+</html>

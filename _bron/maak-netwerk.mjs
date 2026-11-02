@@ -1,8 +1,13 @@
 // Bouwt index.html uit _bron/index.template.html en vult de netwerken in (statische SVG, ook zonder JavaScript zichtbaar).
+// Schrijft ook robots.txt en sitemap.xml met hetzelfde domein.
 // Gebruik (in site-v4): node _bron/maak-netwerk.mjs
 import { readFileSync, writeFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
+
+// DOMEIN: de enige plaats waar het domein staat (canonical, hreflang, og:url, og:image, JSON-LD, robots.txt, sitemap.xml).
+// Nu nog een tijdelijke waarde: het domein is niet gekozen. Pas het hier aan, bouw opnieuw en push.
+const DOMEIN = 'https://emlteam.ai';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const r = (n) => Math.round(n * 10) / 10;
@@ -131,6 +136,14 @@ html = html.replace('<!--BLD:static-->', building('static')).replace('<!--BLD:bu
 html = html.replace('<!--NET:hero-->', heroNet()).replace('<!--NET:hq-->', hqNet())
   .replace('<!--GLYPH:analyse-->', glyph('analyse')).replace('<!--GLYPH:start-->', glyph('start'))
   .replace('<!--GLYPH:groei-->', glyph('groei')).replace('<!--GLYPH:volledig-->', glyph('volledig'))
-  .replaceAll('<!--DIV-->', divider());
+  .replaceAll('<!--DIV-->', divider())
+  .replaceAll('%%DOMEIN%%', DOMEIN);
+if (html.includes('%%')) throw new Error('Er staat nog een %%-plaatshouder in index.html');
 writeFileSync(join(ROOT, 'index.html'), html);
 console.log('index.html gebouwd', html.length);
+
+// robots.txt en sitemap.xml (alleen de homepage; de 404-pagina staat op noindex)
+const vandaag = new Date().toISOString().slice(0, 10);
+writeFileSync(join(ROOT, 'robots.txt'), `User-agent: *\nAllow: /\n\nSitemap: ${DOMEIN}/sitemap.xml\n`);
+writeFileSync(join(ROOT, 'sitemap.xml'), `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n  <url>\n    <loc>${DOMEIN}/</loc>\n    <lastmod>${vandaag}</lastmod>\n  </url>\n</urlset>\n`);
+console.log('robots.txt en sitemap.xml geschreven voor', DOMEIN);

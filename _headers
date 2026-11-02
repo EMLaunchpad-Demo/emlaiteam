@@ -1,0 +1,22 @@
+# Headers voor Cloudflare (statische bestanden).
+# Op het tijdelijke workers.dev-adres niet indexeren: de canonical wijst nog naar een tijdelijk domein.
+https://:worker.:account.workers.dev/*
+  X-Robots-Tag: noindex
+
+/*
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=()
+
+# css, js en de three-bundel krijgen een ?v= bij elke wijziging; lettertypes veranderen niet
+/assets/css/*
+  Cache-Control: public, max-age=31536000, immutable
+/assets/js/*
+  Cache-Control: public, max-age=31536000, immutable
+/assets/vendor/*
+  Cache-Control: public, max-age=31536000, immutable
+/assets/fonts/*
+  Cache-Control: public, max-age=31536000, immutable
+# afbeeldingen hebben geen ?v=: een week
+/assets/img/*
+  Cache-Control: public, max-age=604800

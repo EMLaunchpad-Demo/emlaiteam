@@ -1,0 +1,14 @@
+// Cloudflare Workers met statische bestanden, zonder bouwstap (zoals Clinic3D).
+// De naam hieronder moet gelijk zijn aan de naam van de Worker in het Cloudflare-dashboard.
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "emlaiteam",
+  "compatibility_date": "2026-10-30",
+  "observability": {
+    "enabled": true
+  },
+  "assets": {
+    "directory": ".",
+    "not_found_handling": "404-page"
+  }
+}

@@ -6,9 +6,16 @@
 (() => {
   'use strict';
 
-  // Boekingslink voor de gratis analyse: de bestaande EMLaunchpad Agenda (30 minuten, Teams), dezelfde
-  // als op emlaunchpad.com (Martijn, 31/10/2026). Leeg maken = knoppen naar het slot en een mail als terugval.
-  const BOEKINGSLINK = 'https://api.leadconnectorhq.com/widget/booking/OoJsvpiXXpwS5oGbQGIE';
+  // Gratis analyse (Martijn, 2/11/2026): eerst het formulier "EML AI Team · Gratis analyse", daarna meteen een moment
+  // in de EMLaunchpad Agenda (30 minuten, Teams; nooit "Client Meeting"). Beide komen uit ons platform (sub-account
+  // EM Launchpad) en laden pas bij de klik. Geen sleutels of tokens nodig: het zijn openbare insluitlinks.
+  const GA = {
+    formId: 'a58Nhfp57odLnpaM6Kov',
+    form: 'https://api.leadconnectorhq.com/widget/form/a58Nhfp57odLnpaM6Kov',
+    agendaId: 'OoJsvpiXXpwS5oGbQGIE',
+    agenda: 'https://api.leadconnectorhq.com/widget/booking/OoJsvpiXXpwS5oGbQGIE',
+    embed: 'https://link.msgsndr.com/js/form_embed.js'
+  };
 
   const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   // zelfde voorwaarde als de gsm-regels in site.css en de <source media> van de heroafbeelding
@@ -17,7 +24,81 @@
   const $ = (s, r = document) => r.querySelector(s);
   const $$ = (s, r = document) => [...r.querySelectorAll(s)];
 
-  if (BOEKINGSLINK) $$('[data-boeking]').forEach((a) => { a.href = BOEKINGSLINK; a.target = '_blank'; a.rel = 'noopener'; });
+  /* ---------- gratis analyse: venster met het formulier en daarna de agenda ---------- */
+  const ga = $('#ga');
+  if (ga && typeof ga.showModal === 'function') {
+    const steps = $$('.ga-step', ga), marks = $$('.ga-steps li', ga);
+    const formBox = $('.ga-frame--form', ga), agendaBox = $('.ga-frame--agenda', ga);
+    let embed = null, formFrame = null, agendaFrame = null, stap = 1;
+    // het insluitscript van ons platform: past de hoogte van de iframes aan en geeft naam en e-mail door van het formulier
+    // aan de agenda. Eén keer laden, pas bij de eerste klik.
+    const loadEmbed = () => embed || (embed = new Promise((res) => {
+      const s = document.createElement('script');
+      s.src = GA.embed; s.async = true; s.onload = res; s.onerror = res; // ook zonder script werken de iframes
+      document.head.appendChild(s);
+    }));
+    const frame = (box, attrs) => {
+      const f = document.createElement('iframe');
+      Object.entries(attrs).forEach(([k, v]) => f.setAttribute(k, v));
+      f.addEventListener('load', () => box.classList.add('is-ready'), { once: true });
+      box.appendChild(f);
+      return f;
+    };
+    const showForm = () => {
+      if (formFrame) return;
+      formFrame = frame(formBox, {
+        src: GA.form, id: `inline-${GA.formId}`, title: 'Formulier: gratis analyse voor je AI-team',
+        'data-layout': "{'id':'INLINE'}", 'data-trigger-type': 'alwaysShow', 'data-trigger-value': '',
+        'data-activation-type': 'alwaysActivated', 'data-activation-value': '',
+        'data-deactivation-type': 'neverDeactivate', 'data-deactivation-value': '',
+        'data-form-name': 'EML AI Team · Gratis analyse', 'data-layout-iframe-id': `inline-${GA.formId}`, 'data-form-id': GA.formId
+      });
+    };
+    const showAgenda = () => {
+      if (agendaFrame) return;
+      agendaFrame = frame(agendaBox, { src: GA.agenda, id: `${GA.agendaId}_ga`, title: 'Agenda: kies een moment voor je gratis analyse' });
+    };
+    const go = (n) => {
+      stap = n;
+      steps.forEach((s) => { s.hidden = +s.dataset.gaStap !== n; });
+      marks.forEach((m) => {
+        const k = +m.dataset.gaStap;
+        m.classList.toggle('is-on', k === n); m.classList.toggle('is-done', k < n);
+        if (k === n) m.setAttribute('aria-current', 'step'); else m.removeAttribute('aria-current');
+      });
+      $('.ga-body', ga).scrollTop = 0;
+    };
+    const open = () => {
+      document.documentElement.classList.add('ga-open');
+      ga.showModal();
+      loadEmbed().then(() => (stap === 1 ? showForm() : showAgenda()));
+    };
+    ga.addEventListener('close', () => document.documentElement.classList.remove('ga-open'));
+    $('.ga-close', ga).addEventListener('click', () => ga.close());
+    ga.addEventListener('click', (e) => { if (e.target === ga) ga.close(); }); // klik naast het venster
+    // na het versturen meldt het formulier dat aan de pagina (bericht "set-sticky-contacts"): dan meteen de agenda
+    window.addEventListener('message', (e) => {
+      let host = '';
+      try { host = new URL(e.origin).hostname; } catch (err) { return; }
+      if (!/(^|\.)(leadconnectorhq\.com|msgsndr\.com)$/.test(host)) return;
+      const d = e.data;
+      if (!formFrame || e.source !== formFrame.contentWindow || !Array.isArray(d) || d[0] !== 'set-sticky-contacts' || d[1] !== '_ud' || stap !== 1) return;
+      let naam = '';
+      try { naam = String((JSON.parse(d[2]) || {}).first_name || '').trim().slice(0, 40); } catch (err) { /* geen naam: ook goed */ }
+      $('[data-ga-naam]', ga).textContent = naam ? `, ${naam}` : '';
+      go(2);
+      showAgenda();
+      $('.ga-title', ga).focus({ preventScroll: true });
+    });
+    $$('[data-boeking]').forEach((a) => a.addEventListener('click', (e) => {
+      if (e.metaKey || e.ctrlKey || e.shiftKey || e.button > 0) return; // nieuw tabblad: gewoon de link volgen
+      e.preventDefault();
+      open();
+    }));
+  } else {
+    // oude browser zonder <dialog>: zoals voordien rechtstreeks naar de agenda
+    $$('[data-boeking]').forEach((a) => { a.href = GA.agenda; a.target = '_blank'; a.rel = 'noopener'; });
+  }
 
   /* ---------- verschijnen bij het scrollen ---------- */
   const revealEls = $$('[data-reveal]');
@@ -77,7 +158,7 @@
     if (!reduce && !weak && canGL && !phone) {
       const go = () => {
         const light = window.innerWidth < 720 || window.matchMedia('(pointer: coarse)').matches;
-        import('./hq3d.js?v=3').then((m) => {
+        import('./hq3d.js?v=5').then((m) => {
           hq = m.start({ canvas: $('.hq-canvas', ride), ride, steps, light, onReady: () => ride.classList.add('is-3d') });
           if (!hq) ride.classList.add('no-3d');
         }).catch(() => ride.classList.add('no-3d'));

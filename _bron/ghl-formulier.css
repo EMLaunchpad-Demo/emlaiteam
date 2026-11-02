@@ -1,0 +1,85 @@
+/* EML AI Team · Gratis analyse: stijl van het formulier in ons platform (sub-account EM Launchpad,
+   formulier a58Nhfp57odLnpaM6Kov). Dit bestand is de bron. De inhoud staat in het formulier onder
+   Stijlen en opties > Geavanceerd > Aangepaste CSS. Pas je hier iets aan: plak het daar opnieuw en sla op.
+   Kleuren en lettertypes van de site (assets/css/site.css). Het iframe is doorzichtig: het donkere glas
+   komt van de modal op de site. */
+@import url('https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&display=swap');
+
+html,body{background:transparent!important}
+#_builder-form,#_builder-form *{font-family:'Archivo',system-ui,sans-serif!important;letter-spacing:0}
+html body #_builder-form.form-builder--wrap{background:transparent!important;border:0!important;box-shadow:none!important;padding:2px!important;max-width:100%!important;width:100%!important;margin:0!important}
+html body .ghl-form-wrap{max-width:100%!important;width:100%!important}
+
+/* raster: twee kolommen voor de korte velden, de rest over de volle breedte */
+html body #_builder-form .fields-container{display:grid!important;grid-template-columns:1fr 1fr;column-gap:14px;row-gap:0;margin:0!important}
+html body #_builder-form .form-field-wrapper{grid-column:1/-1;width:auto!important;max-width:none!important;flex:none!important;padding:0!important;margin:0 0 16px!important}
+html body #_builder-form [id*="_first_name_"],html body #_builder-form [id*="_last_name_"],
+html body #_builder-form [id*="_phone_"],html body #_builder-form [id*="_email_"],
+html body #_builder-form [id*="_Bjne0vArSOhAcg9cAQ7e_"],html body #_builder-form [id*="_ZLSmTrVrK9CPBVPBT1Aa_"],
+html body #_builder-form [id*="_fg6soEZ9zwkKjdqHkot1_"],html body #_builder-form [id*="_Wjr386bP4HdWFLERbBu0_"]{grid-column:auto}
+@media (max-width:520px){html body #_builder-form .fields-container{grid-template-columns:1fr}html body #_builder-form .form-field-wrapper{grid-column:1/-1!important}}
+html body #_builder-form .form-field-container,html body #_builder-form .field-container,html body #_builder-form .form-builder--item{padding:0!important;margin:0!important;background:transparent!important;max-width:none!important;width:100%!important}
+
+/* labels */
+html body #_builder-form .form-builder--item>label,html body #_builder-form label.field-label{display:block;margin:0 0 7px!important;padding:0!important;color:#f3f6fa!important;font-size:14px!important;font-weight:600!important;line-height:1.35!important}
+html body #_builder-form .form-builder--item>label span,html body #_builder-form label.field-label span{color:#43b581!important;margin-left:2px}
+
+/* invoervelden */
+html body #_builder-form .form-builder--item input.form-control[class][type],html body #_builder-form .form-builder--item textarea[class],html body #_builder-form .multiselect .multiselect__tags[class]{
+  background:rgba(255,255,255,.05)!important;border:1px solid rgba(150,190,235,.24)!important;border-radius:10px!important;
+  color:#f3f6fa!important;font-size:15px!important;box-shadow:none!important;transition:border-color .18s ease,box-shadow .18s ease,background .18s ease}
+html body #_builder-form .form-builder--item input.form-control[class][type]{height:46px!important;min-height:46px!important;padding:0 14px!important}
+html body #_builder-form .email-input input.form-control[class][type]{padding-left:40px!important}
+html body #_builder-form .email-input svg{left:14px!important;color:#8fa0b3!important;z-index:1}
+html body #_builder-form .email-input svg path{stroke:#8fa0b3!important}
+html body #_builder-form .form-builder--item textarea{min-height:92px!important;padding:12px 14px!important;line-height:1.5!important;resize:vertical}
+html body #_builder-form .form-builder--item input.form-control::placeholder,html body #_builder-form .form-builder--item textarea::placeholder{color:#8fa0b3!important;opacity:1!important}
+html body #_builder-form .multiselect .multiselect__tags .multiselect__placeholder{color:#8fa0b3!important}
+html body #_builder-form .form-builder--item input.form-control[class][type]:hover,html body #_builder-form .multiselect:hover .multiselect__tags,html body #_builder-form .form-builder--item textarea:hover{border-color:rgba(150,190,235,.42)!important}
+html body #_builder-form .form-builder--item input.form-control[class][type]:focus,html body #_builder-form .form-builder--item textarea:focus,html body #_builder-form .multiselect.multiselect--active .multiselect__tags{border-color:#4fd394!important;box-shadow:0 0 0 3px rgba(79,211,148,.22)!important;outline:0!important;background:rgba(255,255,255,.08)!important}
+html body #_builder-form input:-webkit-autofill{-webkit-text-fill-color:#f3f6fa!important;-webkit-box-shadow:0 0 0 40px #12213a inset!important;caret-color:#f3f6fa}
+
+/* keuzelijsten */
+html body #_builder-form .multiselect[class]{min-height:46px!important;color:#f3f6fa!important;background:transparent!important}
+html body #_builder-form .multiselect[class] .multiselect__placeholder[class],html body #_builder-form .multiselect[class] .multiselect__input[class],html body #_builder-form .multiselect[class] .multiselect__single[class],html body #_builder-form .multiselect[class] .multiselect__spinner[class]{background:transparent!important}
+html body #_builder-form .multiselect .multiselect__tags{min-height:46px!important;padding:13px 40px 0 14px!important;display:block}
+html body #_builder-form .multiselect .multiselect__single,html body #_builder-form .multiselect .multiselect__input{background:transparent!important;color:#f3f6fa!important;font-size:15px!important;padding:0!important;margin:0!important;min-height:20px;line-height:20px!important}
+html body #_builder-form .multiselect .multiselect__placeholder{padding:0!important;margin:0!important;font-size:15px!important;line-height:20px!important}
+html body #_builder-form .multiselect .multiselect__select{height:44px!important;top:1px!important;background:transparent!important}
+html body #_builder-form .multiselect .multiselect__select::before{border-color:#aebccb transparent transparent!important}
+html body #_builder-form .multiselect .multiselect__content-wrapper{background:#12213a!important;border:1px solid rgba(150,190,235,.24)!important;border-radius:10px!important;margin-top:6px;box-shadow:0 18px 40px rgba(0,0,0,.45)!important}
+html body #_builder-form .multiselect .multiselect__option{color:#f3f6fa!important;font-size:15px!important;min-height:42px;padding:11px 14px!important;background:transparent!important}
+html body #_builder-form .multiselect .multiselect__option--highlight,html body #_builder-form .multiselect .multiselect__option:hover{background:rgba(31,158,95,.28)!important;color:#fff!important}
+html body #_builder-form .multiselect .multiselect__option--selected{background:rgba(47,116,224,.22)!important;color:#fff!important;font-weight:600!important}
+html body #_builder-form .multiselect .multiselect__option::after{display:none!important}
+
+/* meerkeuze (afdelingen): pillen naast elkaar */
+html body #_builder-form [id$="-checkbox-container"]{display:flex!important;flex-wrap:wrap;gap:8px}
+html body #_builder-form [id$="-checkbox-container"]>div{width:auto!important;margin:0!important;flex:none!important}
+html body #_builder-form .standard-checkbox-container{display:inline-flex!important;align-items:center;gap:9px;width:auto!important;margin:0!important;padding:9px 15px 9px 12px!important;border:1px solid rgba(150,190,235,.24);border-radius:999px;background:rgba(255,255,255,.04);cursor:pointer;transition:border-color .18s ease,background .18s ease}
+html body #_builder-form .standard-checkbox-container:hover{border-color:rgba(150,190,235,.46)}
+html body #_builder-form .standard-checkbox-container:has(input:checked){border-color:#4fd394;background:rgba(31,158,95,.2)}
+html body #_builder-form .standard-checkbox-container input[type=checkbox]{-webkit-appearance:none;appearance:none;width:18px!important;height:18px!important;margin:0!important;flex:none;cursor:pointer;border:1.5px solid rgba(174,188,203,.7)!important;border-radius:5px!important;background:transparent!important;display:grid;place-content:center}
+html body #_builder-form .standard-checkbox-container input[type=checkbox]:checked{background:#1f9e5f url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='%2306130d' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3.5 8.5l3 3 6-7'/%3E%3C/svg%3E") center/13px no-repeat!important;border-color:#1f9e5f!important}
+html body #_builder-form .standard-checkbox-container input[type=checkbox]:focus-visible{outline:2px solid #4fd394;outline-offset:2px}
+html body #_builder-form .standard-checkbox-container label{margin:0!important;padding:0!important;color:#f3f6fa!important;font-size:14.5px!important;font-weight:500!important;line-height:1.3!important;cursor:pointer}
+
+/* privacy: geen pil, een gewoon vinkje; de link naar het privacybeleid staat er op de site net onder */
+html body #_builder-form [id*="_EJmK0wWZMB9H3Kay4tWl_"] .form-builder--item>label{position:absolute!important;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+html body #_builder-form [id*="_EJmK0wWZMB9H3Kay4tWl_"] .standard-checkbox-container{border-color:transparent!important;background:transparent!important;padding:2px 0!important;border-radius:6px}
+html body #_builder-form [id*="_EJmK0wWZMB9H3Kay4tWl_"] .standard-checkbox-container label{color:#aebccb!important;font-size:14px!important}
+
+/* foutmeldingen */
+html body #_builder-form .error,html body #_builder-form .text-danger,html body #_builder-form .invalid-feedback,html body #_builder-form .error-msg{color:#ff9b8f!important;font-size:12.5px!important;margin-top:6px!important}
+html body #_builder-form input.form-control.error,html body #_builder-form input.form-control.is-invalid{border-color:#e57367!important}
+
+/* verzendknop: groene pil zoals op de site */
+html body #_builder-form .form-builder--btn-submit{margin:4px 0 0!important;padding:0!important}
+html body #_builder-form button.button-element{width:100%!important;min-height:52px!important;height:auto!important;border:0!important;border-radius:999px!important;background:#1f9e5f!important;color:#06130d!important;box-shadow:0 10px 26px rgba(23,120,72,.28)!important;cursor:pointer;transition:filter .18s ease,transform .18s ease}
+html body #_builder-form button.button-element:hover{filter:brightness(1.08);transform:translateY(-1px)}
+html body #_builder-form button.button-element:active{transform:scale(.98)}
+html body #_builder-form button.button-element:focus-visible{outline:2px solid #4fd394!important;outline-offset:3px}
+html body #_builder-form button.button-element .button-text{justify-content:center!important;width:100%!important;color:#06130d!important}
+html body #_builder-form button.button-element .button-text>div{display:none!important}
+html body #_builder-form button.button-element .button-text::after{content:"Verstuur en kies een moment \2192";font-size:15.5px;font-weight:700;line-height:1.2;color:#06130d;white-space:normal;text-align:center}
+html body #_builder-form .loader-submit .v-moon{border-color:#06130d!important}
