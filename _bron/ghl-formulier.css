@@ -64,10 +64,20 @@ html body #_builder-form .standard-checkbox-container input[type=checkbox]:check
 html body #_builder-form .standard-checkbox-container input[type=checkbox]:focus-visible{outline:2px solid #4fd394;outline-offset:2px}
 html body #_builder-form .standard-checkbox-container label{margin:0!important;padding:0!important;color:#f3f6fa!important;font-size:14.5px!important;font-weight:500!important;line-height:1.3!important;cursor:pointer}
 
-/* privacy: geen pil, een gewoon vinkje; de link naar het privacybeleid staat er op de site net onder */
+/* zin met de link naar het privacybeleid (tekstelement net boven het vinkje, 3/11/2026; link naar https://emlteam.eu/privacy) */
+html body #_builder-form .text-element,html body #_builder-form .text-element p{color:#aebccb!important;font-size:14px!important;line-height:1.55!important;margin:0!important}
+html body #_builder-form .text-element a{color:#f4f1ea!important;text-decoration:underline!important;text-underline-offset:3px;text-decoration-color:rgba(244,241,234,.45)!important}
+html body #_builder-form .text-element a:hover{color:#4fd394!important}
+html body #_builder-form .text-element a:focus-visible{outline:2px solid #4fd394;outline-offset:2px;border-radius:3px}
+
+/* privacy: geen pil, een gewoon vinkje; de link naar het privacybeleid staat in de zin erboven (en op de site net onder) */
 html body #_builder-form [id*="_EJmK0wWZMB9H3Kay4tWl_"] .form-builder--item>label{position:absolute!important;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
 html body #_builder-form [id*="_EJmK0wWZMB9H3Kay4tWl_"] .standard-checkbox-container{border-color:transparent!important;background:transparent!important;padding:2px 0!important;border-radius:6px}
 html body #_builder-form [id*="_EJmK0wWZMB9H3Kay4tWl_"] .standard-checkbox-container label{color:#aebccb!important;font-size:14px!important}
+/* op een smal scherm liep de zin van het vinkje buiten het formulier (3/11/2026): laten afbreken */
+html body #_builder-form [id*="_EJmK0wWZMB9H3Kay4tWl_"] .flex-col *{min-width:0;max-width:100%}
+html body #_builder-form [id*="_EJmK0wWZMB9H3Kay4tWl_"] .standard-checkbox-container{display:flex!important;align-items:flex-start}
+html body #_builder-form [id*="_EJmK0wWZMB9H3Kay4tWl_"] .standard-checkbox-container input{flex:none}
 
 /* foutmeldingen */
 html body #_builder-form .error,html body #_builder-form .text-danger,html body #_builder-form .invalid-feedback,html body #_builder-form .error-msg{color:#ff9b8f!important;font-size:12.5px!important;margin-top:6px!important}

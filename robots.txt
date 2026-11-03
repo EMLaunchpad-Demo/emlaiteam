@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://emlteam.ai/sitemap.xml
+Sitemap: https://emlteam.eu/sitemap.xml

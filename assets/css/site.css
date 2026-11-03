@@ -187,7 +187,7 @@ summary::-webkit-details-marker{display:none}
 .file{display:flex;align-items:center;gap:9px;padding:7px 9px;margin-top:7px;border-radius:9px;border:1px solid var(--line);font-size:13.5px;line-height:1.3}
 .file small{font-family:var(--mono);font-size:12px;color:var(--mid)}
 .file-ic{display:grid;place-items:center;width:32px;height:36px;border-radius:6px;background:var(--creme);color:var(--ground);font-family:var(--mono);font-size:12px;font-weight:600}
-.choice{display:flex;gap:8px;margin-top:9px}
+.choice{display:flex;flex-wrap:wrap;gap:8px;margin-top:9px}
 .ch{min-height:44px;padding:0 16px;border-radius:999px;border:1px solid rgba(255,255,255,.16);background:rgba(255,255,255,.07);color:var(--creme);font-weight:700;font-size:14px;transition:background .2s ease,transform .14s ease}
 .ch:hover{background:rgba(255,255,255,.13)}
 .ch--yes{background:var(--green);border-color:transparent;color:#06130d}
@@ -437,7 +437,7 @@ summary::-webkit-details-marker{display:none}
   .hero-net{position:relative;left:auto;top:auto;width:min(560px,100%);margin:28px auto 0}
   .hero-chat{position:relative;right:auto;top:auto;width:min(460px,100%);margin:-110px auto 0}
   .hand{display:none}
-  .day,.builder,.own,.faq-wrap,.rules-row{grid-template-columns:1fr}
+  .day,.builder,.own,.faq-wrap,.rules-row{grid-template-columns:minmax(0,1fr)}
   .rules-intro{grid-template-columns:1fr}
   .plans{grid-template-columns:repeat(2,minmax(0,1fr))}
 }
@@ -468,6 +468,8 @@ summary::-webkit-details-marker{display:none}
   .foot-top{flex-direction:column;align-items:flex-start}
 }
 @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+/* 320 px (3/11/2026): lange knopteksten mogen afbreken, zodat niets buiten het scherm valt */
+@media (max-width:420px){.btn{white-space:normal;text-align:center}}
 
 /* ================= v4c: het 3D-hoofdkwartier en de scrollrit ================= */
 .ride{position:relative}
@@ -534,7 +536,7 @@ summary::-webkit-details-marker{display:none}
 .b-bld .bld{max-height:520px}
 
 @media (max-width:1099px){
-  .cs-wrap{grid-template-columns:1fr;max-width:520px}
+  .cs-wrap{grid-template-columns:minmax(0,1fr);max-width:520px}
   .cs-chat .hand{display:none}
   .ride-static{padding-left:50vw}
 }

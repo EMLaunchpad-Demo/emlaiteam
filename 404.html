@@ -9,7 +9,7 @@
 <link rel="icon" href="/assets/img/favicon.png" type="image/png" sizes="32x32">
 <link rel="apple-touch-icon" href="/assets/img/apple-touch-icon.png">
 <link rel="preload" href="/assets/fonts/archivo-latin.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="/assets/css/site.css?v=10">
+<link rel="stylesheet" href="/assets/css/site.css?v=11">
 <!-- Cloudflare toont deze pagina bij elk adres dat niet bestaat (wrangler.jsonc: not_found_handling "404-page").
      Daarom staan alle paden hier absoluut (/assets/...), want de pagina kan op elke diepte geladen worden. -->
 <style>
@@ -24,6 +24,9 @@
   .nf h1{font-size:clamp(28px,5vw,40px);line-height:1.12;font-weight:800;margin-bottom:14px}
   .nf p{color:var(--mid);margin-bottom:26px}
   .nf-acties{display:flex;flex-wrap:wrap;gap:12px}
+  .nf .nf-voet{margin:26px 0 0;padding-top:18px;border-top:1px solid var(--line);font-family:var(--mono);font-size:12.5px;color:var(--dim)}
+  .nf-voet a{display:inline-flex;align-items:center;min-height:44px;color:var(--mid);text-decoration:underline;text-underline-offset:3px;text-decoration-color:rgba(174,188,203,.4)}
+  .nf-voet a:hover{color:var(--green-b)}
 </style>
 </head>
 <body>
@@ -37,6 +40,7 @@
       <a class="btn" href="/">Naar de homepage <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a>
       <a class="btn-ghost" href="mailto:ebert@emlaunchpad.com?subject=Vraag%20over%20EML%20AI%20Team">Stel je vraag</a>
     </div>
+    <p class="nf-voet">EML AI Team, een onderdeel van EM Launchpad · <a href="/privacy">Privacybeleid</a></p>
   </div>
 </main>
 </body>
