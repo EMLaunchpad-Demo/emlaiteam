@@ -113,8 +113,8 @@
   }
 
   /* ---------- het menu (details/summary, werkt ook zonder JavaScript) ----------
-     Met JavaScript: de pagina scrolt niet mee, de focus blijft in het menu, Escape sluit, een klik naast het paneel of op
-     een link sluit het menu (de link scrolt dan naar de sectie), en sluiten vervaagt kort. */
+     Alleen onder 900 px (vanaf 900 px staan de links in de balk). Met JavaScript: de pagina scrolt niet mee, de focus blijft
+     in het menu, Escape sluit, een link sluit het menu (de link scrolt dan naar de sectie), en sluiten vervaagt kort. */
   const menu = $('.menu');
   if (menu) {
     const btn = $('summary', menu), panel = $('.menu-panel', menu);
@@ -143,8 +143,6 @@
     btn.addEventListener('click', (e) => { if (menu.open) { e.preventDefault(); close(false); btn.focus({ preventScroll: true }); } });
     // een link sluit het menu meteen; daarna scrolt de browser naar de sectie (of opent het venster gratis analyse)
     panel.addEventListener('click', (e) => { if (e.target.closest('a')) close(true); });
-    // klik op de gedimde pagina naast het paneel (desktop): dat is het ::before van het menu zelf
-    menu.addEventListener('click', (e) => { if (e.target === menu) close(false); });
     document.addEventListener('click', (e) => { if (menu.open && !menu.contains(e.target)) close(false); });
     document.addEventListener('keydown', (e) => {
       if (!menu.open) return;
@@ -154,7 +152,8 @@
       if (e.shiftKey && (i <= 0)) { e.preventDefault(); f[f.length - 1].focus({ preventScroll: true }); }
       else if (!e.shiftKey && i === f.length - 1) { e.preventDefault(); f[0].focus({ preventScroll: true }); }
     });
-    window.matchMedia('(min-width: 1100px)').addEventListener('change', () => close(true));
+    // wordt het venster 900 px of breder, dan verdwijnt het menu: sluit het, zodat de pagina weer scrolt
+    window.matchMedia('(min-width: 900px)').addEventListener('change', (e) => { if (e.matches) close(true); });
   }
 
   /* ---------- welke sectie actief is: in de menubalk en in het menu ---------- */

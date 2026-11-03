@@ -114,7 +114,9 @@ html:not(.js) .js-only{display:none!important}
 .menu-btn:hover .menu-ic i:last-child{width:20px}
 .menu[open] .menu-ic i:first-child{top:5px;transform:rotate(45deg)}
 .menu[open] .menu-ic i:last-child{top:5px;width:20px;transform:rotate(-45deg)}
-/* het menu: over het volle scherm (gsm en tablet), een paneel rechts op desktop. Binnen de kop, achter de balk zelf. */
+/* het menu: over het volle scherm, alleen onder 900 px (gsm en tablet). Vanaf 900 px staan de vier links en de knop in de
+   balk en is er geen hamburger (Martijn, 3/11). Binnen de kop, achter de balk zelf. */
+@media (min-width:900px){.menu{display:none}}
 .menu:not([open]) .menu-panel{display:none}
 .menu-panel{position:fixed;inset:0;z-index:-1;overflow-x:hidden;display:flex;flex-direction:column;background:var(--ink0);padding-top:var(--bar);overflow-y:auto;overscroll-behavior:contain}
 .menu-panel::before{content:"";position:absolute;left:0;right:0;top:var(--bar);height:1px;background:var(--grad);opacity:.7} /* taste-skill-ignore: verloop als signaal: de bovenrand van het menu */
@@ -144,22 +146,11 @@ html:not(.js) .js-only{display:none!important}
 .menu[open] .menu-act{animation-delay:.28s}
 .menu[open] .menu-foot{animation-delay:.34s}
 .menu.is-closing .menu-panel{animation:menu-out .2s ease both}
-@media (min-width:1100px){
-  /* desktop: een paneel rechts, de rest van de pagina gedimd */
-  .menu-panel{left:auto;width:min(560px,42vw);background:var(--ink1);box-shadow:-40px 0 120px rgba(0,0,0,.5)} /* taste-skill-ignore: overlay (paneel van het menu) */
-  .menu[open]::before{content:"";position:fixed;inset:0;z-index:-2;background:rgba(4,7,12,.62);animation:menu-fade .3s ease both}
-  .menu.is-closing::before{animation:menu-out .2s ease both}
-  .menu-in{padding:56px 56px 40px}
-  .menu-nav a{font-size:40px}
-  .menu[open] .menu-panel{animation:menu-slide .45s var(--ease) both}
-  .menu.is-closing .menu-panel{animation:menu-out .2s ease both}
-}
-@keyframes menu-slide{from{opacity:0;transform:translateX(32px)}to{opacity:1;transform:none}}
 /* minder beweging: alleen een korte fade */
 @media (prefers-reduced-motion:reduce){
-  .menu[open] .menu-panel,.menu[open]::before{animation:menu-fade .2s ease both!important}
+  .menu[open] .menu-panel{animation:menu-fade .2s ease both!important}
   .menu[open] .menu-nav a,.menu[open] .menu-act,.menu[open] .menu-foot{animation:none!important}
-  .menu.is-closing .menu-panel,.menu.is-closing::before{animation:menu-out .15s ease both!important}
+  .menu.is-closing .menu-panel{animation:menu-out .15s ease both!important}
   .menu-ic i{transition:none!important}
 }
 
@@ -499,8 +490,8 @@ html:not(.js) .js-only{display:none!important}
   .plan-list{flex:1}
   .faq.is-index{display:block}
 }
+@media (max-width:899.98px){.bar-nav{display:none}}
 @media (max-width:900px){
-  .bar-nav{display:none}
   .how-in,.how-list{display:block}
   .how-step+.how-step{margin-top:56px}
 }
@@ -634,7 +625,6 @@ html.js body:has(.hero) .hero{margin-top:calc(-1 * var(--bar));padding-top:calc(
 /* de menubalk bij het scrollen en het menu: glas */
 .bar.is-scrolled{background:linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.015)),rgba(8,12,20,.56);-webkit-backdrop-filter:blur(18px) saturate(1.6);backdrop-filter:blur(18px) saturate(1.6);box-shadow:inset 0 -1px 0 rgba(150,200,210,.14),0 10px 30px -18px rgba(0,0,0,.6)} /* taste-skill-ignore: glas van de menubalk */
 .menu-panel{background:radial-gradient(620px 520px at 100% 100%,rgba(47,240,166,.26),rgba(47,240,166,0) 72%),radial-gradient(540px 420px at 0% 12%,rgba(19,199,230,.2),rgba(19,199,230,0) 72%),rgba(6,8,12,.76);-webkit-backdrop-filter:blur(26px) saturate(1.5);backdrop-filter:blur(26px) saturate(1.5)} /* taste-skill-ignore: glas van het menu */
-@media (min-width:1100px){.menu-panel{background:radial-gradient(620px 520px at 100% 100%,rgba(47,240,166,.26),rgba(47,240,166,0) 72%),radial-gradient(540px 420px at 0% 12%,rgba(19,199,230,.2),rgba(19,199,230,0) 72%),rgba(9,13,20,.7)}} /* taste-skill-ignore: glas van het menu */
 .bar:has(.menu[open]),.bar.menu-is-open,.bar.is-scrolled.menu-is-open{background:transparent;-webkit-backdrop-filter:none;backdrop-filter:none;box-shadow:none} /* taste-skill-ignore: blur uit als het menu open is */
 
 /* gsm en tablet: minder blur-lagen; Groei houdt zijn gloed zonder de tabel */

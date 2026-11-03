@@ -19,7 +19,7 @@ Wat in deze map staat, gaat online, behalve wat in `.assetsignore` staat (`_bron
 ## Aanpassen
 1. Pas `_bron/index.template.html` of `_bron/privacy.template.html` aan (of `_bron/maak-netwerk.mjs`).
 2. Bouw: `node _bron/maak-netwerk.mjs` (maakt `index.html`, `privacy.html`, `robots.txt` en `sitemap.xml`).
-3. Pas je `assets/css/site.css` of `assets/js/site.js` aan (nu `site.css?v=25`, `site.js?v=25`), verhoog dan het `?v=`-nummer waar het bestand geladen wordt (in de twee templates en in `404.html`): css en js worden een jaar gecachet.
+3. Pas je `assets/css/site.css` of `assets/js/site.js` aan (nu `site.css?v=26`, `site.js?v=26`), verhoog dan het `?v=`-nummer waar het bestand geladen wordt (in de twee templates en in `404.html`): css en js worden een jaar gecachet.
 4. Controle (de scripts staan in `controle/`, dat niet online en niet op GitHub gaat): `node controle/cfserver.mjs <absoluut pad> 8782` (lokale server die Cloudflare nabootst: `/privacy`, 404-pagina, `.assetsignore`; met een relatief pad vindt hij de pagina's niet), dan `node controle/maak-launch.mjs` (consolefouten, zijwaarts scrollen op 320 tot 1920, links en ankers, venster, beelden in `controle/launch/`). Het script voor cookies staat in `site-v4/controle/cookies.mjs`; aan cookies en externe verzoeken is in deze variant niets veranderd.
 
 ## Domein in één stap
