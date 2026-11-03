@@ -24,7 +24,8 @@
 <link rel="icon" href="/assets/img/favicon.png" type="image/png" sizes="32x32">
 <link rel="apple-touch-icon" href="/assets/img/apple-touch-icon.png">
 <link rel="preload" href="/assets/fonts/archivo-latin.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="/assets/css/site.css?v=11">
+<link rel="stylesheet" href="/assets/css/site.css?v=25">
+<script>document.documentElement.classList.add('js')</script>
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -49,61 +50,76 @@
   ]
 }
 </script>
-<!-- Juridische pagina: geen 3D, geen site.js. Alles werkt zonder JavaScript. Stijl van de site (site.css) plus de regels hieronder. -->
+<!-- Juridische pagina: site.js alleen voor het menu en de menubalk; alles werkt ook zonder JavaScript. Alles werkt zonder JavaScript. Stijl van de site (site.css, variant premium 3/11/2026)
+     plus de regels hieronder. De nummers 01 tot 09 blijven: de tekst verwijst ernaar ("zie punt 03"). -->
 <style>
-  .lg{padding:72px 0 96px}
-  .lg-in{max-width:800px}
-  .lg-h1{font-weight:800;font-size:clamp(36px,5.2vw,60px);line-height:1.04;letter-spacing:-.035em;color:var(--white);text-wrap:balance;margin:0}
-  .lg-lede{margin-top:20px;max-width:62ch;color:var(--mid);font-size:clamp(16px,1.6vw,18px);line-height:1.6}
-  .lg-date{margin-top:14px;font-family:var(--mono);font-size:12.5px;letter-spacing:.06em;color:var(--dim)}
-  .lg-toc{margin-top:36px;padding:22px 24px}
-  .lg-toc ol{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:2px 24px;counter-reset:toc}
-  .lg-toc a{display:flex;gap:10px;align-items:baseline;min-height:40px;padding:8px 0;color:var(--creme);font-size:15px;line-height:1.35}
-  .lg-toc a:hover{color:var(--green-b)}
-  .lg-toc a span{font-family:var(--mono);font-size:12px;color:var(--green-l);flex:none}
-  .lg-art{margin-top:28px;padding:clamp(24px,4vw,44px)}
-  .lg-sec+.lg-sec{margin-top:34px;padding-top:34px;border-top:1px solid var(--line)}
-  .lg-sec{scroll-margin-top:calc(var(--bar) + 20px)}
-  .lg-sec h2{display:flex;gap:12px;align-items:baseline;font-weight:800;font-size:clamp(21px,2.4vw,26px);line-height:1.2;letter-spacing:-.02em;color:var(--white);margin:0 0 14px}
-  .lg-sec h2 span{font-family:var(--mono);font-size:13px;font-weight:500;letter-spacing:.08em;color:var(--green-l);flex:none}
-  .lg-sec p,.lg-sec li{color:var(--mid);font-size:16px;line-height:1.65}
-  .lg-sec p+p,.lg-sec p+ul,.lg-sec ul+p{margin-top:12px}
-  .lg-sec ul{display:grid;gap:8px}
-  .lg-sec li{position:relative;padding-left:20px}
-  .lg-sec li::before{content:"-";position:absolute;left:2px;top:0;color:var(--green-l);font-weight:700}
-  .lg-sec strong{color:var(--ink);font-weight:600}
-  .lg-sec a,.lg-back a{color:var(--creme);text-decoration:underline;text-underline-offset:3px;text-decoration-color:rgba(244,241,234,.4);overflow-wrap:anywhere}
-  .lg-sec a:hover,.lg-back a:hover{color:var(--green-b)}
-  .lg-sec code{font-family:var(--mono);font-size:.88em;color:var(--creme);background:rgba(255,255,255,.06);padding:1px 6px;border-radius:5px}
-  .lg-back{margin-top:28px;display:flex;flex-wrap:wrap;gap:12px 24px;align-items:center}
-  .foot-nav a[aria-current="page"]{color:var(--creme)}
-  @media (max-width:720px){.lg{padding:44px 0 64px}.lg-toc{padding:16px 18px}.lg-art{padding:22px 18px}.lg-sec p,.lg-sec li{font-size:15.5px}}
+  body{background:radial-gradient(1000px 640px at 88% 0%,rgba(19,199,230,.14),rgba(19,199,230,0) 72%),radial-gradient(900px 700px at 0% 22%,rgba(47,240,166,.1),rgba(47,240,166,0) 72%),var(--ink1)} /* taste-skill-ignore: kleurveld (ronde 3) */
+  .bar{background:var(--ink1)}
+  html.js .bar:not(.is-scrolled){background:transparent}
+  .lg{padding:clamp(56px,8vw,112px) 0 clamp(96px,10vw,160px)}
+  .lg-in{max-width:calc(820px + 2 * var(--gut))}
+  .lg-h1{font-weight:650;font-size:var(--fs-h1);line-height:1.04;letter-spacing:-.024em;color:var(--white);margin:0}
+  .lg-lede{margin-top:24px;max-width:62ch;color:var(--mid);font-size:var(--fs-lead);line-height:1.6}
+  .lg-date{margin-top:16px;font-size:var(--fs-small);color:var(--dim)}
+  .lg-toc{margin-top:48px;padding:28px 32px;border-radius:18px;background:var(--glass-bg);-webkit-backdrop-filter:var(--glass-blur);backdrop-filter:var(--glass-blur);box-shadow:var(--glass-edge),var(--glass-drop)} /* taste-skill-ignore: glas (ronde 3) */
+  .lg-toc ol{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:2px 32px}
+  .lg-toc a{display:flex;gap:14px;align-items:baseline;min-height:44px;padding:10px 0;color:var(--t);font-size:var(--fs-small);line-height:1.35;transition:color .2s ease}
+  .lg-toc a:hover{color:var(--white);text-decoration:underline;text-underline-offset:4px;text-decoration-color:rgba(243,246,250,.35)}
+  .lg-toc a span{font-size:var(--fs-small);color:var(--dim);font-variant-numeric:tabular-nums;flex:none}
+  .lg-art{margin-top:clamp(56px,7vw,88px)}
+  .lg-sec+.lg-sec{margin-top:clamp(64px,7vw,104px)}
+  .lg-sec{scroll-margin-top:calc(var(--bar) + 24px)}
+  .lg-sec h2{display:flex;gap:16px;align-items:baseline;font-weight:650;font-size:var(--fs-sub);line-height:1.2;letter-spacing:-.015em;color:var(--white);margin:0 0 18px}
+  .lg-sec h2 span{font-size:var(--fs-lead);font-weight:500;letter-spacing:0;color:var(--dim);font-variant-numeric:tabular-nums;flex:none}
+  .lg-sec p,.lg-sec li{color:var(--hi);font-size:var(--fs-body);line-height:1.7;max-width:68ch}
+  .lg-sec p+p,.lg-sec p+ul,.lg-sec ul+p{margin-top:14px}
+  .lg-sec ul{display:grid;gap:10px}
+  .lg-sec li{position:relative;padding-left:22px}
+  .lg-sec li::before{content:"";position:absolute;left:0;top:.82em;width:9px;height:1.5px;background:var(--dim)}
+  .lg-sec strong{color:var(--white);font-weight:600}
+  .lg-sec a,.lg-back a.tlink{color:var(--t);text-decoration:underline;text-underline-offset:4px;text-decoration-color:rgba(243,246,250,.35);overflow-wrap:anywhere}
+  .lg-sec a:hover,.lg-back a.tlink:hover{text-decoration-color:var(--t)}
+  .lg-sec code{font-family:var(--mono);font-size:.88em;color:var(--t);background:rgba(255,255,255,.06);padding:1px 6px;border-radius:5px}
+  .lg-back{margin-top:clamp(56px,7vw,80px);display:flex;flex-wrap:wrap;gap:16px 28px;align-items:center}
+  .lg-back .tlink{font-size:var(--fs-small)}
+  .foot-nav a[aria-current="page"]{text-decoration-color:currentColor}
+  @media (max-width:720px){.lg-toc{padding:16px 20px}.lg-sec h2{gap:12px}}
 </style>
 </head>
 <body>
-<div class="sky" aria-hidden="true"><i class="sky-a"></i><i class="sky-b"></i></div>
 <a class="skip" href="#inhoud">Naar inhoud</a>
 
-<header class="sbar">
-  <div class="sbar-in">
+<header class="bar">
+  <div class="wrap bar-in">
     <a class="lock" href="/" aria-label="EML AI Team, een onderdeel van EM Launchpad, naar de startpagina">
-      <picture><source type="image/webp" srcset="/assets/img/em-logo-3d-96.webp 152w, /assets/img/em-logo-3d-192.webp 304w" sizes="57px"><img class="lock-logo" src="/assets/img/em-logo-3d-96.png" srcset="/assets/img/em-logo-3d-96.png 152w, /assets/img/em-logo-3d-192.png 304w" sizes="57px" width="152" height="96" alt=""></picture>
+      <img class="lock-logo" src="/assets/img/logo-em.png" srcset="/assets/img/logo-em.png 107w, /assets/img/logo-em-256.png 256w" sizes="51px" width="256" height="162" alt="">
     </a>
-    <nav class="sbar-nav" aria-label="Hoofdmenu">
+    <nav class="bar-nav" aria-label="Hoofdmenu">
       <a href="/#zo-werkt-het">Zo werkt het</a>
       <a href="/#team">Stel je team samen</a>
       <a href="/#prijzen">Prijzen</a>
       <a href="/#vragen">Vragen</a>
     </nav>
-    <a class="btn btn--sm" href="/#gratis-analyse">Gratis analyse</a>
-    <details class="sbar-menu">
-      <summary aria-label="Menu"><span></span><span></span></summary>
-      <div class="sbar-sheet">
-        <a href="/#zo-werkt-het">Zo werkt het</a>
-        <a href="/#team">Stel je team samen</a>
-        <a href="/#prijzen">Prijzen</a>
-        <a href="/#vragen">Vragen</a>
-        <a href="https://emlaunchpad.com/">EM Launchpad</a>
+    <a class="btn btn--sm bar-cta" href="/#gratis-analyse">Gratis analyse</a>
+    <!-- Menu over het volle scherm (gsm en tablet) of als paneel rechts (desktop). Werkt zonder JavaScript (details);
+         site.js voegt toe: focus blijft in het menu, Escape sluit, de pagina scrolt niet mee, een link sluit het menu. -->
+    <details class="menu">
+      <summary class="menu-btn" aria-label="Menu"><span class="menu-ic" aria-hidden="true"><i></i><i></i></span></summary>
+      <div class="menu-panel">
+        <div class="menu-in">
+          <nav class="menu-nav" aria-label="Menu">
+            <a href="/#zo-werkt-het">Zo werkt het</a>
+            <a href="/#team">Stel je team samen</a>
+            <a href="/#prijzen">Prijzen</a>
+            <a href="/#vragen">Vragen</a>
+          </nav>
+          <p class="menu-act"><a class="btn btn--lg" href="/#gratis-analyse">Plan je gratis analyse <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a></p>
+          <div class="menu-foot">
+            <a href="mailto:ebert@emlaunchpad.com?subject=Vraag%20over%20EML%20AI%20Team">ebert@emlaunchpad.com</a>
+            <a href="tel:+32476015451">+32 476 01 54 51</a>
+            <a href="https://emlaunchpad.com/">Een onderdeel van EM Launchpad</a>
+          </div>
+        </div>
       </div>
     </details>
   </div>
@@ -111,34 +127,33 @@
 
 <main id="inhoud" class="lg">
   <div class="wrap lg-in">
-    <p class="code">HQ-13 <b>/</b> Privacy</p>
     <h1 class="lg-h1">Privacybeleid</h1>
     <p class="lg-lede">Dit beleid geldt voor deze website van EML AI Team en voor de gratis analyse die je hier aanvraagt. EML AI Team is een onderdeel van EM Launchpad. Hieronder lees je welke gegevens we verwerken, waarom, hoe lang, en welke rechten je hebt.</p>
     <p class="lg-date">Laatst bijgewerkt: 3 november 2026</p>
 
-    <nav class="lg-toc panel hud" aria-label="Inhoud van deze pagina">
+    <nav class="lg-toc" aria-label="Inhoud van deze pagina">
       <ol>
-        <li><a href="#wie"><span aria-hidden="true">01</span>Wie is verantwoordelijk?</a></li>
-        <li><a href="#gegevens"><span aria-hidden="true">02</span>Welke gegevens?</a></li>
-        <li><a href="#waarvoor"><span aria-hidden="true">03</span>Waarvoor en op welke grond?</a></li>
-        <li><a href="#verwerkers"><span aria-hidden="true">04</span>Wie verwerkt ze voor ons?</a></li>
-        <li><a href="#bewaren"><span aria-hidden="true">05</span>Hoe lang bewaren we ze?</a></li>
-        <li><a href="#rechten"><span aria-hidden="true">06</span>Je rechten</a></li>
-        <li><a href="#cookies"><span aria-hidden="true">07</span>Cookies</a></li>
-        <li><a href="#klacht"><span aria-hidden="true">08</span>Een klacht indienen</a></li>
-        <li><a href="#wijzigingen"><span aria-hidden="true">09</span>Wijzigingen</a></li>
+        <li><a href="#wie"><span aria-hidden="true">01</span>Wie is verantwoordelijk?</a></li> <!-- taste-skill-ignore: juridische nummering, de tekst verwijst naar "punt 03" -->
+        <li><a href="#gegevens"><span aria-hidden="true">02</span>Welke gegevens?</a></li> <!-- taste-skill-ignore: juridische nummering, de tekst verwijst naar "punt 03" -->
+        <li><a href="#waarvoor"><span aria-hidden="true">03</span>Waarvoor en op welke grond?</a></li> <!-- taste-skill-ignore: juridische nummering, de tekst verwijst naar "punt 03" -->
+        <li><a href="#verwerkers"><span aria-hidden="true">04</span>Wie verwerkt ze voor ons?</a></li> <!-- taste-skill-ignore: juridische nummering, de tekst verwijst naar "punt 03" -->
+        <li><a href="#bewaren"><span aria-hidden="true">05</span>Hoe lang bewaren we ze?</a></li> <!-- taste-skill-ignore: juridische nummering, de tekst verwijst naar "punt 03" -->
+        <li><a href="#rechten"><span aria-hidden="true">06</span>Je rechten</a></li> <!-- taste-skill-ignore: juridische nummering, de tekst verwijst naar "punt 03" -->
+        <li><a href="#cookies"><span aria-hidden="true">07</span>Cookies</a></li> <!-- taste-skill-ignore: juridische nummering, de tekst verwijst naar "punt 03" -->
+        <li><a href="#klacht"><span aria-hidden="true">08</span>Een klacht indienen</a></li> <!-- taste-skill-ignore: juridische nummering, de tekst verwijst naar "punt 03" -->
+        <li><a href="#wijzigingen"><span aria-hidden="true">09</span>Wijzigingen</a></li> <!-- taste-skill-ignore: juridische nummering, de tekst verwijst naar "punt 03" -->
       </ol>
     </nav>
 
-    <article class="lg-art panel hud">
+    <article class="lg-art">
       <section class="lg-sec" id="wie" aria-labelledby="wie-h">
-        <h2 id="wie-h"><span aria-hidden="true">01</span>Wie is verantwoordelijk?</h2>
+        <h2 id="wie-h"><span aria-hidden="true">01</span>Wie is verantwoordelijk?</h2> <!-- taste-skill-ignore: juridische nummering, de tekst verwijst naar "punt 03" -->
         <p>Verwerkingsverantwoordelijke is Ebert Vanbrabant, handelend onder de naam EM Launchpad (eenmanszaak), Brugstraat 2A, 3870 Vechmaal (Heers), België. Ondernemingsnummer 1024.977.818, btw BE1024.977.818.</p>
         <p>Voor al je vragen over privacy: <a href="mailto:ebert@emlaunchpad.com?subject=Privacy%20EML%20AI%20Team">ebert@emlaunchpad.com</a>.</p>
       </section>
 
       <section class="lg-sec" id="gegevens" aria-labelledby="gegevens-h">
-        <h2 id="gegevens-h"><span aria-hidden="true">02</span>Welke gegevens verwerken we?</h2>
+        <h2 id="gegevens-h"><span aria-hidden="true">02</span>Welke gegevens verwerken we?</h2> <!-- taste-skill-ignore: juridische nummering, de tekst verwijst naar "punt 03" -->
         <ul>
           <li><strong>Als je het formulier voor de gratis analyse invult:</strong> je voornaam en achternaam, je telefoonnummer, je e-mailadres, de naam van je bedrijf, je functie, het aantal medewerkers, je sector, de afdeling die je eerst wil ontlasten, wat je nu het meeste tijd kost, wanneer je wil starten, en dat je akkoord gaat met dit privacybeleid.</li>
           <li><strong>Als je een moment kiest in onze agenda:</strong> je voornaam en achternaam, je telefoonnummer, je e-mailadres, wat je eventueel extra meedeelt, het moment dat je kiest, en of je het vakje aanvinkt om berichten van ons te ontvangen.</li>
@@ -149,7 +164,7 @@
       </section>
 
       <section class="lg-sec" id="waarvoor" aria-labelledby="waarvoor-h">
-        <h2 id="waarvoor-h"><span aria-hidden="true">03</span>Waarvoor gebruiken we ze, en op welke grond?</h2>
+        <h2 id="waarvoor-h"><span aria-hidden="true">03</span>Waarvoor gebruiken we ze, en op welke grond?</h2> <!-- taste-skill-ignore: juridische nummering, de tekst verwijst naar "punt 03" -->
         <ul>
           <li>Om je gratis analyse voor te bereiden en het gesprek in te plannen.</li>
           <li>Om contact met je op te nemen over je aanvraag, per mail of telefoon, ook als je nog geen moment koos.</li>
@@ -161,7 +176,7 @@
       </section>
 
       <section class="lg-sec" id="verwerkers" aria-labelledby="verwerkers-h">
-        <h2 id="verwerkers-h"><span aria-hidden="true">04</span>Wie verwerkt je gegevens voor ons?</h2>
+        <h2 id="verwerkers-h"><span aria-hidden="true">04</span>Wie verwerkt je gegevens voor ons?</h2> <!-- taste-skill-ignore: juridische nummering, de tekst verwijst naar "punt 03" -->
         <p>We verkopen je gegevens nooit. Voor deze site en de gratis analyse schakelen we verwerkers in:</p>
         <ul>
           <li>LeadConnector: het formulier, de agenda en ons klantenbestand.</li>
@@ -173,43 +188,43 @@
       </section>
 
       <section class="lg-sec" id="bewaren" aria-labelledby="bewaren-h">
-        <h2 id="bewaren-h"><span aria-hidden="true">05</span>Hoe lang bewaren we ze?</h2>
+        <h2 id="bewaren-h"><span aria-hidden="true">05</span>Hoe lang bewaren we ze?</h2> <!-- taste-skill-ignore: juridische nummering, de tekst verwijst naar "punt 03" -->
         <p>Niet langer dan nodig. Word je klant, dan bewaren we je gegevens zolang we samenwerken, en daarna zolang de wet dat vraagt, bijvoorbeeld voor de boekhouding. Word je geen klant, dan verwijderen of anonimiseren we je gegevens uiterlijk 12 maanden na ons laatste contact.</p>
         <p>Technische gegevens van je bezoek bewaart onze hosting alleen zo lang als nodig is om de site te tonen en te beveiligen.</p>
       </section>
 
       <section class="lg-sec" id="rechten" aria-labelledby="rechten-h">
-        <h2 id="rechten-h"><span aria-hidden="true">06</span>Je rechten</h2>
+        <h2 id="rechten-h"><span aria-hidden="true">06</span>Je rechten</h2> <!-- taste-skill-ignore: juridische nummering, de tekst verwijst naar "punt 03" -->
         <p>Je hebt het recht op inzage, correctie, verwijdering, beperking en overdraagbaarheid van je gegevens. Je kan bezwaar maken tegen de verwerking (zie punt 03), en een toestemming die je gaf altijd intrekken. Stuur je vraag naar <a href="mailto:ebert@emlaunchpad.com?subject=Privacy%20EML%20AI%20Team">ebert@emlaunchpad.com</a>. We antwoorden binnen een maand.</p>
       </section>
 
       <section class="lg-sec" id="cookies" aria-labelledby="cookies-h">
-        <h2 id="cookies-h"><span aria-hidden="true">07</span>Cookies</h2>
+        <h2 id="cookies-h"><span aria-hidden="true">07</span>Cookies</h2> <!-- taste-skill-ignore: juridische nummering, de tekst verwijst naar "punt 03" -->
         <p>Deze website zet zelf geen cookies en gebruikt geen analytics of advertentiescripts. De lettertypes staan op onze eigen server. Daarom is er geen cookiemelding.</p>
         <p>Klik je op "Gratis analyse", dan laden het formulier en daarna de agenda van LeadConnector. Die plaatsen dan een beveiligingscookie van Cloudflare (<code>__cf_bm</code>, ongeveer 30 minuten geldig) om bots tegen te houden. Ze bewaren ook gegevens over je bezoek aan het formulier of de agenda in je browser, zoals een sessienummer en waar je bezoek vandaan kwam, zodat je aanvraag bij de juiste bron terechtkomt.</p>
         <p>Je kan cookies en die opgeslagen gegevens altijd bekijken en wissen in de instellingen van je browser.</p>
       </section>
 
       <section class="lg-sec" id="klacht" aria-labelledby="klacht-h">
-        <h2 id="klacht-h"><span aria-hidden="true">08</span>Een klacht indienen</h2>
+        <h2 id="klacht-h"><span aria-hidden="true">08</span>Een klacht indienen</h2> <!-- taste-skill-ignore: juridische nummering, de tekst verwijst naar "punt 03" -->
         <p>Ben je niet tevreden over hoe we met je gegevens omgaan? Laat het ons eerst weten, dan zoeken we samen een oplossing. Je kan ook een klacht indienen bij de Belgische Gegevensbeschermingsautoriteit: <a href="https://www.gegevensbeschermingsautoriteit.be/">gegevensbeschermingsautoriteit.be</a>.</p>
       </section>
 
       <section class="lg-sec" id="wijzigingen" aria-labelledby="wijzigingen-h">
-        <h2 id="wijzigingen-h"><span aria-hidden="true">09</span>Wijzigingen</h2>
+        <h2 id="wijzigingen-h"><span aria-hidden="true">09</span>Wijzigingen</h2> <!-- taste-skill-ignore: juridische nummering, de tekst verwijst naar "punt 03" -->
         <p>We kunnen dit beleid aanpassen. De meest recente versie staat altijd op deze pagina. Voor de andere diensten van EM Launchpad geldt het privacybeleid op <a href="https://emlaunchpad.com/privacy">emlaunchpad.com/privacy</a>.</p>
       </section>
     </article>
 
-    <p class="lg-back"><a class="btn" href="/">Naar het hoofdkwartier <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a><a class="tlink" href="#inhoud">Terug naar boven</a></p>
+    <p class="lg-back"><a class="btn" href="/">Naar de homepage <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a><a class="tlink" href="#inhoud">Terug naar boven</a></p>
   </div>
 </main>
 
 <footer class="foot">
   <div class="wrap">
     <div class="foot-top">
-      <a class="foot-lock" href="/" aria-label="EML AI Team, een onderdeel van EM Launchpad, naar de startpagina"><picture><source type="image/webp" srcset="/assets/img/em-logo-3d-96.webp 152w, /assets/img/em-logo-3d-192.webp 304w" sizes="120px"><img class="lock-logo" src="/assets/img/em-logo-3d-96.png" srcset="/assets/img/em-logo-3d-96.png 152w, /assets/img/em-logo-3d-192.png 304w" sizes="120px" width="152" height="96" alt="" loading="lazy"></picture></a>
-      <p class="foot-tag">Het hoofdkwartier van je bedrijf: een AI-team op maat voor bedrijven met een team. <a href="https://emlaunchpad.com/">Een onderdeel van EM Launchpad</a>.</p>
+      <a class="foot-lock" href="/" aria-label="EML AI Team, een onderdeel van EM Launchpad, naar de startpagina"><img class="lock-logo" src="/assets/img/logo-em.png" srcset="/assets/img/logo-em.png 107w, /assets/img/logo-em-256.png 256w" sizes="63px" width="256" height="162" alt="" loading="lazy"></a>
+      <p class="foot-tag">EML AI Team: een AI-team op maat voor bedrijven met een team. <a href="https://emlaunchpad.com/">Een onderdeel van EM Launchpad</a>.</p>
     </div>
     <div class="foot-mid">
       <nav class="foot-nav" aria-label="Voettekst">
@@ -217,8 +232,9 @@
       </nav>
       <p class="foot-contact"><a href="mailto:ebert@emlaunchpad.com">ebert@emlaunchpad.com</a><a href="tel:+32476015451">+32 476 01 54 51</a><span>Brugstraat 2A, 3870 Vechmaal (Heers)</span></p>
     </div>
-    <p class="foot-legal"><span class="live"></span>© 2026 EM Launchpad, handelsnaam van Ebert Vanbrabant (eenmanszaak) · Ondernemingsnummer 1024.977.818 · Btw BE1024.977.818</p>
+    <p class="foot-legal">© 2026 EM Launchpad, handelsnaam van Ebert Vanbrabant (eenmanszaak) · Ondernemingsnummer 1024.977.818 · Btw BE1024.977.818</p>
   </div>
 </footer>
+<script src="/assets/js/site.js?v=25" defer></script>
 </body>
 </html>

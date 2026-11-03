@@ -24,7 +24,7 @@
 <link rel="icon" href="assets/img/favicon.png" type="image/png" sizes="32x32">
 <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
 <link rel="preload" href="assets/fonts/archivo-latin.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="assets/css/site.css?v=11">
+<link rel="stylesheet" href="assets/css/site.css?v=25">
 <script>document.documentElement.classList.add('js')</script>
 <script type="application/ld+json">
 {
@@ -138,31 +138,40 @@
 </script>
 </head>
 <body>
-<div class="sky" aria-hidden="true"><i class="sky-a"></i><i class="sky-b"></i></div>
 <a class="skip" href="#inhoud">Naar inhoud</a>
 
-<!-- ════════ STATUSBALK ════════ -->
-<header class="sbar">
-  <div class="sbar-in">
+<!-- ════════ KOP: logo, vier links, één knop. Geen klok, geen status, geen glas (variant premium, 3/11/2026) ════════ -->
+<header class="bar">
+  <div class="wrap bar-in">
     <a class="lock" href="./" aria-label="EML AI Team, een onderdeel van EM Launchpad, naar de startpagina">
-      <picture><source type="image/webp" srcset="assets/img/em-logo-3d-96.webp 152w, assets/img/em-logo-3d-192.webp 304w" sizes="57px"><img class="lock-logo" src="assets/img/em-logo-3d-96.png" srcset="assets/img/em-logo-3d-96.png 152w, assets/img/em-logo-3d-192.png 304w" sizes="57px" width="152" height="96" alt=""></picture>
+      <img class="lock-logo" src="assets/img/logo-em.png" srcset="assets/img/logo-em.png 107w, assets/img/logo-em-256.png 256w" sizes="51px" width="256" height="162" alt="">
     </a>
-    <p class="sbar-status" aria-hidden="true"><span class="live"></span>7 agents online <b>·</b> <span class="clock">08:32:00</span></p>
-    <nav class="sbar-nav" aria-label="Hoofdmenu">
+    <nav class="bar-nav" aria-label="Hoofdmenu">
       <a href="#zo-werkt-het">Zo werkt het</a>
       <a href="#team">Stel je team samen</a>
       <a href="#prijzen">Prijzen</a>
       <a href="#vragen">Vragen</a>
     </nav>
-    <a class="btn btn--sm" href="#gratis-analyse" data-boeking>Gratis analyse</a>
-    <details class="sbar-menu">
-      <summary aria-label="Menu"><span></span><span></span></summary>
-      <div class="sbar-sheet">
-        <a href="#zo-werkt-het">Zo werkt het</a>
-        <a href="#team">Stel je team samen</a>
-        <a href="#prijzen">Prijzen</a>
-        <a href="#vragen">Vragen</a>
-        <a href="https://emlaunchpad.com/">EM Launchpad</a>
+    <a class="btn btn--sm bar-cta" href="#gratis-analyse" data-boeking>Gratis analyse</a>
+    <!-- Menu over het volle scherm (gsm en tablet) of als paneel rechts (desktop). Werkt zonder JavaScript (details);
+         site.js voegt toe: focus blijft in het menu, Escape sluit, de pagina scrolt niet mee, een link sluit het menu. -->
+    <details class="menu">
+      <summary class="menu-btn" aria-label="Menu"><span class="menu-ic" aria-hidden="true"><i></i><i></i></span></summary>
+      <div class="menu-panel">
+        <div class="menu-in">
+          <nav class="menu-nav" aria-label="Menu">
+            <a href="#zo-werkt-het">Zo werkt het</a>
+            <a href="#team">Stel je team samen</a>
+            <a href="#prijzen">Prijzen</a>
+            <a href="#vragen">Vragen</a>
+          </nav>
+          <p class="menu-act"><a class="btn btn--lg" href="#gratis-analyse" data-boeking>Plan je gratis analyse <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a></p>
+          <div class="menu-foot">
+            <a href="mailto:ebert@emlaunchpad.com?subject=Vraag%20over%20EML%20AI%20Team">ebert@emlaunchpad.com</a>
+            <a href="tel:+32476015451">+32 476 01 54 51</a>
+            <a href="https://emlaunchpad.com/">Een onderdeel van EM Launchpad</a>
+          </div>
+        </div>
       </div>
     </details>
   </div>
@@ -170,292 +179,300 @@
 
 <main id="inhoud">
 
-  <!-- ════════ HQ-00 · HET HOOFDKWARTIER: hero en scrollrit door het gebouw ════════ -->
-  <section class="ride" id="hoofdkwartier" aria-labelledby="hero-h">
-    <div class="ride-stage" aria-hidden="true">
-      <div class="ride-static"><svg class="bld bld--static" viewBox="0 0 600 620" aria-hidden="true" focusable="false"><line class="bld-ground" x1="0" y1="586" x2="600" y2="586"/><g class="fl" data-floor="0" data-dep="sales"><rect class="fl-box" x="70" y="502" width="330" height="78" rx="4"/><rect class="fl-slab" x="64" y="580" width="342" height="6"/><rect class="fl-board" x="88" y="514" width="62" height="34" rx="3"/><rect class="fl-desk" x="190" y="556" width="52" height="8" rx="2"/><rect class="fl-screen" x="206" y="540" width="20" height="13" rx="2"/><g class="fig fig--g"><rect x="209.4" y="557.1" width="13.3" height="19" rx="6.7"/><circle cx="216" cy="550.5" r="5.7"/></g><rect class="fl-desk" x="262" y="556" width="52" height="8" rx="2"/><rect class="fl-screen" x="278" y="540" width="20" height="13" rx="2"/><g class="fig fig--b"><rect x="245.4" y="557.1" width="13.3" height="19" rx="6.7"/><circle cx="252" cy="550.5" r="5.7"/></g><rect class="fl-desk" x="334" y="556" width="52" height="8" rx="2"/><rect class="fl-screen" x="350" y="540" width="20" height="13" rx="2"/><g class="fig fig--g"><rect x="353.4" y="557.1" width="13.3" height="19" rx="6.7"/><circle cx="360" cy="550.5" r="5.7"/></g><text class="fl-name" x="418" y="546">Sales en opvolging</text><text class="fl-code" x="418" y="564">verdieping 1</text></g><g class="fl" data-floor="1" data-dep="plan"><rect class="fl-box" x="70" y="418" width="330" height="78" rx="4"/><rect class="fl-slab" x="64" y="496" width="342" height="6"/><rect class="fl-board" x="88" y="430" width="62" height="34" rx="3"/><rect class="fl-desk" x="190" y="472" width="52" height="8" rx="2"/><rect class="fl-screen" x="206" y="456" width="20" height="13" rx="2"/><g class="fig fig--g"><rect x="209.4" y="473.1" width="13.3" height="19" rx="6.7"/><circle cx="216" cy="466.5" r="5.7"/></g><rect class="fl-desk" x="262" y="472" width="52" height="8" rx="2"/><rect class="fl-screen" x="278" y="456" width="20" height="13" rx="2"/><g class="fig fig--b"><rect x="245.4" y="473.1" width="13.3" height="19" rx="6.7"/><circle cx="252" cy="466.5" r="5.7"/></g><rect class="fl-desk" x="334" y="472" width="52" height="8" rx="2"/><rect class="fl-screen" x="350" y="456" width="20" height="13" rx="2"/><g class="fig fig--g"><rect x="353.4" y="473.1" width="13.3" height="19" rx="6.7"/><circle cx="360" cy="466.5" r="5.7"/></g><text class="fl-name" x="418" y="462">Planning</text><text class="fl-code" x="418" y="480">verdieping 2</text></g><g class="fl" data-floor="2" data-dep="ks"><rect class="fl-box" x="70" y="334" width="330" height="78" rx="4"/><rect class="fl-slab" x="64" y="412" width="342" height="6"/><rect class="fl-board" x="88" y="346" width="62" height="34" rx="3"/><rect class="fl-desk" x="190" y="388" width="52" height="8" rx="2"/><rect class="fl-screen" x="206" y="372" width="20" height="13" rx="2"/><g class="fig fig--g"><rect x="209.4" y="389.1" width="13.3" height="19" rx="6.7"/><circle cx="216" cy="382.5" r="5.7"/></g><rect class="fl-desk" x="262" y="388" width="52" height="8" rx="2"/><rect class="fl-screen" x="278" y="372" width="20" height="13" rx="2"/><g class="fig fig--b"><rect x="245.4" y="389.1" width="13.3" height="19" rx="6.7"/><circle cx="252" cy="382.5" r="5.7"/></g><rect class="fl-desk" x="334" y="388" width="52" height="8" rx="2"/><rect class="fl-screen" x="350" y="372" width="20" height="13" rx="2"/><g class="fig fig--g"><rect x="353.4" y="389.1" width="13.3" height="19" rx="6.7"/><circle cx="360" cy="382.5" r="5.7"/></g><text class="fl-name" x="418" y="378">Klantenservice</text><text class="fl-code" x="418" y="396">verdieping 3</text></g><g class="fl" data-floor="3" data-dep="mkt"><rect class="fl-box" x="70" y="250" width="330" height="78" rx="4"/><rect class="fl-slab" x="64" y="328" width="342" height="6"/><rect class="fl-board" x="88" y="262" width="62" height="34" rx="3"/><rect class="fl-desk" x="190" y="304" width="52" height="8" rx="2"/><rect class="fl-screen" x="206" y="288" width="20" height="13" rx="2"/><g class="fig fig--g"><rect x="209.4" y="305.1" width="13.3" height="19" rx="6.7"/><circle cx="216" cy="298.5" r="5.7"/></g><rect class="fl-desk" x="262" y="304" width="52" height="8" rx="2"/><rect class="fl-screen" x="278" y="288" width="20" height="13" rx="2"/><g class="fig fig--b"><rect x="245.4" y="305.1" width="13.3" height="19" rx="6.7"/><circle cx="252" cy="298.5" r="5.7"/></g><rect class="fl-desk" x="334" y="304" width="52" height="8" rx="2"/><rect class="fl-screen" x="350" y="288" width="20" height="13" rx="2"/><g class="fig fig--g"><rect x="353.4" y="305.1" width="13.3" height="19" rx="6.7"/><circle cx="360" cy="298.5" r="5.7"/></g><text class="fl-name" x="418" y="294">Marketing</text><text class="fl-code" x="418" y="312">verdieping 4</text></g><g class="fl" data-floor="4" data-dep="adm"><rect class="fl-box" x="70" y="166" width="330" height="78" rx="4"/><rect class="fl-slab" x="64" y="244" width="342" height="6"/><rect class="fl-board" x="88" y="178" width="62" height="34" rx="3"/><rect class="fl-desk" x="190" y="220" width="52" height="8" rx="2"/><rect class="fl-screen" x="206" y="204" width="20" height="13" rx="2"/><g class="fig fig--g"><rect x="209.4" y="221.1" width="13.3" height="19" rx="6.7"/><circle cx="216" cy="214.5" r="5.7"/></g><rect class="fl-desk" x="262" y="220" width="52" height="8" rx="2"/><rect class="fl-screen" x="278" y="204" width="20" height="13" rx="2"/><g class="fig fig--b"><rect x="245.4" y="221.1" width="13.3" height="19" rx="6.7"/><circle cx="252" cy="214.5" r="5.7"/></g><rect class="fl-desk" x="334" y="220" width="52" height="8" rx="2"/><rect class="fl-screen" x="350" y="204" width="20" height="13" rx="2"/><g class="fig fig--g"><rect x="353.4" y="221.1" width="13.3" height="19" rx="6.7"/><circle cx="360" cy="214.5" r="5.7"/></g><text class="fl-name" x="418" y="210">Administratie</text><text class="fl-code" x="418" y="228">verdieping 5</text></g><g class="fl" data-floor="5" data-dep="cs"><rect class="fl-box" x="70" y="82" width="330" height="78" rx="4"/><rect class="fl-slab" x="64" y="160" width="342" height="6"/><rect class="fl-board" x="88" y="94" width="62" height="34" rx="3"/><g class="fig fig--g"><rect x="209.4" y="137.1" width="13.3" height="19" rx="6.7"/><circle cx="216" cy="130.5" r="5.7"/></g><rect class="fl-desk" x="262" y="136" width="52" height="8" rx="2"/><rect class="fl-screen" x="278" y="120" width="20" height="13" rx="2"/><g class="fig fig--b"><rect x="281.4" y="137.1" width="13.3" height="19" rx="6.7"/><circle cx="288" cy="130.5" r="5.7"/></g><text class="fl-name" x="418" y="126">Chief of Staff</text><text class="fl-code" x="418" y="144">bovenaan</text></g><rect class="bld-roof" x="60" y="72" width="350" height="10" rx="2"/><line class="bld-ant" x1="350" y1="72" x2="350" y2="32"/><circle class="bld-beacon" cx="350" cy="28" r="5"/></svg></div>
-      <canvas class="hq-canvas"></canvas>
-      <p class="ride-hud"><span class="live"></span><span class="ride-where">Buitenkant</span><b>·</b><span class="ride-k">00 / 06</span></p>
-    </div>
-
-    <div class="ride-steps">
-      <div class="step step--hero" data-floor="-1">
-        <div class="wrap">
-          <div class="hero-copy">
-            <div class="hero-main">
-            <p class="code" data-load style="--d:60ms">HQ-00 <b>/</b> Een onderdeel van EM Launchpad</p>
-            <h1 id="hero-h">Je eigen <span class="nw">AI-team,</span> <span class="grad">per afdeling.</span></h1>
-            </div>
-            <div class="hero-side">
-            <p class="lede" data-load style="--d:380ms">Het hoofdkwartier van je bedrijf. Per afdeling zetten AI-agents het werk klaar, een Chief of Staff houdt het overzicht en jij keurt goed. Taken geef je door in Telegram.</p>
-            <div class="cta" data-load style="--d:480ms">
-              <a class="btn" href="#gratis-analyse" data-boeking>Plan je gratis analyse <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a>
-              <a class="tlink" href="#zo-werkt-het">Ga binnen <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 3v10M4 9l4 4 4-4"/></svg></a>
-            </div>
-            <p class="fact" data-load style="--d:560ms">Gratis analyse. Pakketten vanaf €3.500 setup + €750 per maand, excl. btw, vast contract van 12 maanden.</p>
-            </div>
-            <!-- gsm: een stilstaande render van het 3D-gebouw (desktop laadt dit beeld niet: daar blijft de img een leeg pixeltje) -->
-            <picture class="hero-pic">
-              <source media="(max-width: 720px), (hover: none) and (pointer: coarse) and (max-width: 1023px)" type="image/webp" srcset="assets/img/hq-gebouw-720.webp 720w, assets/img/hq-gebouw-1080.webp 1080w" sizes="(min-width: 600px) 560px, 100vw">
-              <source media="(max-width: 720px), (hover: none) and (pointer: coarse) and (max-width: 1023px)" srcset="assets/img/hq-gebouw-720.jpg">
-              <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" width="720" height="691" alt="Voorbeeld van het hoofdkwartier: een glazen kantoorgebouw met op elke verdieping een afdeling en bovenaan de Chief of Staff" decoding="async">
-            </picture>
-          </div>
-          <p class="scroll-hint" aria-hidden="true">Scroll om verdieping per verdieping door het gebouw te gaan</p>
+  <!-- ════════ HERO (idee A): links de kop, rechts één scherm dat één taak afspeelt ════════
+       Een mail komt binnen, de Offertemaker zet de offerte klaar, de Chief of Staff vraagt "Goedkeuren of wachten?" en de
+       bezoeker kiest. Zonder JavaScript of met minder beweging staat het scherm meteen op de vraag. Voorbeeldgegevens. -->
+  <section class="hero" id="top" aria-labelledby="hero-h">
+    <div class="wrap hero-in">
+      <div class="hero-copy">
+        <p class="kicker" data-load style="--d:0ms">EML AI Team</p><!-- taste-skill-ignore: cyaan label (Martijn, ronde 3) -->
+        <h1 id="hero-h" data-load style="--d:40ms">Je eigen <span class="nw"><span class="kw">AI-team</span>,</span> per afdeling.</h1>
+        <p class="hero-lede" data-load style="--d:90ms">Per afdeling zetten AI-agents het werk klaar. Een Chief of Staff houdt het overzicht en legt je de beslissingen voor. Jij keurt goed.</p>
+        <div class="hero-act" data-load style="--d:180ms">
+          <a class="btn" href="#gratis-analyse" data-boeking>Plan je gratis analyse <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a>
         </div>
+        <p class="hero-fact" data-load style="--d:260ms"><span class="ok">Gratis analyse.</span> <strong>Pakketten vanaf €3.500 setup + €750 per maand,</strong> excl. btw, vast contract van 12 maanden.</p>
       </div>
 
-      <!-- gsm: kop boven de compacte lijst per afdeling (op desktop verborgen) -->
-      <div class="m-only m-floors-head">
-        <div class="wrap">
-          <p class="code">HQ-01 tot 06 <b>/</b> Per verdieping</p>
-          <h2 class="m-h">Per afdeling een team van agents</h2>
-          <p class="m-sub">Vijf voorbeeldafdelingen en bovenaan de Chief of Staff. Per afdeling zie je wat de agents zelf mogen, wat eerst jouw akkoord vraagt en wat nooit.</p>
+      <figure class="hero-fig" data-load style="--d:120ms">
+        <!-- Ronde 4 (3/11/2026): "Het hele team werkt mee". Achter en naast het scherm werken andere afdelingen (voorbeeld,
+             verzonnen gegevens), lichtpulsen lopen naar de Chief of Staff in de zijbalk. Alles decoratie: aria-hidden.
+             Zonder JavaScript en met minder beweging staat dit stil (kaartjes op klaar). -->
+        <div class="hs hs-back" aria-hidden="true">
+          <i class="hs-blob hs-blob--a"></i><i class="hs-blob hs-blob--b"></i>
+          <i class="hs-halo"></i>
+          <div class="hs-card hs-card--far is-done" data-slot="f1"><p class="hs-c1"><i class="hs-st"></i><b>Storingsdesk</b></p><p class="hs-c2">een antwoord</p></div>
+          <div class="hs-card hs-card--far is-done" data-slot="f2"><p class="hs-c1"><i class="hs-st"></i><b>Reviewvrager</b></p><p class="hs-c2">een reviewvraag</p></div>
         </div>
-      </div>
-
-      <article class="step" data-floor="0" id="zo-werkt-het" aria-labelledby="f0-h">
-        <div class="wrap"><div class="floor panel hud">
-          <div class="floor-main">
-          <p class="code">HQ-01 <b>/</b> Verdieping 1</p>
-          <h2 class="floor-h" id="f0-h">Sales en opvolging</h2>
-          <p class="floor-agents"><b>Voorbeeldagents</b> Leadopvolger, Offertemaker, Afsprakenplanner</p>
-          <p class="floor-task"><span class="st st--wait">Voorbeeldtaak</span> De Offertemaker zet de offerte voor de renovatie in de Kerkstraat klaar, op basis van de aanvraag van gisteren.</p>
+        <div class="app scr" data-ui role="group" aria-labelledby="app-title" aria-describedby="app-cap">
+          <div class="app-top">
+            <p class="app-title" id="app-title">AI-team Voorbeeld Installatie</p>
+            <p class="app-now" aria-hidden="true"><span class="app-dot"></span><span class="scr-now">09:13</span></p>
           </div>
-          <ul class="limits">
-            <li><b class="lim lim--ok">Mag zelf</b>Een concept opmaken uit de aanvraag.</li>
-            <li><b class="lim lim--ask">Vraagt eerst akkoord</b>De offerte naar de klant sturen.</li>
-            <li><b class="lim lim--no">Nooit</b>Zelf prijzen of kortingen beslissen.</li>
-          </ul>
-        </div></div>
-      </article>
-
-      <article class="step" data-floor="1" aria-labelledby="f1-h">
-        <div class="wrap"><div class="floor panel hud">
-          <div class="floor-main">
-          <p class="code">HQ-02 <b>/</b> Verdieping 2</p>
-          <h2 class="floor-h" id="f1-h">Planning</h2>
-          <p class="floor-agents"><b>Voorbeeldagents</b> Planner, Weerwacht, Materiaalbesteller</p>
-          <p class="floor-task"><span class="st st--wait">Voorbeeldtaak</span> De Planner vraagt in de groep: "Morgen om 10:00 past in de route van technieker 2. Zal ik het inplannen?"</p>
+          <div class="app-side" aria-hidden="true">
+            <p class="app-side-k">Afdelingen</p>
+            <ul>
+              <li class="app-cos" data-d="cos"><i class="sd"></i>Chief of Staff</li>
+              <li class="is-on" data-d="sales"><i class="sd"></i>Sales en opvolging</li>
+              <li data-d="plan"><i class="sd"></i>Planning</li>
+              <li data-d="ks"><i class="sd"></i>Klantenservice</li>
+              <li data-d="mkt"><i class="sd"></i>Marketing</li>
+              <li data-d="adm"><i class="sd"></i>Administratie</li>
+            </ul>
           </div>
-          <ul class="limits">
-            <li><b class="lim lim--ok">Mag zelf</b>Inplannen binnen je vrije momenten.</li>
-            <li><b class="lim lim--ask">Vraagt eerst akkoord</b>Inplannen buiten je vrije momenten.</li>
-            <li><b class="lim lim--no">Nooit</b>Klanten opbellen: je AI-team werkt met tekst.</li>
-          </ul>
-        </div></div>
-      </article>
-
-      <article class="step" data-floor="2" aria-labelledby="f2-h">
-        <div class="wrap"><div class="floor panel hud">
-          <div class="floor-main">
-          <p class="code">HQ-03 <b>/</b> Verdieping 3</p>
-          <h2 class="floor-h" id="f2-h">Klantenservice</h2>
-          <p class="floor-agents"><b>Voorbeeldagents</b> Storingsdesk, Onderhoudsherinnering</p>
-          <p class="floor-task"><span class="st st--wait">Voorbeeldtaak</span> De Storingsdesk zet een antwoord klaar op een storingsmelding en stelt een moment voor de technieker voor.</p>
-          </div>
-          <ul class="limits">
-            <li><b class="lim lim--ok">Mag zelf</b>Het standaardantwoord op "Wanneer komt de technieker?" sturen, als je het vooraf goedkeurde.</li>
-            <li><b class="lim lim--ask">Vraagt eerst akkoord</b>Elk ander antwoord naar een klant.</li>
-            <li><b class="lim lim--no">Nooit</b>Een terugbetaling of korting beloven.</li>
-          </ul>
-        </div></div>
-      </article>
-
-      <article class="step" data-floor="3" aria-labelledby="f3-h">
-        <div class="wrap"><div class="floor panel hud">
-          <div class="floor-main">
-          <p class="code">HQ-04 <b>/</b> Verdieping 4</p>
-          <h2 class="floor-h" id="f3-h">Marketing</h2>
-          <p class="floor-agents"><b>Voorbeeldagents</b> Reviewvrager, Advertentie-opvolger, E-mailschrijver</p>
-          <p class="floor-task"><span class="st st--wait">Voorbeeldtaak</span> De Reviewvrager zet een reviewvraag klaar voor de klanten van de werven die deze week klaar waren.</p>
-          </div>
-          <ul class="limits">
-            <li><b class="lim lim--ok">Mag zelf</b>Concepten schrijven in de toon van je bedrijf.</li>
-            <li><b class="lim lim--ask">Vraagt eerst akkoord</b>Een mail versturen of een antwoord op een review plaatsen.</li>
-            <li><b class="lim lim--no">Nooit</b>Een review of getuigenis verzinnen.</li>
-          </ul>
-        </div></div>
-      </article>
-
-      <article class="step" data-floor="4" aria-labelledby="f4-h">
-        <div class="wrap"><div class="floor panel hud">
-          <div class="floor-main">
-          <p class="code">HQ-05 <b>/</b> Verdieping 5</p>
-          <h2 class="floor-h" id="f4-h">Administratie</h2>
-          <p class="floor-agents"><b>Voorbeeldagents</b> Factuurjager, Dossier-checker</p>
-          <p class="floor-task"><span class="st st--wait">Voorbeeldtaak</span> De Factuurjager zet herinneringen klaar voor 4 facturen die langer dan 30 dagen openstaan.</p>
-          </div>
-          <ul class="limits">
-            <li><b class="lim lim--ok">Mag zelf</b>Nakijken welke facturen openstaan.</li>
-            <li><b class="lim lim--ask">Vraagt eerst akkoord</b>Een herinnering naar een klant sturen.</li>
-            <li><b class="lim lim--no">Nooit</b>Een betaling of terugbetaling uitvoeren.</li>
-          </ul>
-        </div></div>
-      </article>
-
-      <article class="step step--cs" data-floor="5" aria-labelledby="f5-h">
-        <div class="wrap cs-wrap">
-          <div class="floor panel hud">
-            <p class="code">HQ-06 <b>/</b> Bovenaan, vanaf Groei</p>
-            <h2 class="floor-h" id="f5-h">De Chief of Staff</h2>
-            <p class="cs-text">Vat samen wat er gebeurde en legt je voor wat een beslissing vraagt. In Start legt de agent het werk zelf voor in de Telegram-groep.</p>
-            <p class="quote">Niets gaat naar buiten zonder jouw akkoord: ofwel keur je het vooraf goed als standaardantwoord, ofwel legt je AI-team het je eerst voor.</p>
-            <p class="cs-text">Welke acties eerst jouw akkoord vragen, leggen we samen vast bij de start. Je AI-team werkt met tekst: berichten, mails, documenten en je systemen. Bel- of voice-agents zitten niet in EML AI Team.</p>
-          </div>
-          <div class="cs-chat">
-            <div class="chat panel hud" data-ui role="region" aria-label="Voorbeeld van een groepsgesprek met een AI-team, met verzonnen gegevens">
-              <div class="chat-head">
-                <span class="av av--group" aria-hidden="true">VI</span>
-                <div class="chat-head-t">
-                  <p class="chat-title">AI-team Voorbeeld Installatie</p>
-                  <p class="chat-sub">Telegram-groep met 7 agents</p>
+          <div class="app-sheet">
+            <p class="app-crumb">Sales en opvolging <span>Offerte renovatie Kerkstraat</span></p>
+            <p class="scr-empty" aria-hidden="true">Wacht op nieuwe mail</p>
+            <ol class="scr-feed">
+              <!-- 1. de mail van de klant komt binnen -->
+              <li class="scr-item scr-mail">
+                <span class="scr-ic" aria-hidden="true"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"><rect x="2.5" y="4.5" width="15" height="11" rx="2"/><path d="m3.5 6 6.5 5 6.5-5"/></svg></span>
+                <div class="scr-main">
+                  <p class="scr-meta"><span class="scr-who">Mail van een klant</span><span class="st st--ok scr-mail-st">Opgenomen</span><span class="scr-t">08:57</span></p>
+                  <p class="scr-subj">Offerteaanvraag renovatie Kerkstraat</p>
+                  <p class="scr-prev">Kunnen jullie een offerte maken voor de renovatie? De plannen zitten in bijlage.</p>
                 </div>
-              </div>
-              <ol class="chat-log" aria-live="polite" tabindex="-1">
-                <li class="chat-day"><span>Vandaag</span></li>
-                <li class="msg msg--me" data-step="1">
-                  <div class="bubble">
-                    <p class="voice"><svg class="voice-play" viewBox="0 0 16 16" aria-hidden="true"><path d="M5 3.2v9.6L12.6 8z"/></svg><span class="wave" aria-hidden="true"><i style="--h:.35"></i><i style="--h:.6"></i><i style="--h:.9"></i><i style="--h:.5"></i><i style="--h:.75"></i><i style="--h:1"></i><i style="--h:.55"></i><i style="--h:.3"></i><i style="--h:.7"></i><i style="--h:.95"></i><i style="--h:.6"></i><i style="--h:.4"></i><i style="--h:.8"></i><i style="--h:.5"></i><i style="--h:.65"></i><i style="--h:.35"></i></span><span class="voice-len">0:14</span></p>
-                    <p>Zet de offerte voor de renovatie in de Kerkstraat klaar, op basis van de aanvraag van gisteren.</p>
-                    <span class="time">08:20</span>
+              </li>
+              <!-- 2. de Offertemaker zet de offerte klaar -->
+              <li class="scr-item scr-agent">
+                <span class="av" aria-hidden="true">OM</span>
+                <div class="scr-main">
+                  <p class="scr-meta"><span class="scr-who">Offertemaker</span><span class="st st--ok scr-agent-st">Klaar</span><span class="scr-t">09:12</span></p>
+                  <ol class="scr-steps">
+                    <li class="is-done">Aanvraag gelezen</li>
+                    <li class="is-done">Werken en materialen opgelijst</li>
+                    <li class="is-done">Offerte opgemaakt in je sjabloon</li>
+                  </ol>
+                  <p class="file scr-file"><span class="file-ic" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 1.8h5.2L12.5 5v9.2H4z"/><path d="M9 1.8V5.2h3.5M6.2 8.2h4M6.2 10.8h4"/></svg></span><span>Offerte-concept Kerkstraat <small>2 pagina's</small></span></p>
+                </div>
+              </li>
+              <!-- 3. de Chief of Staff legt de beslissing voor -->
+              <li class="scr-item scr-cos">
+                <span class="av av--cos" aria-hidden="true">CS</span>
+                <div class="scr-main">
+                  <p class="scr-meta"><span class="scr-who">Chief of Staff</span><span class="scr-t">09:13</span></p>
+                  <div class="scr-say">
+                    <span class="dots scr-dots" aria-hidden="true"><i></i><i></i><i></i></span>
+                    <p class="scr-q">Eén beslissing voor jou: de offerte voor de renovatie in de Kerkstraat is klaar om te vertrekken. Goedkeuren of wachten?</p>
                   </div>
-                </li>
-                <li class="msg msg--agent" data-step="2">
-                  <span class="av" aria-hidden="true">OM</span>
-                  <div class="bubble">
-                    <p class="who">Offertemaker <span>Sales en opvolging</span></p>
-                    <p>Het concept staat klaar: renovatie Kerkstraat, met de werken en materialen uit de aanvraag.</p>
-                    <p class="file"><span class="file-ic" aria-hidden="true">PDF</span><span>Offerte-concept Kerkstraat<br><small>2 pagina's</small></span></p>
-                    <span class="time">08:31</span>
-                  </div>
-                </li>
-                <li class="msg msg--cos" data-step="3">
-                  <span class="av av--cos" aria-hidden="true">CS</span>
-                  <div class="bubble">
-                    <p class="who">Chief of Staff</p>
-                    <p>Eén beslissing voor jou: de offerte voor de renovatie in de Kerkstraat is klaar om te vertrekken. Goedkeuren of wachten?</p>
-                    <div class="choice">
-                      <button type="button" class="ch ch--yes" data-choice="yes">Goedkeuren</button>
-                      <button type="button" class="ch" data-choice="wait">Wacht</button>
+                  <div class="scr-act">
+                    <div class="choice js-only">
+                      <button type="button" class="ch ch--yes" data-keuze="yes">Goedkeuren</button>
+                      <button type="button" class="ch" data-keuze="wait">Wachten</button>
                     </div>
-                    <span class="time">08:32</span>
+                    <p class="scr-reply" aria-live="polite"></p>
                   </div>
-                </li>
-              </ol>
+                </div>
+              </li>
+            </ol>
+            <div class="scr-log">
+              <p class="scr-log-k">Logboek</p>
+              <p class="scr-log-t">Niets vertrekt zonder jouw akkoord.</p>
+              <button type="button" class="scr-again js-only">Opnieuw</button>
             </div>
-            <p class="hand" aria-hidden="true">jij beslist<svg viewBox="0 0 64 40" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10C20 4 42 10 58 28"/><path d="M58 28 46 26M58 28 55 16"/></svg></p>
           </div>
         </div>
-      </article>
-    </div>
-    <p class="wrap ride-cap">Het gebouw, de agents en het gesprek zijn een voorbeeld met verzonnen gegevens. Je echte AI-team stellen we samen na de gratis analyse.</p>
-  </section>
-
-  <div class="ticker" aria-label="Voorbeeld: wat het team vandaag deed">
-    <p class="ticker-k"><span class="live"></span>Voorbeeld · vandaag</p>
-    <div class="ticker-win">
-      <ul class="ticker-track">
-        <li><b>08:00</b> Chief of Staff zet het dagoverzicht klaar</li>
-        <li><b>08:20</b> Jij geeft een taak door met een spraakbericht</li>
-        <li><b>08:31</b> Offertemaker zet de offerte Kerkstraat klaar</li>
-        <li><b>08:32</b> Chief of Staff vraagt: goedkeuren of wachten?</li>
-        <li><b>09:10</b> Leadopvolger zet 3 antwoorden klaar, wacht op akkoord</li>
-        <li><b>10:05</b> Weerwacht meldt regen voor donderdag</li>
-        <li><b>11:40</b> Storingsdesk stelt een moment voor de technieker voor</li>
-        <li><b>14:00</b> Planner maakt de routes voor morgen</li>
-        <li><b>16:30</b> Factuurjager zet 4 herinneringen klaar, wacht op akkoord</li>
-      </ul>
-    </div>
-    <button type="button" class="ticker-btn" aria-pressed="false">Pauze</button>
-  </div>
-
-  <!-- ════════ HQ-02 · STEL JE TEAM SAMEN ════════ -->
-  <section class="sec" id="team" aria-labelledby="team-h">
-    <div class="wrap">
-      <div class="sec-head" data-reveal>
-        <p class="code">HQ-07 <b>/</b> Stel je team samen</p>
-        <h2 class="h2" id="team-h">Welke afdelingen <span class="grad">krijgen een team?</span></h2>
-        <p class="lead">Per afdeling werken een paar agents samen, elk met één rol en één taak, in de toon van je bedrijf. We koppelen ze aan je systemen, zoals je klantenbestand, mailbox, agenda of boekhouding. Welke koppelingen in je pakket zitten, staat in ons voorstel na de gratis analyse.</p>
-      </div>
-      <div class="builder" data-reveal>
-        <div class="b-left">
-          <fieldset class="b-chips js-only">
-            <legend class="panel-k">Kies je afdelingen</legend>
-            <button type="button" class="chip-dep" data-dep="sales" aria-pressed="true"><i></i>Sales en opvolging</button>
-            <button type="button" class="chip-dep" data-dep="plan" aria-pressed="true"><i></i>Planning</button>
-            <button type="button" class="chip-dep" data-dep="ks" aria-pressed="false"><i></i>Klantenservice</button>
-            <button type="button" class="chip-dep" data-dep="mkt" aria-pressed="false"><i></i>Marketing</button>
-            <button type="button" class="chip-dep" data-dep="adm" aria-pressed="false"><i></i>Administratie</button>
-          </fieldset>
-          <div class="b-result panel hud" aria-live="polite">
-            <p class="panel-k">Jouw opzet</p>
-            <p class="b-pack"><span class="b-name">Groei</span><span class="b-count">2 afdelingen, 6 voorbeeldagents</span></p>
-            <p class="b-price">€7.500 setup <span>+ €1.500 per maand</span></p>
-            <p class="b-note">Met de Chief of Staff, die samenvat en je de beslissingen voorlegt, en het dashboard.</p>
-            <ul class="b-agents"><li><b>Sales en opvolging</b> Leadopvolger, Offertemaker, Afsprakenplanner</li><li><b>Planning</b> Planner, Weerwacht, Materiaalbesteller</li></ul>
-            <p class="b-terms">Excl. btw, vast contract van 12 maanden. 1 afdeling is Start, 2 à 3 afdelingen is Groei, 4 à 5 afdelingen is Volledig.</p>
-            <a class="btn" href="#gratis-analyse" data-boeking>Bespreek dit in de gratis analyse <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a>
-          </div>
+        <div class="hs hs-front" aria-hidden="true">
+          <svg class="hs-lines" width="0" height="0"></svg>
+          <i class="hs-pulse"></i>
+          <div class="hs-card is-done" data-slot="n1"><p class="hs-c1"><i class="hs-st"></i><b>Planner</b></p><p class="hs-c2">3 plaatsbezoeken</p></div>
+          <div class="hs-card is-done" data-slot="n2"><p class="hs-c1"><i class="hs-st"></i><b>Factuurjager</b></p><p class="hs-c2">4 herinneringen</p></div>
+          <i class="hs-ring"></i>
         </div>
-        <div class="b-bld panel hud" aria-hidden="true"><p class="panel-k">Jouw hoofdkwartier · voorbeeld</p><svg class="bld bld--builder" viewBox="0 0 420 470" aria-hidden="true" focusable="false"><line class="bld-ground" x1="0" y1="452" x2="420" y2="452"/><g class="fl" data-floor="0" data-dep="sales"><rect class="fl-box" x="24" y="386" width="372" height="60" rx="4"/><rect class="fl-slab" x="18" y="446" width="384" height="6"/><text class="fl-name" x="40" y="422">Sales en opvolging</text><g class="fig fig--g"><rect x="364.4" y="424.4" width="11.2" height="16" rx="5.6"/><circle cx="370" cy="418.8" r="4.8"/></g><g class="fig fig--b"><rect x="340.4" y="424.4" width="11.2" height="16" rx="5.6"/><circle cx="346" cy="418.8" r="4.8"/></g><g class="fig fig--g"><rect x="316.4" y="424.4" width="11.2" height="16" rx="5.6"/><circle cx="322" cy="418.8" r="4.8"/></g></g><g class="fl" data-floor="1" data-dep="plan"><rect class="fl-box" x="24" y="320" width="372" height="60" rx="4"/><rect class="fl-slab" x="18" y="380" width="384" height="6"/><text class="fl-name" x="40" y="356">Planning</text><g class="fig fig--g"><rect x="364.4" y="358.4" width="11.2" height="16" rx="5.6"/><circle cx="370" cy="352.8" r="4.8"/></g><g class="fig fig--b"><rect x="340.4" y="358.4" width="11.2" height="16" rx="5.6"/><circle cx="346" cy="352.8" r="4.8"/></g><g class="fig fig--g"><rect x="316.4" y="358.4" width="11.2" height="16" rx="5.6"/><circle cx="322" cy="352.8" r="4.8"/></g></g><g class="fl" data-floor="2" data-dep="ks"><rect class="fl-box" x="24" y="254" width="372" height="60" rx="4"/><rect class="fl-slab" x="18" y="314" width="384" height="6"/><text class="fl-name" x="40" y="290">Klantenservice</text><g class="fig fig--g"><rect x="364.4" y="292.4" width="11.2" height="16" rx="5.6"/><circle cx="370" cy="286.8" r="4.8"/></g><g class="fig fig--b"><rect x="340.4" y="292.4" width="11.2" height="16" rx="5.6"/><circle cx="346" cy="286.8" r="4.8"/></g><g class="fig fig--g"><rect x="316.4" y="292.4" width="11.2" height="16" rx="5.6"/><circle cx="322" cy="286.8" r="4.8"/></g></g><g class="fl" data-floor="3" data-dep="mkt"><rect class="fl-box" x="24" y="188" width="372" height="60" rx="4"/><rect class="fl-slab" x="18" y="248" width="384" height="6"/><text class="fl-name" x="40" y="224">Marketing</text><g class="fig fig--g"><rect x="364.4" y="226.4" width="11.2" height="16" rx="5.6"/><circle cx="370" cy="220.8" r="4.8"/></g><g class="fig fig--b"><rect x="340.4" y="226.4" width="11.2" height="16" rx="5.6"/><circle cx="346" cy="220.8" r="4.8"/></g><g class="fig fig--g"><rect x="316.4" y="226.4" width="11.2" height="16" rx="5.6"/><circle cx="322" cy="220.8" r="4.8"/></g></g><g class="fl" data-floor="4" data-dep="adm"><rect class="fl-box" x="24" y="122" width="372" height="60" rx="4"/><rect class="fl-slab" x="18" y="182" width="384" height="6"/><text class="fl-name" x="40" y="158">Administratie</text><g class="fig fig--g"><rect x="364.4" y="160.4" width="11.2" height="16" rx="5.6"/><circle cx="370" cy="154.8" r="4.8"/></g><g class="fig fig--b"><rect x="340.4" y="160.4" width="11.2" height="16" rx="5.6"/><circle cx="346" cy="154.8" r="4.8"/></g><g class="fig fig--g"><rect x="316.4" y="160.4" width="11.2" height="16" rx="5.6"/><circle cx="322" cy="154.8" r="4.8"/></g></g><g class="fl" data-floor="5" data-dep="cs"><rect class="fl-box" x="24" y="56" width="372" height="60" rx="4"/><rect class="fl-slab" x="18" y="116" width="384" height="6"/><text class="fl-name" x="40" y="92">Chief of Staff</text><g class="fig fig--g"><rect x="364.4" y="94.4" width="11.2" height="16" rx="5.6"/><circle cx="370" cy="88.8" r="4.8"/></g><text class="fl-tag" x="346" y="92" text-anchor="end">vanaf Groei</text></g><rect class="bld-roof" x="14" y="46" width="392" height="10" rx="2"/><line class="bld-ant" x1="346" y1="46" x2="346" y2="20"/><circle class="bld-beacon" cx="346" cy="16" r="4"/></svg></div>
-      </div>
+        <figcaption class="hero-cap" id="app-cap">Zo ziet een taak eruit. Voorbeeld met verzonnen gegevens.</figcaption>
+      </figure>
     </div>
   </section>
 
-  <div class="divider" aria-hidden="true"><svg class="divnet" viewBox="0 0 220 20" aria-hidden="true" focusable="false"><g><line x1="10" y1="10" x2="60" y2="10"/><line x1="60" y1="10" x2="110" y2="10"/><line x1="110" y1="10" x2="160" y2="10"/><line x1="160" y1="10" x2="210" y2="10"/></g><circle cx="10" cy="10" r="3"/><circle cx="60" cy="10" r="3"/><circle cx="110" cy="10" r="5"/><circle cx="160" cy="10" r="3"/><circle cx="210" cy="10" r="3"/></svg></div>
+  <!-- ════════ ZO WERKT HET: wat jij doorgeeft en wat terugkomt (de Chief of Staff) ════════ -->
+  <section class="sec how" id="zo-werkt-het" aria-labelledby="how-h">
+    <div class="wrap how-in">
+      <div class="how-head" data-reveal>
+        <p class="kicker">Zo werkt het</p><!-- taste-skill-ignore: cyaan label (Martijn, ronde 3) -->
+        <h2 class="h2" id="how-h">Jij geeft door. Jij <span class="kw">keurt goed.</span></h2>
+        <p class="lead">Je geeft taken door in de groep, met tekst of een spraakbericht. Welke acties eerst jouw akkoord vragen, leggen we samen vast bij de start.</p>
+      </div>
+      <ol class="how-list">
+        <li class="how-step" data-reveal>
+          <p class="how-say">Eerst geef je een taak door in de Telegram-groep.</p>
+          <div class="how-call" data-ui>
+            <p class="voice" aria-hidden="true"><svg class="voice-play" viewBox="0 0 16 16"><path d="M5 3.2v9.6L12.6 8z"/></svg><span class="wave"><i style="--h:.35"></i><i style="--h:.6"></i><i style="--h:.9"></i><i style="--h:.5"></i><i style="--h:.75"></i><i style="--h:1"></i><i style="--h:.55"></i><i style="--h:.3"></i><i style="--h:.7"></i><i style="--h:.95"></i><i style="--h:.6"></i><i style="--h:.4"></i><i style="--h:.8"></i><i style="--h:.5"></i><i style="--h:.65"></i><i style="--h:.35"></i><i style="--h:.5"></i><i style="--h:.8"></i><i style="--h:.45"></i><i style="--h:.3"></i></span><span class="voice-len">0:09</span></p>
+            <p class="how-text"><span class="sr-only">Spraakbericht: </span>Plan de 3 plaatsbezoeken van volgende week in.</p>
+            <p class="how-time" aria-hidden="true">11:40</p>
+          </div>
+        </li>
+        <li class="how-step" data-reveal>
+          <p class="how-say">Dan zet de agent van de afdeling het werk klaar.</p>
+          <div class="how-resp" data-ui>
+            <p class="how-who"><span class="av" aria-hidden="true">PL</span>Planner <span>Planning</span></p>
+            <p class="how-text">3 momenten passen in de agenda van je techniekers en in hun route: dinsdag 09:00, woensdag 14:00 en donderdag 10:30.</p>
+          </div>
+        </li>
+        <li class="how-step how-step--cos" data-reveal>
+          <p class="how-say">Tot slot vat de Chief of Staff samen wat er gebeurde en legt je voor wat een beslissing vraagt. Hij zit erbij vanaf Groei. In Start legt de agent het werk zelf voor in de Telegram-groep.</p>
+          <div class="how-resp how-resp--cos" data-ui>
+            <p class="how-who"><span class="av av--cos" aria-hidden="true">CS</span>Chief of Staff</p>
+            <p class="how-text">Eén beslissing voor jou: 3 plaatsbezoeken zijn klaar om in te plannen. Goedkeuren of wachten?</p>
+            <div class="how-act">
+              <div class="choice js-only">
+                <button type="button" class="ch ch--yes" data-plan="yes">Goedkeuren</button>
+                <button type="button" class="ch" data-plan="wait">Wachten</button>
+              </div>
+              <p class="how-reply" aria-live="polite"></p>
+            </div>
+          </div>
+        </li>
+      </ol>
+      <p class="cap how-cap">Voorbeeld met verzonnen gegevens.</p>
+      <blockquote class="statement" data-reveal><p>Niets gaat naar buiten zonder jouw akkoord: ofwel keur je het vooraf goed als standaardantwoord, ofwel legt je AI-team het je eerst voor.</p></blockquote>
+    </div>
+  </section>
 
-  <!-- ════════ HQ-03 · PAKKETTEN ════════ -->
-  <section class="sec" id="prijzen" aria-labelledby="plans-h">
+  <!-- ════════ STEL JE TEAM SAMEN: de afdelingen lezen en meteen kiezen (vaste uitkomst links, keuzes rechts) ════════
+       Links blijft "Jouw opzet" staan terwijl je de vijf afdelingen leest; per afdeling neem je ze op of niet.
+       Zonder JavaScript: de afdelingen staan er volledig, de uitkomst toont de voorbeeldopzet (Groei, 2 afdelingen). -->
+  <section class="sec team" id="team" aria-labelledby="team-h">
+    <div class="wrap team-in">
+      <div class="team-read">
+        <div class="team-head" data-reveal>
+          <p class="kicker">Stel je team samen</p><!-- taste-skill-ignore: cyaan label (Martijn, ronde 3) -->
+          <h2 class="h2" id="team-h">Welke afdelingen krijgen een <span class="kw">team</span>?</h2>
+          <p class="lead">Per afdeling werken een paar agents samen, elk met één rol en één taak, in de toon van je bedrijf. Hieronder vijf voorbeeldafdelingen, met wat de agents zelf mogen, wat eerst jouw akkoord vraagt en wat nooit.</p>
+          <p class="team-how js-only">Kies je afdelingen, dan zie je welk pakket past.</p>
+        </div>
+
+        <article class="dep" data-dep="sales" aria-labelledby="d-sales" data-reveal>
+          <h3 class="dep-h" id="d-sales">Sales en opvolging</h3>
+          <p class="dep-agents"><span>Voorbeeldagents</span> Leadopvolger, Offertemaker, Afsprakenplanner</p>
+          <p class="dep-task"><span>Voorbeeldtaak</span> De Offertemaker zet de offerte voor de renovatie in de Kerkstraat klaar, op basis van de aanvraag die per mail binnenkwam.</p>
+          <dl class="mandate">
+            <div class="m m--ok"><dt>Mag zelf</dt><dd>Een concept opmaken uit de aanvraag.</dd></div>
+            <div class="m m--ask"><dt>Vraagt eerst akkoord</dt><dd>De offerte naar de klant sturen.</dd></div>
+            <div class="m m--no"><dt>Nooit</dt><dd>Zelf prijzen of kortingen beslissen.</dd></div>
+          </dl>
+          <button type="button" class="pick js-only" data-dep="sales" aria-pressed="true"><span class="pick-box" aria-hidden="true"></span>In mijn team<span class="sr-only">: Sales en opvolging</span></button>
+          <p class="pick-out js-only" aria-hidden="true"></p>
+        </article>
+
+        <article class="dep" data-dep="plan" aria-labelledby="d-plan" data-reveal>
+          <h3 class="dep-h" id="d-plan">Planning</h3>
+          <p class="dep-agents"><span>Voorbeeldagents</span> Planner, Weerwacht, Materiaalbesteller</p>
+          <p class="dep-task"><span>Voorbeeldtaak</span> De Planner vraagt in de groep: "Morgen om 10:00 past in de route van technieker 2. Zal ik het inplannen?"</p>
+          <dl class="mandate">
+            <div class="m m--ok"><dt>Mag zelf</dt><dd>Inplannen binnen je vrije momenten.</dd></div>
+            <div class="m m--ask"><dt>Vraagt eerst akkoord</dt><dd>Inplannen buiten je vrije momenten.</dd></div>
+            <div class="m m--no"><dt>Nooit</dt><dd>Klanten opbellen: je AI-team werkt met tekst.</dd></div>
+          </dl>
+          <button type="button" class="pick js-only" data-dep="plan" aria-pressed="true"><span class="pick-box" aria-hidden="true"></span>In mijn team<span class="sr-only">: Planning</span></button>
+          <p class="pick-out js-only" aria-hidden="true"></p>
+        </article>
+
+        <article class="dep" data-dep="ks" aria-labelledby="d-ks" data-reveal>
+          <h3 class="dep-h" id="d-ks">Klantenservice</h3>
+          <p class="dep-agents"><span>Voorbeeldagents</span> Storingsdesk, Onderhoudsherinnering</p>
+          <p class="dep-task"><span>Voorbeeldtaak</span> De Storingsdesk zet een antwoord klaar op een storingsmelding en stelt een moment voor de technieker voor.</p>
+          <dl class="mandate">
+            <div class="m m--ok"><dt>Mag zelf</dt><dd>Het standaardantwoord op "Wanneer komt de technieker?" sturen, als je het vooraf goedkeurde.</dd></div>
+            <div class="m m--ask"><dt>Vraagt eerst akkoord</dt><dd>Elk ander antwoord naar een klant.</dd></div>
+            <div class="m m--no"><dt>Nooit</dt><dd>Een terugbetaling of korting beloven.</dd></div>
+          </dl>
+          <button type="button" class="pick js-only" data-dep="ks" aria-pressed="false"><span class="pick-box" aria-hidden="true"></span>In mijn team<span class="sr-only">: Klantenservice</span></button>
+          <p class="pick-out js-only" aria-hidden="true"></p>
+        </article>
+
+        <article class="dep" data-dep="mkt" aria-labelledby="d-mkt" data-reveal>
+          <h3 class="dep-h" id="d-mkt">Marketing</h3>
+          <p class="dep-agents"><span>Voorbeeldagents</span> Reviewvrager, Advertentie-opvolger, E-mailschrijver</p>
+          <p class="dep-task"><span>Voorbeeldtaak</span> De Reviewvrager zet een reviewvraag klaar voor de klanten van de werven die deze week klaar waren.</p>
+          <dl class="mandate">
+            <div class="m m--ok"><dt>Mag zelf</dt><dd>Concepten schrijven in de toon van je bedrijf.</dd></div>
+            <div class="m m--ask"><dt>Vraagt eerst akkoord</dt><dd>Een mail versturen of een antwoord op een review plaatsen.</dd></div>
+            <div class="m m--no"><dt>Nooit</dt><dd>Een review of getuigenis verzinnen.</dd></div>
+          </dl>
+          <button type="button" class="pick js-only" data-dep="mkt" aria-pressed="false"><span class="pick-box" aria-hidden="true"></span>In mijn team<span class="sr-only">: Marketing</span></button>
+          <p class="pick-out js-only" aria-hidden="true"></p>
+        </article>
+
+        <article class="dep" data-dep="adm" aria-labelledby="d-adm" data-reveal>
+          <h3 class="dep-h" id="d-adm">Administratie</h3>
+          <p class="dep-agents"><span>Voorbeeldagents</span> Factuurjager, Dossier-checker</p>
+          <p class="dep-task"><span>Voorbeeldtaak</span> De Factuurjager zet herinneringen klaar voor 4 facturen die langer dan 30 dagen openstaan.</p>
+          <dl class="mandate">
+            <div class="m m--ok"><dt>Mag zelf</dt><dd>Nakijken welke facturen openstaan.</dd></div>
+            <div class="m m--ask"><dt>Vraagt eerst akkoord</dt><dd>Een herinnering naar een klant sturen.</dd></div>
+            <div class="m m--no"><dt>Nooit</dt><dd>Een betaling of terugbetaling uitvoeren.</dd></div>
+          </dl>
+          <button type="button" class="pick js-only" data-dep="adm" aria-pressed="false"><span class="pick-box" aria-hidden="true"></span>In mijn team<span class="sr-only">: Administratie</span></button>
+          <p class="pick-out js-only" aria-hidden="true"></p>
+        </article>
+
+        <p class="team-coda" data-reveal>We koppelen ze aan je systemen, zoals je klantenbestand, mailbox, agenda of boekhouding. Welke koppelingen in je pakket zitten, staat in ons voorstel na de gratis analyse.</p>
+        <p class="cap">Het scherm bovenaan, de berichten, de afdelingen, de agents en de taken zijn een voorbeeld met verzonnen gegevens. Je echte AI-team stellen we samen na de gratis analyse.</p>
+      </div>
+
+      <aside class="team-out" aria-label="Jouw opzet">
+        <div class="out" aria-live="polite">
+          <p class="out-pack"><span class="b-name">Groei</span><span class="out-sub">Jouw opzet: <span class="b-count">2 afdelingen, 6 voorbeeldagents</span></span></p>
+          <p class="b-price">€7.500 setup <span>+ €1.500 per maand</span></p>
+          <p class="b-note">Met de Chief of Staff, die samenvat en je de beslissingen voorlegt, en het dashboard.</p>
+          <ul class="b-agents"><li data-dep="sales"><b>Sales en opvolging</b> Leadopvolger, Offertemaker, Afsprakenplanner</li><li data-dep="plan"><b>Planning</b> Planner, Weerwacht, Materiaalbesteller</li></ul>
+          <p class="b-terms">Excl. btw, vast contract van 12 maanden. 1 afdeling is Start, 2 à 3 afdelingen is Groei, 4 à 5 afdelingen is Volledig.</p>
+          <a class="btn" href="#gratis-analyse" data-boeking>Bespreek dit in de gratis analyse <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <!-- ════════ PRIJZEN: vier pakketten als één grote tabel, daaronder de voorwaarden zwart op wit ════════ -->
+  <section class="sec plans" id="prijzen" aria-labelledby="plans-h">
     <div class="wrap">
-      <div class="sec-head" data-reveal>
-        <p class="code">HQ-08 <b>/</b> Pakketten en prijzen</p>
-        <h2 class="h2" id="plans-h">Vaste pakketten, <span class="grad">vaste prijzen.</span></h2>
+      <div class="plans-head" data-reveal>
+        <p class="kicker">Pakketten en prijzen</p><!-- taste-skill-ignore: cyaan label (Martijn, ronde 3) -->
+        <h2 class="h2" id="plans-h">Vaste pakketten, <span class="kw">vaste prijzen.</span></h2>
         <p class="lead">Elk pakket start met de gratis analyse. Alle prijzen zijn excl. btw, met een vast contract van 12 maanden.</p>
       </div>
-      <div class="plans">
-        <article class="plan panel hud" data-reveal style="--i:0">
-          <div class="plan-top"><p class="panel-k">Pakket 00</p><svg class="glyph" viewBox="0 0 132 72" aria-hidden="true" focusable="false"><g class="g-l"></g><circle class="g-ring" cx="66" cy="36" r="22"/><circle class="g-you" cx="66" cy="36" r="6"/></svg></div>
-          <h3 class="plan-h">Analyse</h3>
-          <p class="plan-fig">Gratis</p>
-          <p class="plan-sub">altijd</p>
-          <ul class="nodes"><li>We brengen samen je processen in kaart.</li><li>We stellen het juiste pakket en de agentlijst voor.</li><li>Een gesprek van 30 minuten in Microsoft Teams.</li></ul>
-          <a class="plan-link" href="#gratis-analyse" data-boeking>Plan je gratis analyse <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a>
+      <div class="ptab" data-reveal>
+        <div class="ptab-k" aria-hidden="true"><span></span><span>Setup</span><span>Per maand</span><span>Wat erin zit</span><span></span></div>
+        <article class="plan" aria-labelledby="p-analyse">
+          <h3 class="plan-h" id="p-analyse">Analyse</h3>
+          <p class="plan-fig">Gratis <span>altijd</span></p>
+          <p class="plan-mo"></p>
+          <ul class="plan-list"><li>We brengen samen je processen in kaart.</li><li>We stellen het juiste pakket en de agentlijst voor.</li><li>Een gesprek van 30 minuten in Microsoft Teams.</li></ul>
+          <p class="plan-go"><a class="btn btn--line" href="#gratis-analyse" data-boeking>Plan je gratis analyse</a></p>
         </article>
-        <article class="plan panel hud" data-reveal style="--i:1">
-          <div class="plan-top"><p class="panel-k">Pakket 01</p><svg class="glyph" viewBox="0 0 132 72" aria-hidden="true" focusable="false"><g class="g-l"><line x1="66" y1="36" x2="41.6" y2="27.1"/><line x1="66" y1="36" x2="66" y2="10"/><line x1="66" y1="36" x2="90.4" y2="27.1"/></g><circle class="g-dept" cx="66" cy="36" r="9"/><circle class="g-agent" cx="41.6" cy="27.1" r="4"/><circle class="g-agent" cx="66" cy="10" r="4"/><circle class="g-agent" cx="90.4" cy="27.1" r="4"/></svg></div>
-          <h3 class="plan-h">Start</h3>
-          <p class="plan-fig">€3.500</p>
-          <p class="plan-sub">setup, eenmalig <b>+ €750 per maand</b></p>
-          <ul class="nodes"><li>Eén afdeling met 3 à 4 agents.</li><li>Je geeft taken door in de Telegram-groep en de agent legt je het werk voor.</li><li>Koppelingen met je systemen volgens je voorstel.</li></ul>
-          <a class="plan-link" href="#gratis-analyse" data-boeking>Plan je gratis analyse <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a>
+        <article class="plan" aria-labelledby="p-start">
+          <h3 class="plan-h" id="p-start">Start</h3>
+          <p class="plan-fig">€3.500 <span>setup, eenmalig</span></p>
+          <p class="plan-mo">+ €750 per maand</p>
+          <ul class="plan-list"><li>Eén afdeling met 3 à 4 agents.</li><li>Je geeft taken door in de Telegram-groep en de agent legt je het werk voor.</li><li>Koppelingen met je systemen volgens je voorstel.</li></ul>
+          <p class="plan-go"><a class="btn btn--line" href="#gratis-analyse" data-boeking>Plan je gratis analyse</a></p>
         </article>
-        <article class="plan plan--hi panel hud" data-reveal style="--i:2">
-          <div class="plan-top"><p class="panel-k">Pakket 02</p><svg class="glyph" viewBox="0 0 132 72" aria-hidden="true" focusable="false"><g class="g-l"><line x1="66" y1="36" x2="66" y2="10"/><line x1="66" y1="36" x2="88.5" y2="49"/><line x1="66" y1="36" x2="43.5" y2="49"/></g><circle class="g-cos" cx="66" cy="36" r="8"/><circle class="g-dept" cx="66" cy="10" r="5"/><circle class="g-dept" cx="88.5" cy="49" r="5"/><circle class="g-dept" cx="43.5" cy="49" r="5"/></svg></div>
-          <h3 class="plan-h">Groei</h3>
-          <p class="plan-fig">€7.500</p>
-          <p class="plan-sub">setup, eenmalig <b>+ €1.500 per maand</b></p>
-          <ul class="nodes"><li>2 à 3 afdelingen met 6 à 10 agents.</li><li>Met de Chief of Staff, die samenvat en je de beslissingen voorlegt.</li><li>Met het dashboard: wat de agents deden, je lopende aanvragen en offertes en je afdelingen.</li></ul>
-          <a class="plan-link" href="#gratis-analyse" data-boeking>Plan je gratis analyse <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a>
+        <article class="plan plan--hi" aria-labelledby="p-groei">
+          <h3 class="plan-h" id="p-groei">Groei</h3>
+          <p class="plan-fig">€7.500 <span>setup, eenmalig</span></p>
+          <p class="plan-mo">+ €1.500 per maand</p>
+          <ul class="plan-list"><li>2 à 3 afdelingen met 6 à 10 agents.</li><li>Met de Chief of Staff, die samenvat en je de beslissingen voorlegt.</li><li>Met het dashboard: wat de agents deden, je lopende aanvragen en offertes en je afdelingen.</li></ul>
+          <p class="plan-go"><a class="btn" href="#gratis-analyse" data-boeking>Plan je gratis analyse</a></p>
         </article>
-        <article class="plan panel hud" data-reveal style="--i:3">
-          <div class="plan-top"><p class="panel-k">Pakket 03</p><svg class="glyph" viewBox="0 0 132 72" aria-hidden="true" focusable="false"><g class="g-l"><line x1="66" y1="36" x2="66" y2="10"/><line x1="66" y1="36" x2="90.7" y2="28"/><line x1="66" y1="36" x2="81.3" y2="57"/><line x1="66" y1="36" x2="50.7" y2="57"/><line x1="66" y1="36" x2="41.3" y2="28"/></g><circle class="g-cos" cx="66" cy="36" r="8"/><circle class="g-dept" cx="66" cy="10" r="5"/><circle class="g-dept" cx="90.7" cy="28" r="5"/><circle class="g-dept" cx="81.3" cy="57" r="5"/><circle class="g-dept" cx="50.7" cy="57" r="5"/><circle class="g-dept" cx="41.3" cy="28" r="5"/></svg></div>
-          <h3 class="plan-h">Volledig</h3>
-          <p class="plan-fig"><small>vanaf</small> €15.000</p>
-          <p class="plan-sub">setup, eenmalig <b>+ vanaf €2.500 per maand</b></p>
-          <ul class="nodes"><li>4 à 5 afdelingen, met integraties op maat en alles uit Groei.</li><li>Het aantal agents en de precieze prijs volgen uit de analyse.</li><li>Je krijgt ze in ons voorstel, voor je iets tekent.</li></ul>
-          <a class="plan-link" href="#gratis-analyse" data-boeking>Plan je gratis analyse <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a>
+        <article class="plan" aria-labelledby="p-volledig">
+          <h3 class="plan-h" id="p-volledig">Volledig</h3>
+          <p class="plan-fig"><small>vanaf</small> €15.000 <span>setup, eenmalig</span></p>
+          <p class="plan-mo">+ vanaf €2.500 per maand</p>
+          <ul class="plan-list"><li>4 à 5 afdelingen, met integraties op maat en alles uit Groei.</li><li>Het aantal agents en de precieze prijs volgen uit de analyse.</li><li>Je krijgt ze in ons voorstel, voor je iets tekent.</li></ul>
+          <p class="plan-go"><a class="btn btn--line" href="#gratis-analyse" data-boeking>Plan je gratis analyse</a></p>
         </article>
       </div>
-      <div class="terms panel hud" data-reveal>
-        <p class="panel-k terms-k">Wat altijd geldt</p>
-        <ul class="nodes">
+
+      <!-- zwart op wit: het enige lichte vlak op de pagina -->
+      <div class="terms" data-reveal>
+        <h3 class="terms-h">Wat altijd geldt</h3>
+        <ul class="terms-list">
           <li>Alle prijzen zijn excl. btw. Geen lanceringskorting en geen proefmaand.</li>
           <li>Vast contract van 12 maanden. Daarna wordt het verlengd: dat is nodig om je systeem live te houden.</li>
           <li>De setup betaal je in twee delen: 50% bij de start, 50% bij de livegang.</li>
           <li>De maandprijs dekt het live houden: hosting en beheer van de server, onderhoud en updates, monitoring, support en het oplossen van problemen.</li>
         </ul>
-        <ul class="nodes">
+        <ul class="terms-list">
           <li>Het Claude-verbruik betaal je rechtstreeks aan Anthropic, via je eigen Anthropic-account. Het zit niet in onze prijs, en je volgt het zelf op.</li>
           <li>Nieuwe agents, koppelingen of verbeteringen zitten niet in de maandprijs. Daarvoor maken we een voorstel met een nieuwe eenmalige setupprijs.</li>
           <li>Abonnementen op je eigen tools betaal je zelf.</li>
@@ -465,78 +482,58 @@
     </div>
   </section>
 
-  <div class="divider" aria-hidden="true"><svg class="divnet" viewBox="0 0 220 20" aria-hidden="true" focusable="false"><g><line x1="10" y1="10" x2="60" y2="10"/><line x1="60" y1="10" x2="110" y2="10"/><line x1="110" y1="10" x2="160" y2="10"/><line x1="160" y1="10" x2="210" y2="10"/></g><circle cx="10" cy="10" r="3"/><circle cx="60" cy="10" r="3"/><circle cx="110" cy="10" r="5"/><circle cx="160" cy="10" r="3"/><circle cx="210" cy="10" r="3"/></svg></div>
-
-  <!-- ════════ HQ-04 · WIJ WERKEN ZELF ZO ════════ -->
-  <section class="sec" id="wij" aria-labelledby="brief-h">
-    <div class="wrap">
-      <div class="sec-head" data-reveal>
-        <p class="code">HQ-09 <b>/</b> Ons eigen hoofdkwartier</p>
-        <h2 class="h2" id="brief-h">Wij werken <span class="grad">zelf zo.</span></h2>
+  <!-- ════════ WIJ WERKEN ZELF ZO: een brief van de founders ════════ -->
+  <section class="sec own" id="wij" aria-labelledby="brief-h">
+    <div class="wrap own-in">
+      <div class="own-head" data-reveal>
+        <p class="kicker">Over ons</p><!-- taste-skill-ignore: cyaan label (Martijn, ronde 3) -->
+        <h2 class="h2" id="brief-h">Wij werken <span class="kw">zelf zo.</span></h2>
       </div>
-      <div class="own">
-        <article class="letter panel hud" data-reveal>
-          <p class="panel-k">Een brief van de founders</p>
-          <p><strong>EM Launchpad draait zelf op een AI-team.</strong> Het heeft afdelingen voor sales en outreach, marketing en content, strategie en financiën, AI en automatisatie, en support en onderhoud.</p>
-          <p>We geven taken door via Telegram. <strong>Een Chief of Staff zet ze uit bij de juiste afdeling</strong>, houdt het overzicht en legt ons voor wat een beslissing vraagt.</p>
-          <p>Niets gaat naar een klant of prospect zonder ons akkoord. De agents zetten het werk klaar, wij keuren goed. Zo blijft voor ons het werk over dat een mens moet doen: de gesprekken en de beslissingen.</p>
-          <p>Hetzelfde bouwen we voor jouw bedrijf, op maat van je afdelingen, met Claude, de AI van Anthropic. <strong>Je AI-team draait op een server die wij beheren</strong>, en wij houden het live.</p>
-          <p>We tonen je geen verzonnen cases of cijfers. In de gratis analyse laten we je zien hoe een AI-team werkt, en kijken we samen waar het in jouw bedrijf past.</p>
-          <p class="sign"><span class="sign-hand" aria-hidden="true">Ebert &amp; Martijn</span><span class="sign-n">Ebert en Martijn Vanbrabant, founders van EM Launchpad</span></p>
-        </article>
-        <div class="own-side" data-reveal style="--i:1">
-          <figure class="own-net panel hud" role="img" aria-label="Het AI-team van EM Launchpad: een Chief of Staff in het midden, vijf afdelingen eromheen, en Ebert en Martijn die goedkeuren.">
-            <p class="panel-k">HQ-09 · EM Launchpad</p>
-            <svg class="net net--hq" viewBox="0 0 600 420" xmlns="http://www.w3.org/2000/svg" focusable="false" aria-hidden="true"><defs><linearGradient id="g-hq" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#2F74E0"/><stop offset="1" stop-color="#33A06A"/></linearGradient></defs><circle class="ring" cx="300" cy="214" r="96"/><g class="edges"><line class="e" data-a="em" data-b="cs" x1="300" y1="46" x2="300" y2="214"/><line class="e" data-a="cs" data-b="d1" x1="300" y1="214" x2="154" y2="214"/><line class="e" data-a="cs" data-b="d2" x1="300" y1="214" x2="196.8" y2="317.2"/><line class="e" data-a="cs" data-b="d3" x1="300" y1="214" x2="300" y2="360"/><line class="e" data-a="cs" data-b="d4" x1="300" y1="214" x2="403.2" y2="317.2"/><line class="e" data-a="cs" data-b="d5" x1="300" y1="214" x2="446" y2="214"/></g><g class="nodes"><g class="n n--you" data-id="em" data-x="300" data-y="46"><circle class="n-h" cx="300" cy="46" r="31"/><circle class="n-c" cx="300" cy="46" r="22"/><text class="n-i" x="300" y="51" text-anchor="middle">EM</text><text class="n-l" x="300" y="12" text-anchor="middle">Ebert en Martijn keuren goed</text></g><g class="n n--cos" data-id="cs" data-x="300" data-y="214"><circle class="n-h" cx="300" cy="214" r="39"/><circle class="n-c" cx="300" cy="214" r="30"/><text class="n-i" x="300" y="219" text-anchor="middle">CS</text><text class="n-l" x="300" y="264" text-anchor="middle">Chief of Staff</text></g><g class="n n--dept" data-id="d1" data-x="154" data-y="214"><circle class="n-h" cx="154" cy="214" r="26"/><circle class="n-c" cx="154" cy="214" r="17"/><text class="n-l" x="127" y="218" text-anchor="end">Sales en outreach</text></g><g class="n n--dept" data-id="d2" data-x="196.8" data-y="317.2"><circle class="n-h" cx="196.8" cy="317.2" r="26"/><circle class="n-c" cx="196.8" cy="317.2" r="17"/><text class="n-l" x="169.8" y="321.2" text-anchor="end">Marketing en content</text></g><g class="n n--dept" data-id="d3" data-x="300" data-y="360"><circle class="n-h" cx="300" cy="360" r="26"/><circle class="n-c" cx="300" cy="360" r="17"/><text class="n-l" x="300" y="397" text-anchor="middle">AI en automatisatie</text></g><g class="n n--dept" data-id="d4" data-x="403.2" data-y="317.2"><circle class="n-h" cx="403.2" cy="317.2" r="26"/><circle class="n-c" cx="403.2" cy="317.2" r="17"/><text class="n-l" x="430.2" y="321.2" text-anchor="start">Strategie en financiën</text></g><g class="n n--dept" data-id="d5" data-x="446" data-y="214"><circle class="n-h" cx="446" cy="214" r="26"/><circle class="n-c" cx="446" cy="214" r="17"/><text class="n-l" x="473" y="218" text-anchor="start">Support en onderhoud</text></g></g><g class="pulses"></g></svg>
-          </figure>
-          <div class="ask panel hud">
-            <p>Liever eerst een vraag?</p>
-            <a href="mailto:ebert@emlaunchpad.com?subject=Vraag%20over%20EML%20AI%20Team">ebert@emlaunchpad.com</a>
-            <a href="tel:+32476015451">+32 476 01 54 51</a>
-          </div>
-        </div>
-      </div>
+      <article class="letter" data-reveal>
+        <p><strong>EM Launchpad draait zelf op een AI-team.</strong> Het heeft afdelingen voor sales en outreach, marketing en content, strategie en financiën, AI en automatisatie, en support en onderhoud.</p>
+        <p>We geven taken door via Telegram. Een Chief of Staff zet ze uit bij de juiste afdeling, houdt het overzicht en legt ons voor wat een beslissing vraagt.</p>
+        <p>Niets gaat naar een klant of prospect zonder ons akkoord. De agents zetten het werk klaar, wij keuren goed. Zo blijft voor ons het werk over dat een mens moet doen: de gesprekken en de beslissingen.</p>
+        <p>Hetzelfde bouwen we voor jouw bedrijf, op maat van je afdelingen, met Claude, de AI van Anthropic. Je AI-team draait op een server die wij beheren, en wij houden het live.</p>
+        <p>We tonen je geen verzonnen cases of cijfers. In de gratis analyse laten we je zien hoe een AI-team werkt, en kijken we samen waar het in jouw bedrijf past.</p>
+        <p class="sign"><span class="sign-n">Ebert &amp; Martijn</span><span class="sign-r">Ebert en Martijn Vanbrabant, founders van EM Launchpad</span></p>
+      </article>
+      <p class="ask" data-reveal><span>Liever eerst een vraag?</span> <a href="mailto:ebert@emlaunchpad.com?subject=Vraag%20over%20EML%20AI%20Team">ebert@emlaunchpad.com</a> <a href="tel:+32476015451">+32 476 01 54 51</a></p>
     </div>
   </section>
 
-  <div class="divider" aria-hidden="true"><svg class="divnet" viewBox="0 0 220 20" aria-hidden="true" focusable="false"><g><line x1="10" y1="10" x2="60" y2="10"/><line x1="60" y1="10" x2="110" y2="10"/><line x1="110" y1="10" x2="160" y2="10"/><line x1="160" y1="10" x2="210" y2="10"/></g><circle cx="10" cy="10" r="3"/><circle cx="60" cy="10" r="3"/><circle cx="110" cy="10" r="5"/><circle cx="160" cy="10" r="3"/><circle cx="210" cy="10" r="3"/></svg></div>
-
-  <!-- ════════ HQ-05 · VRAGEN ════════ -->
-  <section class="sec" id="vragen" aria-labelledby="faq-h">
-    <div class="wrap faq-wrap">
-      <div class="sec-head" data-reveal>
-        <p class="code">HQ-10 <b>/</b> Vragen</p>
-        <h2 class="h2" id="faq-h">Wat je wil weten <span class="grad">voor je beslist.</span></h2>
+  <!-- ════════ VRAGEN: links de vragen, rechts het antwoord (desktop met JavaScript); anders gewone uitklapvragen ════════ -->
+  <section class="sec faqs" id="vragen" aria-labelledby="faq-h">
+    <div class="wrap faq-in">
+      <div class="faq-head" data-reveal>
+        <p class="kicker">Vragen</p><!-- taste-skill-ignore: cyaan label (Martijn, ronde 3) -->
+        <h2 class="h2" id="faq-h">Wat je wil weten <span class="kw">voor je beslist.</span></h2>
       </div>
       <div class="faq" data-reveal>
-        <details class="q" name="faq" open><summary><span class="q-n">V-01</span>Wat kost een AI-team?</summary><div class="a"><p>Start kost €3.500 setup en €750 per maand, Groei €7.500 en €1.500 per maand, Volledig vanaf €15.000 en vanaf €2.500 per maand. Alles excl. btw. De analyse vooraf is altijd gratis.</p></div></details>
-        <details class="q" name="faq"><summary><span class="q-n">V-02</span>Wat zit niet in de prijs?</summary><div class="a"><p>Het Claude-verbruik: dat betaal je rechtstreeks aan Anthropic, via je eigen Anthropic-account, en je volgt het zelf op. Ook abonnementen op je eigen tools en nieuwe agents of koppelingen zitten er niet in.</p></div></details>
-        <details class="q" name="faq"><summary><span class="q-n">V-03</span>Hoe lang loopt het contract?</summary><div class="a"><p>Twaalf maanden, vast. Daarna wordt het contract verlengd, want dat is nodig om je systeem live te houden. Hoe de verlenging verloopt, staat in je contract.</p></div></details>
-        <details class="q" name="faq"><summary><span class="q-n">V-04</span>Bellen de agents ook?</summary><div class="a"><p>Nee. Je AI-team werkt met tekst: berichten, mails, documenten en je systemen. Bel- of voice-agents zitten niet in EML AI Team.</p></div></details>
-        <details class="q" name="faq"><summary><span class="q-n">V-05</span>Wat gebeurt er met onze gegevens?</summary><div class="a"><p>Je AI-team draait op een server die wij beheren. Bij het contract hoort een verwerkersovereenkomst, omdat de agents met gegevens van je bedrijf werken. Je leest beide voor je tekent.</p></div></details>
-        <details class="q" name="faq"><summary><span class="q-n">V-06</span>Hoe verloopt de gratis analyse?</summary><div class="a"><p>We starten met een gesprek van 30 minuten in Microsoft Teams en brengen samen je processen in kaart. Daarna krijg je ons voorstel met het pakket en de agentlijst.</p></div></details>
-        <details class="q" name="faq"><summary><span class="q-n">V-07</span>Voor welke bedrijven is EML AI Team?</summary><div class="a"><p>Voor grotere bedrijven met een echt team, waar werk blijft liggen dat telkens dezelfde aanpak vraagt. We kiezen zelf met welke bedrijven we samenwerken.</p></div></details>
+        <details class="q" name="faq" open><summary>Wat kost een AI-team?</summary><div class="a"><p>Start kost €3.500 setup en €750 per maand, Groei €7.500 en €1.500 per maand, Volledig vanaf €15.000 en vanaf €2.500 per maand. Alles excl. btw. De analyse vooraf is altijd gratis.</p></div></details>
+        <details class="q" name="faq"><summary>Wat zit niet in de prijs?</summary><div class="a"><p>Het Claude-verbruik: dat betaal je rechtstreeks aan Anthropic, via je eigen Anthropic-account, en je volgt het zelf op. Ook abonnementen op je eigen tools en nieuwe agents of koppelingen zitten er niet in.</p></div></details>
+        <details class="q" name="faq"><summary>Hoe lang loopt het contract?</summary><div class="a"><p>Twaalf maanden, vast. Daarna wordt het contract verlengd, want dat is nodig om je systeem live te houden. Hoe de verlenging verloopt, staat in je contract.</p></div></details>
+        <details class="q" name="faq"><summary>Bellen de agents ook?</summary><div class="a"><p>Nee. Je AI-team werkt met tekst: berichten, mails, documenten en je systemen. Bel- of voice-agents zitten niet in EML AI Team.</p></div></details>
+        <details class="q" name="faq"><summary>Wat gebeurt er met onze gegevens?</summary><div class="a"><p>Je AI-team draait op een server die wij beheren. Bij het contract hoort een verwerkersovereenkomst, omdat de agents met gegevens van je bedrijf werken. Je leest beide voor je tekent.</p></div></details>
+        <details class="q" name="faq"><summary>Hoe verloopt de gratis analyse?</summary><div class="a"><p>We starten met een gesprek van 30 minuten in Microsoft Teams en brengen samen je processen in kaart. Daarna krijg je ons voorstel met het pakket en de agentlijst.</p></div></details>
+        <details class="q" name="faq"><summary>Voor welke bedrijven is EML AI Team?</summary><div class="a"><p>Voor grotere bedrijven met een echt team, waar werk blijft liggen dat telkens dezelfde aanpak vraagt. We kiezen zelf met welke bedrijven we samenwerken.</p></div></details>
       </div>
     </div>
   </section>
 
-  <!-- ════════ HQ-06 · SLOT ════════ -->
+  <!-- ════════ SLOT: jouw beslissing ════════ -->
   <section class="close" id="gratis-analyse" aria-labelledby="close-h">
-    <div class="close-glow" aria-hidden="true"></div>
     <div class="wrap close-in">
-      <p class="code" data-reveal>HQ-11 <b>/</b> Jouw beslissing</p>
-      <h2 class="close-h" id="close-h" data-reveal>Goedkeuren <span class="grad">of wachten?</span></h2>
-      <p class="lead" data-reveal>Plan je gratis analyse: een gesprek van 30 minuten in Microsoft Teams. We brengen samen je processen in kaart, daarna krijg je ons voorstel met het pakket en de agentlijst. Dan beslis jij.</p>
-      <div class="decide panel hud" data-ui data-reveal role="group" aria-labelledby="decide-q">
-        <div class="decide-head"><span class="av av--cos" aria-hidden="true">CS</span><p class="decide-who">Chief of Staff <span>nu</span></p></div>
-        <p class="decide-q" id="decide-q">Eén beslissing voor jou: plan je de gratis analyse voor je AI-team?</p>
-        <div class="decide-btns">
-          <!-- Zonder JavaScript: rechtstreeks naar de EMLaunchpad Agenda (Martijn, 31/10/2026). Met JavaScript opent site.js eerst het formulier (venster #ga hieronder). -->
-          <a class="btn" href="https://api.leadconnectorhq.com/widget/booking/OoJsvpiXXpwS5oGbQGIE" target="_blank" rel="noopener" data-boeking data-slot>Plan je gratis analyse <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a>
-          <a class="btn-ghost" href="mailto:ebert@emlaunchpad.com?subject=Vraag%20over%20EML%20AI%20Team">Eerst een vraag</a>
-        </div>
+      <p class="kicker kicker--c" data-reveal>Gratis analyse</p><!-- taste-skill-ignore: cyaan label (Martijn, ronde 3) -->
+      <h2 class="close-h" id="close-h" data-reveal><span class="kw">Goedkeuren</span> <span>of wachten?</span></h2>
+      <p class="close-q" data-reveal>Eén beslissing voor jou: plan je de gratis analyse voor je AI-team?</p>
+      <div class="close-act" data-reveal>
+        <!-- Zonder JavaScript: rechtstreeks naar de EMLaunchpad Agenda (Martijn, 31/10/2026). Met JavaScript opent site.js eerst het formulier (venster #ga hieronder). -->
+        <a class="btn btn--lg" href="https://api.leadconnectorhq.com/widget/booking/OoJsvpiXXpwS5oGbQGIE" target="_blank" rel="noopener" data-boeking data-slot>Plan je gratis analyse <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a>
+        <span class="close-or" aria-hidden="true">of</span>
+        <a class="btn btn--line btn--lg" href="mailto:ebert@emlaunchpad.com?subject=Vraag%20over%20EML%20AI%20Team">Eerst een vraag</a>
       </div>
-      <ul class="pills" data-reveal><li>Altijd gratis</li><li>30 minuten</li><li>In Microsoft Teams</li></ul>
+      <p class="close-lede" data-reveal>Plan je gratis analyse: een gesprek van 30 minuten in Microsoft Teams. We brengen samen je processen in kaart, daarna krijg je ons voorstel met het pakket en de agentlijst. Dan beslis jij.</p>
+      <ul class="close-facts" data-reveal><li>Altijd gratis</li><li>30 minuten</li><li>In Microsoft Teams</li></ul>
     </div>
   </section>
 
@@ -546,8 +543,8 @@
 <footer class="foot">
   <div class="wrap">
     <div class="foot-top">
-      <a class="foot-lock" href="./" aria-label="EML AI Team, een onderdeel van EM Launchpad, naar de startpagina"><picture><source type="image/webp" srcset="assets/img/em-logo-3d-96.webp 152w, assets/img/em-logo-3d-192.webp 304w" sizes="120px"><img class="lock-logo" src="assets/img/em-logo-3d-96.png" srcset="assets/img/em-logo-3d-96.png 152w, assets/img/em-logo-3d-192.png 304w" sizes="120px" width="152" height="96" alt="" loading="lazy"></picture></a>
-      <p class="foot-tag">Het hoofdkwartier van je bedrijf: een AI-team op maat voor bedrijven met een team. <a href="https://emlaunchpad.com/">Een onderdeel van EM Launchpad</a>.</p>
+      <a class="foot-lock" href="./" aria-label="EML AI Team, een onderdeel van EM Launchpad, naar de startpagina"><img class="lock-logo" src="assets/img/logo-em.png" srcset="assets/img/logo-em.png 107w, assets/img/logo-em-256.png 256w" sizes="63px" width="256" height="162" alt="" loading="lazy"></a>
+      <p class="foot-tag">EML AI Team: een AI-team op maat voor bedrijven met een team. <a href="https://emlaunchpad.com/">Een onderdeel van EM Launchpad</a>.</p>
     </div>
     <div class="foot-mid">
       <nav class="foot-nav" aria-label="Voettekst">
@@ -555,7 +552,7 @@
       </nav>
       <p class="foot-contact"><a href="mailto:ebert@emlaunchpad.com">ebert@emlaunchpad.com</a><a href="tel:+32476015451">+32 476 01 54 51</a><span>Brugstraat 2A, 3870 Vechmaal (Heers)</span></p>
     </div>
-    <p class="foot-legal"><span class="live"></span>© 2026 EM Launchpad, handelsnaam van Ebert Vanbrabant (eenmanszaak) · Ondernemingsnummer 1024.977.818 · Btw BE1024.977.818</p>
+    <p class="foot-legal">© 2026 EM Launchpad, handelsnaam van Ebert Vanbrabant (eenmanszaak) · Ondernemingsnummer 1024.977.818 · Btw BE1024.977.818</p>
   </div>
 </footer>
 
@@ -565,13 +562,12 @@
 <dialog class="ga" id="ga" aria-labelledby="ga-title">
   <div class="ga-panel">
     <header class="ga-head">
-      <p class="code">HQ-12 <b>/</b> Gratis analyse</p>
       <h2 class="ga-title" id="ga-title" tabindex="-1">Plan je gratis analyse</h2>
       <ol class="ga-steps">
-        <li class="is-on" data-ga-stap="1" aria-current="step"><span>01</span>Over jou en je bedrijf</li>
-        <li data-ga-stap="2"><span>02</span>Kies een moment</li>
+        <li class="is-on" data-ga-stap="1" aria-current="step"><span>1</span>Over jou en je bedrijf</li>
+        <li data-ga-stap="2"><span>2</span>Kies een moment</li>
       </ol>
-      <button class="ga-close" type="button" aria-label="Sluiten"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 4l8 8M12 4l-8 8"/></svg></button>
+      <button class="ga-close" type="button" aria-label="Sluiten"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M4 4l8 8M12 4l-8 8"/></svg></button>
     </header>
     <div class="ga-body">
       <section class="ga-step" data-ga-stap="1">
@@ -594,6 +590,6 @@
   </div>
 </dialog>
 
-<script src="assets/js/site.js?v=8" defer></script>
+<script src="assets/js/site.js?v=25" defer></script>
 </body>
 </html>

@@ -1,8 +1,7 @@
-/* EML AI Team, homepage v4c "Het hoofdkwartier". Alles werkt ook zonder dit script: de tekst, de panelen per
-   verdieping, het gesprek en de doorsnede van het gebouw staan in de HTML. Dit script voegt toe: de scrollrit,
-   het 3D-gebouw (pas na het laden, en alleen als het toestel het aankan), het gesprek, de ticker en de teambouwer.
-   Gsm (smal scherm, of aanraakscherm zonder breed venster; v4d, 31/10/2026): geen 3D, geen scrollrit en geen beweging
-   bij het scrollen. De afdelingen worden compacte kaarten; het gesprek speelt pas verder als je erop tikt. */
+/* EML AI Team, variant "premium" (3/11/2026, ronde 2: menu, menubalk, actieve sectie). Alles werkt ook zonder dit script: de tekst, de afdelingen, het scherm in de
+   hero (op de vraag), de pakketten en de vragen staan in de HTML. Dit script voegt toe: het venster gratis analyse, het
+   scherm dat één taak afspeelt, de keuze bij "Zo werkt het", je team samenstellen en de vragen als index op een breed scherm.
+   Geen 3D, geen klok, geen ticker. */
 (() => {
   'use strict';
 
@@ -18,9 +17,7 @@
   };
 
   const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  // zelfde voorwaarde als de gsm-regels in site.css en de <source media> van de heroafbeelding
-  const phone = window.matchMedia('(max-width: 720px), (hover: none) and (pointer: coarse) and (max-width: 1023px)').matches;
-  const calm = reduce || phone;
+  const wide = window.matchMedia('(min-width: 1100px)');
   const $ = (s, r = document) => r.querySelector(s);
   const $$ = (s, r = document) => [...r.querySelectorAll(s)];
 
@@ -100,200 +97,338 @@
     $$('[data-boeking]').forEach((a) => { a.href = GA.agenda; a.target = '_blank'; a.rel = 'noopener'; });
   }
 
-  /* ---------- verschijnen bij het scrollen ---------- */
+  /* ---------- verschijnen bij het scrollen (één keer) ---------- */
   const revealEls = $$('[data-reveal]');
-  if ('IntersectionObserver' in window && !calm) {
-    const io = new IntersectionObserver((en) => en.forEach((e) => { if (e.isIntersecting) { e.target.classList.add('is-in'); io.unobserve(e.target); } }), { rootMargin: '0px 0px -4% 0px', threshold: 0 });
+  if ('IntersectionObserver' in window && !reduce) {
+    const io = new IntersectionObserver((en) => en.forEach((e) => { if (e.isIntersecting) { e.target.classList.add('is-in'); io.unobserve(e.target); } }), { rootMargin: '0px 0px -8% 0px', threshold: 0 });
     revealEls.forEach((el) => io.observe(el));
   } else revealEls.forEach((el) => el.classList.add('is-in'));
 
-  /* ---------- vragen: één tegelijk open ---------- */
-  const qs = $$('details[name="faq"]');
-  qs.forEach((d) => d.addEventListener('toggle', () => { if (d.open) qs.forEach((o) => { if (o !== d) o.open = false; }); }));
+  /* ---------- menubalk: donker met blur zodra je scrolt ---------- */
+  const bar = $('.bar');
+  if (bar) {
+    const onScroll = () => bar.classList.toggle('is-scrolled', window.scrollY > 8);
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+  }
 
-  /* ---------- menu op de gsm ---------- */
-  const menu = $('.sbar-menu');
+  /* ---------- het menu (details/summary, werkt ook zonder JavaScript) ----------
+     Met JavaScript: de pagina scrolt niet mee, de focus blijft in het menu, Escape sluit, een klik naast het paneel of op
+     een link sluit het menu (de link scrolt dan naar de sectie), en sluiten vervaagt kort. */
+  const menu = $('.menu');
   if (menu) {
-    menu.addEventListener('click', (e) => { if (e.target.closest('a')) menu.open = false; });
-    document.addEventListener('click', (e) => { if (menu.open && !menu.contains(e.target)) menu.open = false; });
-    document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && menu.open) { menu.open = false; $('summary', menu).focus(); } });
-  }
-
-  /* ---------- tikkende tijd in de statusbalk ---------- */
-  const clock = $('.clock');
-  if (clock) {
-    const tick = () => { const d = new Date(); clock.textContent = [d.getHours(), d.getMinutes(), d.getSeconds()].map((n) => String(n).padStart(2, '0')).join(':'); };
-    tick(); setInterval(tick, 1000);
-  }
-
-  /* ---------- de scrollrit: welke verdieping is in beeld ---------- */
-  const ride = $('.ride');
-  let hq = null; // het 3D-gebouw, zodra het geladen is
-  if (ride) {
-    const steps = $$('.step', ride);
-    const where = $('.ride-where', ride), kEl = $('.ride-k', ride);
-    const floorsSvg = $$('.bld--static .fl', ride);
-    const NAMES = ['Buitenkant', 'Sales en opvolging', 'Planning', 'Klantenservice', 'Marketing', 'Administratie', 'Chief of Staff'];
-    let cur = -1;
-    const update = () => {
-      const mid = window.innerHeight * 0.55;
-      let j = 0;
-      steps.forEach((s, i) => { if (s.getBoundingClientRect().top <= mid) j = i; });
-      if (j === cur) return;
-      cur = j;
-      steps.forEach((s, i) => s.classList.toggle('is-on', i === j));
-      ride.dataset.step = String(j);
-      if (where) where.textContent = NAMES[j];
-      if (kEl) kEl.textContent = `0${j} / 06`;
-      floorsSvg.forEach((f) => f.classList.toggle('is-on', +f.dataset.floor === j - 1));
+    const btn = $('summary', menu), panel = $('.menu-panel', menu);
+    const focusables = () => [btn, ...$$('a[href], button', panel)].filter((el) => el.offsetParent !== null || el === btn);
+    let closing = null;
+    const setOpen = (o) => {
+      // de schuifbalk verdwijnt als de pagina niet scrolt: vul die breedte op, zodat niets verspringt
+      const sb = window.innerWidth - document.documentElement.clientWidth;
+      document.documentElement.style.paddingRight = o && sb > 0 ? `${sb}px` : '';
+      document.documentElement.classList.toggle('menu-open', o);
+      if (bar) bar.classList.toggle('menu-is-open', o);
+      btn.setAttribute('aria-label', o ? 'Menu sluiten' : 'Menu');
     };
-    update();
-    window.addEventListener('scroll', update, { passive: true });
-    window.addEventListener('resize', update, { passive: true });
-
-    // 3D alleen als het toestel het aankan; anders blijft de doorsnede staan (alle inhoud blijft gelijk)
-    const conn = navigator.connection || {};
-    const weak = (navigator.deviceMemory && navigator.deviceMemory < 4) || (navigator.hardwareConcurrency && navigator.hardwareConcurrency < 4) || conn.saveData;
-    const canGL = (() => { try { const c = document.createElement('canvas'); return !!(c.getContext('webgl2') || c.getContext('webgl')); } catch (e) { return false; } })();
-    if (!reduce && !weak && canGL && !phone) {
-      const go = () => {
-        const light = window.innerWidth < 720 || window.matchMedia('(pointer: coarse)').matches;
-        import('./hq3d.js?v=5').then((m) => {
-          hq = m.start({ canvas: $('.hq-canvas', ride), ride, steps, light, onReady: () => ride.classList.add('is-3d') });
-          if (!hq) ride.classList.add('no-3d');
-        }).catch(() => ride.classList.add('no-3d'));
-      };
-      const idle = window.requestIdleCallback || ((f) => setTimeout(f, 300));
-      if (document.readyState === 'complete') idle(go, { timeout: 1500 });
-      else window.addEventListener('load', () => idle(go, { timeout: 1500 }), { once: true });
-    } else ride.classList.add('no-3d');
-  }
-
-  /* ---------- gsm: "mag zelf / vraagt eerst akkoord / nooit" open te klikken per afdeling ---------- */
-  if (phone) $$('.floor .limits').forEach((ul) => {
-    const d = document.createElement('details');
-    d.className = 'lim-acc';
-    d.innerHTML = '<summary>Mag zelf, vraagt eerst akkoord, nooit</summary>';
-    ul.replaceWith(d);
-    d.appendChild(ul);
-  });
-
-  /* ---------- het gesprek op de bovenste verdieping ---------- */
-  const chat = $('.chat');
-  if (chat) {
-    const log = $('.chat-log', chat);
-    const WAVE = [.35, .6, .9, .5, .75, 1, .55, .3, .7, .95, .6, .4, .8, .5, .65, .35];
-    const SCENES = {
-      offerte: {
-        chip: 'Offerte klaarzetten', floor: 0,
-        me: { voice: '0:14', text: 'Zet de offerte voor de renovatie in de Kerkstraat klaar, op basis van de aanvraag van gisteren.', time: '08:20' },
-        agent: { name: 'Offertemaker', dept: 'Sales en opvolging', av: 'OM', text: 'Het concept staat klaar: renovatie Kerkstraat, met de werken en materialen uit de aanvraag.', file: ['Offerte-concept Kerkstraat', "2 pagina's"], time: '08:31' },
-        cos: { text: 'Eén beslissing voor jou: de offerte voor de renovatie in de Kerkstraat is klaar om te vertrekken. Goedkeuren of wachten?', time: '08:32' },
-        yes: 'Goedgekeurd. De offerte is vrijgegeven.', wait: 'In de wacht. De offerte blijft klaarstaan tot jij beslist.'
-      },
-      facturen: {
-        chip: 'Facturen opvolgen', floor: 4,
-        me: { text: 'Volg de facturen op die langer dan 30 dagen openstaan.', time: '10:05' },
-        agent: { name: 'Factuurjager', dept: 'Administratie', av: 'FJ', text: '4 facturen staan langer dan 30 dagen open. Voor elke klant staat een vriendelijke herinnering klaar.', file: ['Herinneringen, 4 klanten', '4 mails'], time: '10:09' },
-        cos: { text: 'Eén beslissing voor jou: 4 herinneringen zijn klaar om te vertrekken. Goedkeuren of wachten?', time: '10:10' },
-        yes: 'Goedgekeurd. De 4 herinneringen zijn vrijgegeven.', wait: 'In de wacht. De herinneringen blijven klaarstaan tot jij beslist.'
-      },
-      planning: {
-        chip: 'Plaatsbezoeken inplannen', floor: 1,
-        me: { voice: '0:09', text: 'Plan de 3 plaatsbezoeken van volgende week in.', time: '11:40' },
-        agent: { name: 'Planner', dept: 'Planning', av: 'PL', text: '3 momenten passen in de agenda van je techniekers en in hun route: dinsdag 09:00, woensdag 14:00 en donderdag 10:30.', time: '11:44' },
-        cos: { text: 'Eén beslissing voor jou: 3 plaatsbezoeken zijn klaar om in te plannen. Goedkeuren of wachten?', time: '11:45' },
-        yes: 'Goedgekeurd. De 3 plaatsbezoeken staan in de agenda.', wait: 'In de wacht. De voorstellen blijven klaarstaan tot jij beslist.'
-      }
+    const close = (instant) => {
+      if (!menu.open) return;
+      clearTimeout(closing);
+      if (instant) { menu.classList.remove('is-closing'); menu.open = false; setOpen(false); return; }
+      menu.classList.add('is-closing');
+      closing = setTimeout(() => { menu.classList.remove('is-closing'); menu.open = false; setOpen(false); }, reduce ? 150 : 200);
     };
-    let current = 'offerte', timers = [], started = false;
-    const later = (fn, ms) => { timers.push(setTimeout(fn, ms)); };
-    const clearTimers = () => { timers.forEach(clearTimeout); timers = []; };
-    const el = (html) => { const t = document.createElement('template'); t.innerHTML = html.trim(); return t.content.firstElementChild; };
-    const esc = (s) => s.replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
-    const scrollDown = () => log.scrollTo({ top: log.scrollHeight, behavior: reduce ? 'auto' : 'smooth' });
-    const meMsg = (m) => el(`<li class="msg msg--me"><div class="bubble">${m.voice ? `<p class="voice"><svg class="voice-play" viewBox="0 0 16 16" aria-hidden="true"><path d="M5 3.2v9.6L12.6 8z"/></svg><span class="wave" aria-hidden="true">${WAVE.map((h) => `<i style="--h:${h}"></i>`).join('')}</span><span class="voice-len">${m.voice}</span></p>` : ''}<p>${esc(m.text)}</p><span class="time">${m.time}</span></div></li>`);
-    const agentMsg = (a) => el(`<li class="msg msg--agent"><span class="av" aria-hidden="true">${a.av}</span><div class="bubble"><p class="who">${a.name} <span>${a.dept}</span></p><p>${esc(a.text)}</p>${a.file ? `<p class="file"><span class="file-ic" aria-hidden="true">${a.file[1].includes('mail') ? 'MAIL' : 'PDF'}</span><span>${esc(a.file[0])}<br><small>${esc(a.file[1])}</small></span></p>` : ''}<span class="time">${a.time}</span></div></li>`);
-    const cosMsg = (c) => el(`<li class="msg msg--cos"><span class="av av--cos" aria-hidden="true">CS</span><div class="bubble"><p class="who">Chief of Staff</p><p>${esc(c.text)}</p><div class="choice"><button type="button" class="ch ch--yes" data-choice="yes">Goedkeuren</button><button type="button" class="ch" data-choice="wait">Wacht</button></div><span class="time">${c.time}</span></div></li>`);
-    const typingMsg = (a) => el(`<li class="msg msg--agent typing"><span class="av" aria-hidden="true">${a.av}</span><div class="bubble"><span class="dots" aria-hidden="true"><i></i><i></i><i></i></span><span class="sr-only">${a.name} typt</span></div></li>`);
-    const replyMsg = (text, ok, time) => el(`<li class="msg msg--cos"><span class="av av--cos" aria-hidden="true">CS</span><div class="bubble"><p class="who">Chief of Staff</p><p class="reply${ok ? ' reply--ok' : ''}">${esc(text)}</p><span class="time">${time}</span></div></li>`);
-    const add = (node) => { if (!reduce) node.classList.add('is-new'); log.appendChild(node); scrollDown(); return node; };
-    const plusMinutes = (t, n) => { const [h, m] = t.split(':').map(Number); const d = h * 60 + m + n; return `${String(Math.floor(d / 60)).padStart(2, '0')}:${String(d % 60).padStart(2, '0')}`; };
-    const flow = (from, to) => { if (hq) hq.flow(from, to); };
-
-    function offerNext(focusFirst) {
-      const others = Object.keys(SCENES).filter((k) => k !== current);
-      const row = el(`<li class="chat-next"><p>Geef nog een taak door</p><div class="chips">${others.map((k) => `<button type="button" class="chip" data-scene="${k}">${SCENES[k].chip}</button>`).join('')}</div></li>`);
-      add(row);
-      if (focusFirst) $('.chip', row).focus({ preventScroll: true });
-    }
-    function decide(btn) {
-      const msg = btn.closest('.msg');
-      if (!msg || msg.dataset.done) return;
-      msg.dataset.done = '1';
-      const ok = btn.dataset.choice === 'yes';
-      $$('.ch', msg).forEach((b) => b.setAttribute('aria-disabled', 'true'));
-      btn.classList.add('is-chosen');
-      const sc = SCENES[current];
-      const keyboard = btn.matches(':focus-visible');
-      if (ok) flow(5, sc.floor); // het akkoord reist van de Chief of Staff naar de afdeling
-      later(() => { add(replyMsg(ok ? sc.yes : sc.wait, ok, plusMinutes(sc.cos.time, 2))); later(() => offerNext(keyboard), reduce ? 0 : 500); }, reduce ? 0 : 350);
-    }
-    function play(key, focusCard) {
-      clearTimers();
-      current = key;
-      const sc = SCENES[key];
-      $$('.msg, .chat-next', log).forEach((n) => n.remove());
-      const steps = [
-        () => add(meMsg(sc.me)),
-        () => { add(typingMsg(sc.agent)); flow(5, sc.floor); },
-        () => { const t = $('.typing', log); if (t) t.remove(); add(agentMsg(sc.agent)); },
-        () => { const c = add(cosMsg(sc.cos)); flow(sc.floor, 5); if (focusCard) $('.ch--yes', c).focus({ preventScroll: true }); }
-      ];
-      if (reduce) { steps.forEach((s, i) => { if (i !== 1) s(); }); return; }
-      [250, 1000, 2100, 3000].forEach((ms, i) => later(steps[i], ms));
-    }
-    // het gesprek speelt zich af zodra de bovenste verdieping in beeld komt (niet op de gsm: daar staat het er meteen)
-    const first = $$('.msg[data-step]', log);
-    const run = () => {
-      if (started) return; started = true;
-      const show = (i) => { first[i].classList.remove('is-pending'); first[i].classList.add('is-new'); scrollDown(); };
-      later(() => show(0), 300);
-      later(() => { add(typingMsg(SCENES.offerte.agent)); flow(5, 0); }, 1100);
-      later(() => { const t = $('.typing', log); if (t) t.remove(); show(1); }, 2200);
-      later(() => { show(2); flow(0, 5); }, 3100);
-    };
-    if (!calm && 'IntersectionObserver' in window) {
-      first.forEach((m) => m.classList.add('is-pending'));
-      const io = new IntersectionObserver((en) => { if (en[0].isIntersecting) { run(); io.disconnect(); } }, { threshold: 0.35 });
-      io.observe(chat);
-    }
-    chat.addEventListener('click', (e) => {
-      const ch = e.target.closest('.ch');
-      if (ch && ch.getAttribute('aria-disabled') !== 'true') { decide(ch); return; }
-      const chip = e.target.closest('.chip');
-      if (chip) play(chip.dataset.scene, chip.matches(':focus-visible'));
+    menu.addEventListener('toggle', () => {
+      setOpen(menu.open);
+      if (menu.open) { menu.classList.remove('is-closing'); const first = $('.menu-nav a', panel); if (first) first.focus({ preventScroll: true }); }
     });
+    // de knop: sluiten met een korte fade (openen doet details zelf)
+    btn.addEventListener('click', (e) => { if (menu.open) { e.preventDefault(); close(false); btn.focus({ preventScroll: true }); } });
+    // een link sluit het menu meteen; daarna scrolt de browser naar de sectie (of opent het venster gratis analyse)
+    panel.addEventListener('click', (e) => { if (e.target.closest('a')) close(true); });
+    // klik op de gedimde pagina naast het paneel (desktop): dat is het ::before van het menu zelf
+    menu.addEventListener('click', (e) => { if (e.target === menu) close(false); });
+    document.addEventListener('click', (e) => { if (menu.open && !menu.contains(e.target)) close(false); });
+    document.addEventListener('keydown', (e) => {
+      if (!menu.open) return;
+      if (e.key === 'Escape') { e.preventDefault(); close(false); btn.focus({ preventScroll: true }); return; }
+      if (e.key !== 'Tab') return;
+      const f = focusables(); const i = f.indexOf(document.activeElement);
+      if (e.shiftKey && (i <= 0)) { e.preventDefault(); f[f.length - 1].focus({ preventScroll: true }); }
+      else if (!e.shiftKey && i === f.length - 1) { e.preventDefault(); f[0].focus({ preventScroll: true }); }
+    });
+    window.matchMedia('(min-width: 1100px)').addEventListener('change', () => close(true));
   }
 
-  /* ---------- ticker: naadloos lopen, pauzeerbaar ---------- */
-  const ticker = $('.ticker');
-  if (ticker) {
-    const track = $('.ticker-track', ticker);
-    if (!calm) $$('li', track).forEach((li) => { const c = li.cloneNode(true); c.setAttribute('aria-hidden', 'true'); track.appendChild(c); });
-    const btn = $('.ticker-btn', ticker);
-    btn.addEventListener('click', () => { const p = ticker.classList.toggle('is-paused'); btn.setAttribute('aria-pressed', String(p)); btn.textContent = p ? 'Verder' : 'Pauze'; });
+  /* ---------- welke sectie actief is: in de menubalk en in het menu ---------- */
+  const navLinks = $$('.bar-nav a, .menu-nav a');
+  const secs = [...new Set(navLinks.map((a) => (a.getAttribute('href') || '').split('#')[1]).filter(Boolean))].map((id) => document.getElementById(id)).filter(Boolean);
+  if (secs.length && 'IntersectionObserver' in window) {
+    const mark = (id) => navLinks.forEach((a) => { if (id && a.getAttribute('href').endsWith('#' + id)) a.setAttribute('aria-current', 'true'); else a.removeAttribute('aria-current'); });
+    const vis = new Map();
+    const io = new IntersectionObserver((en) => {
+      en.forEach((e) => vis.set(e.target.id, e.isIntersecting));
+      const cur = secs.find((s) => vis.get(s.id));
+      mark(cur ? cur.id : null);
+    }, { rootMargin: '-40% 0px -55% 0px', threshold: 0 });
+    secs.forEach((s) => io.observe(s));
   }
 
-  /* ---------- stel je team samen: gekozen afdelingen lichten op als verdiepingen ---------- */
-  const builder = $('.builder');
-  if (builder) {
+  /* ---------- hero: het scherm speelt één taak af ----------
+     Een mail van een klant komt binnen, de Offertemaker zet de offerte klaar, de Chief of Staff legt de beslissing
+     voor en de bezoeker kiest zelf. De HTML staat al op de vraag: zo ziet iemand het zonder JavaScript of met minder
+     beweging. Alles beweegt met opacity en transform op vaste plaatsen, dus niets verspringt (CLS 0). */
+  const scr = $('.scr');
+  if (scr) {
+    const cards = [$('.scr-mail', scr), $('.scr-agent', scr), $('.scr-cos', scr)];
+    const steps = $$('.scr-steps li', scr), file = $('.scr-file', scr);
+    const mailSt = $('.scr-mail-st', scr), agentSt = $('.scr-agent-st', scr);
+    const now = $('.scr-now', scr), reply = $('.scr-reply', scr), logT = $('.scr-log-t', scr), again = $('.scr-again', scr);
+    const btns = $$('.scr-act .ch', scr);
+    const LOG0 = logT.textContent;
+    const KEUZE = {
+      yes: { reply: 'Verstuurd om 09:14. Opvolging staat op donderdag.', log: '09:14 · Verstuurd na jouw akkoord' },
+      wait: { reply: 'Ze blijft klaarstaan. Ik vraag het je morgen om 08:00 opnieuw.', log: '09:14 · In de wacht tot morgen 08:00' }
+    };
+    let timers = [];
+    const later = (fn, ms) => { timers.push(setTimeout(fn, ms)); };
+    const stop = () => { timers.forEach(clearTimeout); timers = []; };
+    const setSt = (el, text, kind) => { el.classList.remove('st--new', 'st--busy', 'st--ok'); el.classList.add(`st--${kind}`); el.textContent = text; };
+    const stepOn = (i) => steps[i] && steps[i].classList.add('is-on');
+    const stepDone = (i) => { steps[i].classList.remove('is-on'); steps[i].classList.add('is-done'); };
+    // ronde 4: het scherm meldt elke stap, zodat de beweging eromheen in de maat blijft (zie "hero: het hele team werkt mee")
+    const emit = (k) => scr.dispatchEvent(new CustomEvent('scr', { detail: k }));
+
+    // de vraag: alles staat klaar, de knoppen zijn open
+    const atQuestion = () => {
+      scr.classList.remove('is-empty');
+      cards.forEach((c) => { c.classList.add('is-in'); c.classList.remove('is-hot'); });
+      steps.forEach((li, i) => stepDone(i));
+      file.classList.add('is-on'); cards[1].classList.add('is-done');
+      setSt(mailSt, 'Opgenomen', 'ok'); setSt(agentSt, 'Klaar', 'ok');
+      scr.classList.remove('is-typing'); scr.classList.add('is-asking');
+      now.textContent = '09:13';
+      emit('static');
+    };
+    const reset = () => {
+      stop();
+      scr.classList.remove('is-asking', 'is-typing', 'is-decided', 'is-done', 'is-yes', 'is-wait');
+      btns.forEach((b) => { b.removeAttribute('aria-disabled'); b.classList.remove('is-chosen'); });
+      reply.textContent = ''; logT.textContent = LOG0;
+      emit('reset');
+    };
+    // stap 0: nog niets binnen
+    const prime = () => {
+      cards.forEach((c) => c.classList.remove('is-in', 'is-hot', 'is-done'));
+      steps.forEach((li) => li.classList.remove('is-on', 'is-done'));
+      file.classList.remove('is-on');
+      setSt(mailSt, 'Nieuw', 'new'); setSt(agentSt, 'Bezig', 'busy');
+      now.textContent = '08:56';
+      scr.classList.add('is-empty');
+    };
+    const play = (focusAfter) => {
+      reset();
+      if (reduce) { atQuestion(); if (focusAfter) btns[0].focus({ preventScroll: true }); return; }
+      prime();
+      emit('start');
+      const T = [
+        [300, () => { scr.classList.remove('is-empty'); cards[0].classList.add('is-in', 'is-hot'); now.textContent = '08:57'; emit('mail'); }],
+        [1400, () => { setSt(mailSt, 'Opgenomen', 'ok'); cards[0].classList.remove('is-hot'); cards[1].classList.add('is-in', 'is-hot'); stepOn(0); emit('agent'); }],
+        [2150, () => { stepDone(0); stepOn(1); now.textContent = '09:03'; }],
+        [2950, () => { stepDone(1); stepOn(2); now.textContent = '09:08'; }],
+        [3750, () => { stepDone(2); file.classList.add('is-on'); cards[1].classList.add('is-done'); setSt(agentSt, 'Klaar', 'ok'); now.textContent = '09:12'; emit('done'); }],
+        [4300, () => { cards[1].classList.remove('is-hot'); cards[2].classList.add('is-in'); scr.classList.add('is-typing'); now.textContent = '09:13'; emit('typing'); }],
+        [5100, () => { scr.classList.remove('is-typing'); scr.classList.add('is-asking'); emit('ask'); if (focusAfter) btns[0].focus({ preventScroll: true }); }]
+      ];
+      T.forEach(([ms, fn]) => later(fn, ms));
+    };
+    const decide = (btn) => {
+      if (!scr.classList.contains('is-asking') || scr.classList.contains('is-decided')) return;
+      const k = btn.dataset.keuze, keyboard = btn.matches(':focus-visible');
+      scr.classList.add('is-decided', `is-${k}`);
+      btns.forEach((b) => b.setAttribute('aria-disabled', 'true'));
+      btn.classList.add('is-chosen');
+      emit(k);
+      later(() => {
+        reply.textContent = KEUZE[k].reply; logT.textContent = KEUZE[k].log; now.textContent = '09:14';
+        scr.classList.add('is-done');
+        if (keyboard) again.focus({ preventScroll: true });
+      }, reduce ? 0 : 320);
+    };
+    btns.forEach((b) => b.addEventListener('click', () => decide(b)));
+    again.addEventListener('click', () => play(again.matches(':focus-visible')));
+
+    /* ---------- hero: het hele team werkt mee (ronde 4, 3/11/2026) ----------
+       Rond het scherm: kaartjes van andere afdelingen (twee lagen), een lijn langs de zijbalk met lichtpulsen naar de Chief of
+       Staff, een gloed bij de vraag en een puls na de keuze; het scherm kantelt licht mee met de muis (desktop). Alleen
+       transform en opacity. Pauzeert buiten beeld en in een verborgen tabblad. Met minder beweging blijft dit een stil beeld. */
+    const fig = scr.closest('.hero-fig');
+    const front = fig && $('.hs-front', fig), back = fig && $('.hs-back', fig);
+    if (fig && front && back) {
+      const svg = $('.hs-lines', front), pulse = $('.hs-pulse', front), ring = $('.hs-ring', front), halo = $('.hs-halo', back);
+      const blobs = $$('.hs-blob', back);
+      const slot = (n) => $(`.hs-card[data-slot="${n}"]`, fig);
+      const dot = (d) => $(`.app-side [data-d="${d}"] .sd`, scr);
+      const TASK = { plan: ['Planner', '3 plaatsbezoeken'], adm: ['Factuurjager', '4 herinneringen'], ks: ['Storingsdesk', 'een antwoord'], mkt: ['Reviewvrager', 'een reviewvraag'] };
+      const phone = window.matchMedia('(max-width: 720px)');
+      let P = {}, st = [], live = true;
+      const at = (fn, ms) => { st.push(setTimeout(fn, ms)); };
+      const clear = () => { st.forEach(clearTimeout); st = []; };
+      // posities meten (zonder transform: offsetLeft/Top) en de lijn tekenen
+      const layout = () => {
+        const app = scr, side = $('.app-side', app);
+        fig.style.setProperty('--app-h', `${app.offsetHeight}px`);
+        front.style.height = back.style.height = `${app.offsetHeight}px`;
+        P = {};
+        if (!side || getComputedStyle(side).display === 'none') { svg.innerHTML = ''; return; }
+        $$('li[data-d]', side).forEach((li) => { const d = $('.sd', li); P[li.dataset.d] = { x: app.offsetLeft + d.offsetLeft + d.offsetWidth / 2, y: app.offsetTop + d.offsetTop + d.offsetHeight / 2 }; });
+        const x = P.cos.x, n1 = Math.round(P.adm.y + 40), n2 = n1 + 86, nx = Math.round(x + 13);
+        fig.style.setProperty('--n1', `${n1}px`); fig.style.setProperty('--n2', `${n2}px`); fig.style.setProperty('--n-x', `${nx}px`);
+        P.n1 = { x, y: n1 + 21, cx: nx }; P.n2 = { x, y: n2 + 21, cx: nx };
+        const W = fig.offsetWidth, H = app.offsetHeight;
+        svg.setAttribute('width', W); svg.setAttribute('height', H); svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
+        svg.innerHTML = `<defs><linearGradient id="hs-g" gradientUnits="userSpaceOnUse" x1="0" y1="${P.cos.y}" x2="0" y2="${P.n2.y}"><stop offset="0" stop-color="#2f7bff"/><stop offset=".5" stop-color="#13c7e6"/><stop offset="1" stop-color="#2ff0a6"/></linearGradient></defs>`
+          + `<path stroke="url(#hs-g)" stroke-opacity=".55" d="M${x} ${P.cos.y + 7}V${P.n2.y}M${x} ${P.n1.y}H${nx}M${x} ${P.n2.y}H${nx}"/>`;
+      };
+      // een lichtpuls langs de lijn naar de Chief of Staff (transform en opacity, WAAPI)
+      const send = (from) => {
+        const a = P[from], c = P.cos;
+        if (!a || !c || !pulse.animate || !live) return;
+        const k = [{ transform: `translate3d(${a.cx || a.x}px,${a.y}px,0)`, opacity: 0 }];
+        k.push({ transform: `translate3d(${a.x}px,${a.y}px,0)`, opacity: 1, offset: a.cx ? 0.18 : 0.1 });
+        k.push({ transform: `translate3d(${c.x}px,${c.y + 2}px,0)`, opacity: 1, offset: 0.92 }, { transform: `translate3d(${c.x}px,${c.y}px,0)`, opacity: 0 });
+        const dur = 360 + Math.abs(a.y - c.y) * 2.4;
+        pulse.animate(k, { duration: dur, easing: 'cubic-bezier(.4,0,.2,1)' });
+        at(() => { const d = dot('cos'); if (d) { d.classList.add('is-hit'); at(() => d.classList.remove('is-hit'), 650); } }, dur * 0.9);
+      };
+      const side = (d, state) => { const el = dot(d); if (el) { el.classList.toggle('is-busy', state === 'busy'); el.classList.toggle('is-done', state === 'done'); } };
+      const card = (n, task, state) => {
+        const el = slot(n); if (!el) return;
+        const [who, what] = TASK[task];
+        const show = () => { $('b', el).textContent = who; $('.hs-c2', el).textContent = what; el.dataset.task = task; el.classList.remove('is-done', 'is-busy'); el.classList.add(`is-${state}`); el.classList.remove('is-out'); };
+        if (el.dataset.task && el.dataset.task !== task && !el.classList.contains('is-out')) { el.classList.add('is-out'); at(show, 650); } else show();
+      };
+      const done = (n, task, pulseFrom) => { const el = slot(n); if (el) { el.classList.remove('is-busy'); el.classList.add('is-done'); } side(task, 'done'); if (pulseFrom) send(pulseFrom); };
+      // alles uit: kaartjes weg, bolletjes neutraal
+      const blank = () => { clear(); ['n1', 'n2', 'f1', 'f2'].forEach((n) => { const el = slot(n); if (el) { el.classList.add('is-out'); delete el.dataset.task; } }); ['sales', 'plan', 'ks', 'mkt', 'adm'].forEach((d) => side(d, null)); halo.classList.remove('is-on'); };
+      // daarna rustig verder: om de beurt een kaartje weg, een nieuwe taak, even later klaar
+      const ORDER = [['n1', 'ks'], ['f1', 'adm'], ['n2', 'mkt'], ['f2', 'plan'], ['n1', 'adm'], ['f1', 'mkt'], ['n2', 'plan'], ['f2', 'ks']];
+      let ai = 0;
+      const ambient = () => {
+        if (!live || phone.matches) return;
+        const pair = ORDER[ai % ORDER.length];
+        const n = pair[0], t = pair[1];
+        ai += 1;
+        card(n, t, 'busy'); side(t, 'busy');
+        at(() => done(n, t, n.charAt(0) === 'n' ? n : null), 2600);
+        at(ambient, 4300);
+      };
+      // de choreografie, in de maat van het scherm (mail 300, agent 1400, klaar 3750, typen 4300, vraag 5100 ms)
+      const run = () => {
+        blank();
+        if (phone.matches) return; // gsm: geen kaartjes (3/11, op vraag van Martijn: het kaartje boven het scherm oogde als een fout)
+        at(() => { card('f1', 'ks', 'busy'); side('ks', 'busy'); }, 350);
+        at(() => { card('n1', 'plan', 'busy'); side('plan', 'busy'); }, 1000);
+        at(() => { card('n2', 'adm', 'busy'); side('adm', 'busy'); }, 2300);
+        at(() => done('n1', 'plan', 'n1'), 2750);
+        at(() => done('f1', 'ks', 'ks'), 3350);
+        at(() => { card('f2', 'mkt', 'busy'); side('mkt', 'busy'); }, 4400);
+        at(() => done('n2', 'adm', 'n2'), 4800);
+        at(() => done('f2', 'mkt'), 6600);
+        at(ambient, 8200);
+      };
+      scr.addEventListener('scr', (e) => {
+        const k = e.detail;
+        if (k === 'start') run();
+        if (k === 'agent') side('sales', 'busy');
+        if (k === 'done') { side('sales', 'done'); send('sales'); }
+        if (k === 'ask') halo.classList.add('is-on');
+        if (k === 'reset') halo.classList.remove('is-on');
+        if ((k === 'yes' || k === 'wait') && ring.animate && !reduce) {
+          halo.classList.remove('is-on');
+          const yes = k === 'yes';
+          ring.style.setProperty('--ring', yes ? 'rgba(47,240,166,.9)' : 'rgba(19,199,230,.7)');
+          ring.style.setProperty('--ring-g', yes ? 'rgba(47,240,166,.5)' : 'rgba(19,199,230,.35)');
+          ring.animate([{ transform: 'scale(1)', opacity: yes ? 0.95 : 0.7 }, { transform: `scale(${yes ? 1.06 : 1.035})`, opacity: 0 }], { duration: yes ? 1300 : 1900, easing: 'cubic-bezier(.2,.7,.2,1)' });
+        }
+      });
+      // muis-kanteling met een zachte veer (desktop met muis); de lagen bewegen elk anders
+      const tiltOK = window.matchMedia('(hover: hover) and (pointer: fine) and (min-width: 1100px)');
+      let tx = 0, ty = 0, cx = 0, cy = 0, vx = 0, vy = 0, raf = 0;
+      const apply = () => {
+        const tr = `perspective(1600px) rotateX(${(-cy * 2.2).toFixed(3)}deg) rotateY(${(cx * 3.2).toFixed(3)}deg)`;
+        scr.style.transform = tr; front.style.transform = tr;
+        back.style.transform = `translate3d(${(-cx * 9).toFixed(2)}px,${(-cy * 7).toFixed(2)}px,0)`;
+        if (blobs[0]) blobs[0].style.translate = `${(cx * 16).toFixed(1)}px ${(cy * 12).toFixed(1)}px`;
+        if (blobs[1]) blobs[1].style.translate = `${(-cx * 22).toFixed(1)}px ${(-cy * 16).toFixed(1)}px`;
+      };
+      const step = () => {
+        vx = (vx + (tx - cx) * 0.05) * 0.82; vy = (vy + (ty - cy) * 0.05) * 0.82;
+        cx += vx; cy += vy; apply();
+        raf = (Math.abs(vx) + Math.abs(vy) + Math.abs(tx - cx) + Math.abs(ty - cy) > 0.0006) && live ? requestAnimationFrame(step) : 0;
+      };
+      const kick = () => { if (!raf && live) raf = requestAnimationFrame(step); };
+      const hero = fig.closest('.hero') || fig;
+      hero.addEventListener('pointermove', (e) => {
+        if (!tiltOK.matches || reduce) return;
+        const r = fig.getBoundingClientRect();
+        tx = Math.max(-1, Math.min(1, (e.clientX - (r.left + r.width / 2)) / (r.width / 2 + 200)));
+        ty = Math.max(-1, Math.min(1, (e.clientY - (r.top + r.height / 2)) / (r.height / 2 + 160)));
+        kick();
+      }, { passive: true });
+      hero.addEventListener('pointerleave', () => { tx = 0; ty = 0; kick(); });
+      // pauzeren buiten beeld of in een verborgen tabblad
+      let inView = true;
+      const setLive = (v) => {
+        if (v === live) return;
+        live = v; fig.classList.toggle('hs-paused', !v);
+        if (!v) { clear(); if (raf) { cancelAnimationFrame(raf); raf = 0; } }
+        else if (!reduce && (scr.classList.contains('is-asking') || scr.classList.contains('is-done'))) at(ambient, 1200);
+      };
+      if ('IntersectionObserver' in window) new IntersectionObserver((en) => { inView = en[0].isIntersecting; setLive(inView && !document.hidden); }).observe(hero);
+      document.addEventListener('visibilitychange', () => setLive(inView && !document.hidden));
+      layout();
+      let rz = 0;
+      window.addEventListener('resize', () => { clearTimeout(rz); rz = setTimeout(layout, 150); }, { passive: true });
+      if (document.fonts && document.fonts.ready) document.fonts.ready.then(layout);
+      // minder beweging: een stil beeld (kaartjes op klaar, de lijn staat er, geen puls)
+      if (reduce) ['sales', 'plan', 'adm', 'ks', 'mkt'].forEach((d) => side(d, 'done'));
+    }
+
+    scr.classList.add('is-live');
+    if (reduce) atQuestion();
+    else {
+      prime();
+      // pas afspelen als het scherm echt in beeld is (op de gsm staat het onder de knop)
+      if ('IntersectionObserver' in window) {
+        const io = new IntersectionObserver((en) => { if (en.some((e) => e.isIntersecting)) { io.disconnect(); play(false); } }, { threshold: 0.35 });
+        io.observe(scr);
+      } else play(false);
+    }
+  }
+
+  /* ---------- zo werkt het: de keuze bij de Chief of Staff ---------- */
+  const how = $('.how-resp--cos');
+  if (how) {
+    const hb = $$('.ch', how), out = $('.how-reply', how);
+    const TXT = { yes: 'Goedgekeurd. De 3 plaatsbezoeken staan in de agenda.', wait: 'In de wacht. De voorstellen blijven klaarstaan tot jij beslist.' };
+    hb.forEach((b) => b.addEventListener('click', () => {
+      if (b.getAttribute('aria-disabled') === 'true') return;
+      hb.forEach((x) => x.setAttribute('aria-disabled', 'true'));
+      b.classList.add('is-chosen');
+      out.classList.toggle('is-wait', b.dataset.plan === 'wait');
+      out.textContent = TXT[b.dataset.plan];
+    }));
+  }
+
+  /* ---------- stel je team samen: per afdeling opnemen, links verschijnt het pakket ---------- */
+  const team = $('.team');
+  if (team) {
+    // dezelfde voorbeeldagents als in de tekst van elke afdeling (ronde 2, 3/11/2026: Vragenbeantwoorder en Marge-analist
+    // stonden alleen hier, niet op de pagina)
     const DEPS = {
       sales: { name: 'Sales en opvolging', agents: ['Leadopvolger', 'Offertemaker', 'Afsprakenplanner'] },
       plan: { name: 'Planning', agents: ['Planner', 'Weerwacht', 'Materiaalbesteller'] },
-      ks: { name: 'Klantenservice', agents: ['Storingsdesk', 'Onderhoudsherinnering', 'Vragenbeantwoorder'] },
+      ks: { name: 'Klantenservice', agents: ['Storingsdesk', 'Onderhoudsherinnering'] },
       mkt: { name: 'Marketing', agents: ['Reviewvrager', 'Advertentie-opvolger', 'E-mailschrijver'] },
-      adm: { name: 'Administratie', agents: ['Factuurjager', 'Dossier-checker', 'Marge-analist'] }
+      adm: { name: 'Administratie', agents: ['Factuurjager', 'Dossier-checker'] }
     };
     const ORDER = ['sales', 'plan', 'ks', 'mkt', 'adm'];
     const PACKS = {
@@ -301,30 +436,92 @@
       groei: { name: 'Groei', price: '€7.500 setup', month: '+ €1.500 per maand', note: 'Met de Chief of Staff, die samenvat en je de beslissingen voorlegt, en het dashboard.' },
       volledig: { name: 'Volledig', price: 'vanaf €15.000 setup', month: '+ vanaf €2.500 per maand', note: 'Met integraties op maat en alles uit Groei. Het aantal agents en de precieze prijs volgen uit de analyse.' }
     };
-    const chips = $$('.chip-dep', builder);
-    const floors = $$('.bld--builder .fl', builder);
-    const out = { name: $('.b-name', builder), count: $('.b-count', builder), price: $('.b-price', builder), note: $('.b-note', builder), agents: $('.b-agents', builder) };
-    const render = (justAdded) => {
-      const sel = ORDER.filter((k) => chips.find((c) => c.dataset.dep === k).getAttribute('aria-pressed') === 'true');
+    const picks = $$('.pick', team);
+    const out = { name: $('.b-name', team), count: $('.b-count', team), price: $('.b-price', team), note: $('.b-note', team), agents: $('.b-agents', team) };
+    const outs = $$('.pick-out', team); // gsm en tablet: je pakket naast elke knop (op desktop staat het links)
+    let cur = null;
+    const markCur = () => $$('li', out.agents).forEach((li) => li.classList.toggle('is-cur', li.dataset.dep === cur));
+    const render = () => {
+      const sel = ORDER.filter((k) => picks.find((c) => c.dataset.dep === k).getAttribute('aria-pressed') === 'true');
       const n = sel.length;
-      floors.forEach((f) => {
-        const on = f.dataset.dep === 'cs' ? n >= 2 : sel.includes(f.dataset.dep);
-        f.classList.toggle('lit', on);
-        f.classList.toggle('pop', on && f.dataset.dep === justAdded);
-      });
       if (!n) {
-        out.name.textContent = 'Kies een afdeling'; out.count.textContent = ''; out.price.innerHTML = '';
-        out.note.textContent = 'Kies hierboven een of meer afdelingen, dan zie je welk pakket past.'; out.agents.innerHTML = '';
+        out.name.textContent = 'Kies een afdeling'; out.count.textContent = 'nog geen afdeling'; out.price.innerHTML = '';
+        out.note.textContent = 'Kies een of meer afdelingen, dan zie je welk pakket past.'; out.agents.innerHTML = '';
+        outs.forEach((o) => { o.textContent = 'Nog geen afdeling gekozen'; });
         return;
       }
       const p = n === 1 ? PACKS.start : n <= 3 ? PACKS.groei : PACKS.volledig;
       out.name.textContent = p.name;
-      out.count.textContent = `${n} ${n === 1 ? 'afdeling' : 'afdelingen'}, ${n * 3} voorbeeldagents`;
+      const agents = sel.reduce((t, k) => t + DEPS[k].agents.length, 0);
+      out.count.textContent = `${n} ${n === 1 ? 'afdeling' : 'afdelingen'}, ${agents} voorbeeldagent${agents === 1 ? '' : 's'}`;
       out.price.innerHTML = `${p.price} <span>${p.month}</span>`;
       out.note.textContent = p.note;
-      out.agents.innerHTML = sel.map((k) => `<li><b>${DEPS[k].name}</b> ${DEPS[k].agents.join(', ')}</li>`).join('');
+      out.agents.innerHTML = sel.map((k) => `<li data-dep="${k}"><b>${DEPS[k].name}</b> ${DEPS[k].agents.join(', ')}</li>`).join('');
+      outs.forEach((o) => { o.textContent = `Jouw opzet: ${p.name}, ${p.price} ${p.month}`; });
+      markCur();
     };
-    chips.forEach((c) => c.addEventListener('click', () => { const on = c.getAttribute('aria-pressed') !== 'true'; c.setAttribute('aria-pressed', String(on)); render(on ? c.dataset.dep : null); }));
-    render(null);
+    picks.forEach((c) => c.addEventListener('click', () => { c.setAttribute('aria-pressed', String(c.getAttribute('aria-pressed') !== 'true')); render(); }));
+    render();
+
+    if ('IntersectionObserver' in window) {
+      // de afdeling die je nu leest, licht op in je opzet (rustig, alleen een kleur)
+      const deps = $$('.dep', team);
+      const io = new IntersectionObserver((en) => {
+        en.forEach((e) => { if (e.isIntersecting) { cur = e.target.dataset.dep; markCur(); deps.forEach((d) => d.classList.toggle('is-cur', d.dataset.dep === cur)); } });
+      }, { rootMargin: '-45% 0px -45% 0px', threshold: 0 });
+      deps.forEach((d) => io.observe(d));
+    }
+  }
+
+  /* ---------- vragen: één tegelijk open; op een breed scherm links de vragen en rechts het antwoord ---------- */
+  const faq = $('.faq');
+  if (faq) {
+    const qs = $$('details[name="faq"]', faq);
+    qs.forEach((d) => d.addEventListener('toggle', () => { if (d.open) qs.forEach((o) => { if (o !== d) o.open = false; }); }));
+    let ix = null;
+    const build = () => {
+      ix = document.createElement('div');
+      ix.className = 'faq-ix';
+      ix.setAttribute('role', 'tablist');
+      ix.setAttribute('aria-label', 'Vragen');
+      ix.setAttribute('aria-orientation', 'vertical');
+      const pane = document.createElement('div');
+      pane.className = 'faq-pane';
+      pane.id = 'faq-pane';
+      pane.setAttribute('role', 'tabpanel');
+      pane.innerHTML = '<p class="faq-pane-q"></p><div class="faq-pane-a"></div>';
+      const bs = qs.map((d, i) => {
+        const b = document.createElement('button');
+        b.type = 'button'; b.id = `faq-t${i}`;
+        b.setAttribute('role', 'tab'); b.setAttribute('aria-controls', 'faq-pane');
+        b.textContent = $('summary', d).textContent;
+        ix.appendChild(b);
+        return b;
+      });
+      const pick = (i, focus) => {
+        bs.forEach((b, j) => { b.setAttribute('aria-selected', String(i === j)); b.tabIndex = i === j ? 0 : -1; });
+        pane.setAttribute('aria-labelledby', bs[i].id);
+        const set = () => { $('.faq-pane-q', pane).textContent = bs[i].textContent; $('.faq-pane-a', pane).innerHTML = $('.a', qs[i]).innerHTML; pane.classList.remove('is-swap'); };
+        if (reduce || !pane.firstChild.textContent) set(); else { pane.classList.add('is-swap'); setTimeout(set, 150); }
+        if (focus) bs[i].focus();
+      };
+      bs.forEach((b, i) => {
+        b.addEventListener('click', () => pick(i));
+        b.addEventListener('keydown', (e) => {
+          const k = { ArrowDown: 1, ArrowRight: 1, ArrowUp: -1, ArrowLeft: -1 }[e.key];
+          if (k) { e.preventDefault(); pick((i + k + bs.length) % bs.length, true); }
+          if (e.key === 'Home') { e.preventDefault(); pick(0, true); }
+          if (e.key === 'End') { e.preventDefault(); pick(bs.length - 1, true); }
+        });
+      });
+      faq.append(ix, pane);
+      pick(0);
+    };
+    const apply = () => {
+      if (wide.matches) { if (!ix) build(); faq.classList.add('is-index'); }
+      else faq.classList.remove('is-index');
+    };
+    apply();
+    wide.addEventListener('change', apply);
   }
 })();

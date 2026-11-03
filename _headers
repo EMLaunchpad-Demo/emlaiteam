@@ -8,12 +8,10 @@ https://:worker.:account.workers.dev/*
   Referrer-Policy: strict-origin-when-cross-origin
   Permissions-Policy: camera=(), microphone=(), geolocation=()
 
-# css, js en de three-bundel krijgen een ?v= bij elke wijziging; lettertypes veranderen niet
+# css en js krijgen een ?v= bij elke wijziging; lettertypes veranderen niet
 /assets/css/*
   Cache-Control: public, max-age=31536000, immutable
 /assets/js/*
-  Cache-Control: public, max-age=31536000, immutable
-/assets/vendor/*
   Cache-Control: public, max-age=31536000, immutable
 /assets/fonts/*
   Cache-Control: public, max-age=31536000, immutable
