@@ -18,7 +18,7 @@ Wat in deze map staat, gaat online, behalve wat in `.assetsignore` staat (`_bron
 1. Pas `_bron/index.template.html` of `_bron/privacy.template.html` aan (of `_bron/maak-netwerk.mjs`).
 2. Bouw: `node _bron/maak-netwerk.mjs` (maakt `index.html`, `privacy.html`, `robots.txt` en `sitemap.xml`).
 3. Pas je `assets/css/site.css`, `assets/js/site.js`, `assets/js/hq3d.js` of de three-bundel aan, verhoog dan het `?v=`-nummer waar het bestand geladen wordt (in de twee templates en in `404.html`): css en js worden een jaar gecachet.
-4. Controle: lokale server die Cloudflare nabootst op poort 8765, dan `node controle/maak-launch.mjs` (consolefouten, zijwaarts scrollen op 320 tot 1920, links en ankers, venster, beelden in `controle/launch/`).
+4. Controle (de scripts staan in `controle/`, dat niet online en niet op GitHub gaat): `node controle/cfserver.mjs . 8765` (lokale server die Cloudflare nabootst: `/privacy`, 404-pagina, `.assetsignore`), dan `node controle/maak-launch.mjs` (consolefouten, zijwaarts scrollen op 320 tot 1920, links en ankers, venster, beelden in `controle/launch/`) en `node controle/cookies.mjs` (cookies en externe verzoeken, ook van het formulier en de agenda).
 
 ## Domein in één stap
 Het domein staat in de site op één plaats: de constante `DOMEIN` bovenaan `_bron/maak-netwerk.mjs` (nu `https://emlteam.eu`). Na het aanpassen opnieuw bouwen: canonical, hreflang, og:url, og:image, schema, `robots.txt` en `sitemap.xml` volgen vanzelf, op de homepage en de privacypagina. `404.html` en alle interne links gebruiken alleen paden (`/privacy`, `/#prijzen`), geen domein.
