@@ -792,3 +792,84 @@ html.ga-open{overflow:hidden}
   .ga-skel{grid-template-columns:1fr}
   .ga-frame,.ga-frame iframe{min-height:640px}
 }
+
+/* ================= ronde 5 (4/11/2026): achtergrond van de hero, variant 2 "Horizon" =================
+   Martijn: "iets mooier die donkerblauw met dat groen, en dan misschien zo'n witte neon lijnen erover, met glass effects".
+   Donkerblauw (--bg) met een lichtgevende horizon achter het scherm: erboven een mint- en cyaangloed, eronder een vloer met
+   een raster in perspectief (witte neonlijnen die naar het verdwijnpunt achter het scherm lopen). Eén groot glaspaneel achter
+   de tekst: matglas met blur, een lichtrand en een glans in de hoek; het raster loopt er wazig onder door. Beweging: de
+   dwarslijnen van de vloer schuiven heel traag naar voren en een lichtje glijdt af en toe over de horizon (alleen transform en
+   opacity). Pauzeert buiten beeld. Minder beweging: stil beeld. site.js zet --hz (horizon), --vx (verdwijnpunt), --hf (hoogte
+   van de vloer), --w (breedte) en het glaspaneel (--px, --py, --pw, --ph). */
+.hero{background:var(--grain),radial-gradient(34% 44% at 100% 0%,rgba(19,199,230,.24),rgba(19,199,230,0) 72%),radial-gradient(40% 56% at 0% 8%,rgba(47,123,255,.2),rgba(47,123,255,0) 72%),radial-gradient(44% 40% at 16% 30%,rgba(47,240,166,.08),rgba(47,240,166,0) 72%),var(--bg)} /* taste-skill-ignore: kleurveld van de hero (Martijn, ronde 5) */
+.hbg{position:absolute;inset:0;z-index:-1;pointer-events:none;overflow:hidden}
+.hbg-fade{position:absolute;left:0;right:0;bottom:0;height:200px;background:linear-gradient(180deg,rgba(9,13,20,0),var(--ink1))}
+/* de gloed boven de horizon, gecentreerd op het verdwijnpunt */
+.hz-sun{position:absolute;left:var(--vx,70%);top:var(--hz,52%);width:1500px;height:640px;margin:-640px 0 0 -750px;background:radial-gradient(56% 100% at 50% 100%,rgba(47,240,166,.5),rgba(19,199,230,.22) 40%,rgba(47,123,255,.08) 66%,rgba(47,123,255,0) 80%)} /* taste-skill-ignore: gloed boven de horizon (Martijn, ronde 5) */
+/* de vloer: weerschijn van de gloed, de lijnen naar het verdwijnpunt (svg) en de dwarslijnen die naar voren schuiven */
+.hz-floor{position:absolute;left:0;right:0;top:var(--hz,52%);bottom:0;overflow:hidden;background:radial-gradient(46% 70% at var(--vx,70%) 0,rgba(47,240,166,.2),rgba(19,199,230,.06) 46%,rgba(19,199,230,0) 72%),linear-gradient(180deg,rgba(6,10,18,0),rgba(6,10,18,.35))} /* taste-skill-ignore: weerschijn op de vloer */
+.hz-rays{position:absolute;left:0;top:0;overflow:visible}
+.hz-row{position:absolute;left:0;right:0;top:0;height:1px;background:linear-gradient(90deg,rgba(255,255,255,0),rgba(236,255,248,.62) 18%,rgba(236,255,248,.62) 82%,rgba(255,255,255,0));box-shadow:0 0 7px rgba(140,255,215,.4);opacity:0;will-change:transform,opacity} /* taste-skill-ignore: dwarslijn van de vloer (transform en opacity) */
+@media (prefers-reduced-motion:no-preference){
+  .hz-row{animation:hz-row 15s linear infinite;animation-delay:calc(var(--i) * -15s / 9)}
+  .hz-glint{animation:hz-glint 12s cubic-bezier(.4,0,.2,1) 2s infinite}
+  .hbg.is-paused .hz-row,.hbg.is-paused .hz-glint{animation-play-state:paused}
+}
+@keyframes hz-row{
+  0%{transform:translate3d(0,calc(var(--hf,480px) * .074),0);opacity:0}
+  10%{transform:translate3d(0,calc(var(--hf,480px) * .082),0);opacity:.22}
+  20%{transform:translate3d(0,calc(var(--hf,480px) * .091),0);opacity:.36}
+  30%{transform:translate3d(0,calc(var(--hf,480px) * .103),0);opacity:.48}
+  40%{transform:translate3d(0,calc(var(--hf,480px) * .118),0);opacity:.58}
+  50%{transform:translate3d(0,calc(var(--hf,480px) * .138),0);opacity:.68}
+  60%{transform:translate3d(0,calc(var(--hf,480px) * .167),0);opacity:.78}
+  70%{transform:translate3d(0,calc(var(--hf,480px) * .211),0);opacity:.88}
+  80%{transform:translate3d(0,calc(var(--hf,480px) * .286),0);opacity:.96}
+  90%{transform:translate3d(0,calc(var(--hf,480px) * .444),0);opacity:1}
+  95%{transform:translate3d(0,calc(var(--hf,480px) * .615),0);opacity:1}
+  100%{transform:translate3d(0,var(--hf,480px),0);opacity:1}
+}
+/* minder beweging: de dwarslijnen staan stil op hun plaats */
+@media (prefers-reduced-motion:reduce){
+  .hz-row{animation:none!important;opacity:var(--o);transform:translate3d(0,calc(var(--hf,480px) * var(--p)),0)}
+  .hz-row:nth-child(2){--p:.074;--o:0}.hz-row:nth-child(3){--p:.083;--o:.26}.hz-row:nth-child(4){--p:.093;--o:.4}
+  .hz-row:nth-child(5){--p:.107;--o:.52}.hz-row:nth-child(6){--p:.126;--o:.62}.hz-row:nth-child(7){--p:.152;--o:.74}
+  .hz-row:nth-child(8){--p:.194;--o:.85}.hz-row:nth-child(9){--p:.265;--o:.95}.hz-row:nth-child(10){--p:.418;--o:1}
+  .hz-glint{display:none}
+}
+/* de horizon: een witte neonlijn, het felst bij het verdwijnpunt */
+.hz-line{position:absolute;left:0;right:0;top:var(--hz,52%);height:1.5px;margin-top:-.75px;background:linear-gradient(90deg,rgba(255,255,255,0) 0,rgba(236,255,248,.45) calc(var(--vx,70%) - 46%),#fff var(--vx,70%),rgba(236,255,248,.45) calc(var(--vx,70%) + 46%),rgba(255,255,255,0) 100%);box-shadow:0 0 10px 1px rgba(150,255,220,.6),0 0 40px 6px rgba(47,240,166,.26),0 -30px 90px 10px rgba(47,240,166,.14)} /* taste-skill-ignore: horizon als neonlijn (Martijn, ronde 5) */
+.hz-glint{position:absolute;left:0;top:var(--hz,52%);width:240px;height:3px;margin:-1.5px 0 0 -120px;border-radius:3px;background:radial-gradient(closest-side,#fff,rgba(200,255,238,.7) 38%,rgba(47,240,166,0));box-shadow:0 0 22px 5px rgba(140,255,215,.32);opacity:0;will-change:transform,opacity} /* taste-skill-ignore: lichtje over de horizon (transform en opacity) */
+@keyframes hz-glint{
+  0%{transform:translate3d(calc(var(--w,1440px) * .06),0,0);opacity:0}
+  6%{opacity:1}
+  42%{opacity:1}
+  50%{transform:translate3d(calc(var(--w,1440px) * .96),0,0);opacity:0}
+  100%{transform:translate3d(calc(var(--w,1440px) * .96),0,0);opacity:0}
+}
+/* een zachte donkere vlek onder het bijschrift van het scherm (de lijnen van de vloer lopen daar anders door de tekst) */
+.hz-scrim{position:absolute;left:var(--kx);top:var(--ky);width:var(--kw);height:var(--kh);display:none;background:radial-gradient(closest-side,rgba(9,14,24,.92),rgba(9,14,24,.7) 55%,rgba(9,14,24,0))} /* taste-skill-ignore: leesbaarheid van het bijschrift */
+.hbg--2.is-set .hz-scrim{display:block}
+/* het glaspaneel achter de tekst (alleen als site.js het op de tekst gezet heeft) */
+.hz-pane{position:absolute;left:var(--px);top:var(--py);width:var(--pw);height:var(--ph);border-radius:30px;display:none;background:linear-gradient(165deg,rgba(255,255,255,.08),rgba(255,255,255,.016) 36%,rgba(255,255,255,.012) 70%,rgba(255,255,255,.035)),rgba(9,16,30,.3);-webkit-backdrop-filter:blur(18px) saturate(1.35);backdrop-filter:blur(18px) saturate(1.35);box-shadow:inset 0 1px 0 rgba(255,255,255,.22),inset 0 0 0 1px rgba(255,255,255,.05),0 60px 120px -50px rgba(0,0,0,.75)} /* taste-skill-ignore: één groot glaspaneel achter de tekst (Martijn, ronde 5) */
+.hz-pane::before{content:"";position:absolute;inset:0;border-radius:inherit;padding:1px;background:linear-gradient(145deg,rgba(255,255,255,.6),rgba(255,255,255,.08) 30%,rgba(255,255,255,0) 58%,rgba(47,240,166,.34));-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask:linear-gradient(#000 0 0) content-box exclude,linear-gradient(#000 0 0)} /* taste-skill-ignore: lichtrand van het glas */
+.hz-pane::after{content:"";position:absolute;inset:0;border-radius:inherit;background:radial-gradient(70% 46% at 0% 0%,rgba(255,255,255,.07),rgba(255,255,255,0) 70%)} /* taste-skill-ignore: glans in de hoek van het glas */
+.hbg--2.is-set .hz-pane{display:block}
+/* tablet en gsm: de horizon ligt in de smalle ruimte tussen de tekst en het scherm; een lagere gloed, zodat de prijsregel erboven
+   goed leesbaar blijft */
+@media (max-width:1099px){
+  .hz-sun{width:900px;height:240px;margin:-240px 0 0 -450px;background:radial-gradient(56% 100% at 50% 100%,rgba(47,240,166,.3),rgba(19,199,230,.12) 42%,rgba(47,123,255,0) 78%)} /* taste-skill-ignore: gloed boven de horizon (tablet en gsm) */
+  .hz-line{box-shadow:0 0 10px 1px rgba(150,255,220,.6),0 0 30px 4px rgba(47,240,166,.22)} /* taste-skill-ignore: horizon als neonlijn */
+  /* het glas staat op de horizon: onderaan iets donkerder, zodat de prijsregel voor de gloed goed leesbaar blijft */
+  .hz-pane{border-radius:28px 28px 22px 22px;background:linear-gradient(180deg,rgba(8,14,26,0) 46%,rgba(8,14,26,.34)),linear-gradient(165deg,rgba(255,255,255,.08),rgba(255,255,255,.016) 36%,rgba(255,255,255,.012) 70%,rgba(255,255,255,.035)),rgba(9,16,30,.3)} /* taste-skill-ignore: glaspaneel op de horizon (tablet en gsm) */
+}
+/* gsm: het glaspaneel loopt bijna van rand tot rand (de tekst vult de breedte) en heeft geen blur: achter het glas liggen daar
+   alleen zachte kleurvelden, dus een blur zou niets tonen en kost op een groot vlak wel rekenwerk. Een iets dichter glas met
+   dezelfde lichtrand en glans. */
+@media (max-width:720px){
+  .hz-sun{width:640px;height:150px;margin:-150px 0 0 -320px;background:radial-gradient(56% 100% at 50% 100%,rgba(47,240,166,.3),rgba(19,199,230,.1) 44%,rgba(47,123,255,0) 80%)} /* taste-skill-ignore: gloed boven de horizon (gsm) */
+  .hz-line{box-shadow:0 0 8px 1px rgba(150,255,220,.55),0 0 22px 2px rgba(47,240,166,.2)} /* taste-skill-ignore: horizon als neonlijn (gsm) */
+  .hz-pane{border-radius:24px 24px 18px 18px;-webkit-backdrop-filter:none;backdrop-filter:none;background:linear-gradient(180deg,rgba(8,14,26,0) 50%,rgba(8,14,26,.3)),linear-gradient(165deg,rgba(255,255,255,.085),rgba(255,255,255,.018) 34%,rgba(255,255,255,.01) 70%,rgba(255,255,255,.03)),rgba(12,21,38,.42);box-shadow:inset 0 1px 0 rgba(255,255,255,.2),inset 0 0 0 1px rgba(255,255,255,.05),0 40px 80px -40px rgba(0,0,0,.7)} /* taste-skill-ignore: glaspaneel op de gsm, zonder blur */
+}
+/* zonder blur-ondersteuning (tablet en desktop): een effen, donker vlak; staat achteraan zodat het voor de regels hierboven gaat */
+@supports not ((-webkit-backdrop-filter:blur(1px)) or (backdrop-filter:blur(1px))){@media (min-width:721px){.hz-pane{background:rgba(12,20,36,.86)}}} /* taste-skill-ignore: terugval zonder blur */

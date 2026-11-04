@@ -524,3 +524,79 @@
     wide.addEventListener('change', apply);
   }
 })();
+
+/* ---------- hero-achtergrond, variant 2 "Horizon" (ronde 5, 4/11/2026) ----------
+   Zet de horizon, het verdwijnpunt (achter het scherm) en het glaspaneel op de maat van de hero: de tekst en het scherm worden
+   opgemeten (offsets en de echte breedte van de tekstregels, dus zonder de kanteling of de laad-animatie). Tekent de lijnen
+   naar het verdwijnpunt (svg). De dwarslijnen en het lichtje zijn CSS-animaties (transform en opacity); ze pauzeren buiten
+   beeld en in een verborgen tabblad. Minder beweging: stil beeld (zie de css). */
+(() => {
+  'use strict';
+  const hero = document.querySelector('.hero'), bg = hero && hero.querySelector('.hbg--2');
+  if (!bg) return;
+  const svg = bg.querySelector('.hz-rays');
+  const off = (el) => { let x = 0, y = 0; while (el && el !== hero) { x += el.offsetLeft; y += el.offsetTop; el = el.offsetParent; } return { x, y }; };
+  const box = (sel) => { const e = hero.querySelector(sel); if (!e) return null; const o = off(e); return { x: o.x, y: o.y, w: e.offsetWidth, h: e.offsetHeight, r: o.x + e.offsetWidth, b: o.y + e.offsetHeight }; };
+  // links en rechts van de echte tekstregels (een tekstblok is vaak breder dan de tekst zelf)
+  const inkX = (els) => {
+    const hx = hero.getBoundingClientRect().left;
+    let l = Infinity, r = -Infinity;
+    els.forEach((el) => {
+      if (!el) return;
+      const rg = document.createRange(); rg.selectNodeContents(el);
+      [...rg.getClientRects()].forEach((q) => { if (q.width > 1) { l = Math.min(l, q.left - hx); r = Math.max(r, q.right - hx); } });
+      const b = el.querySelector('.btn'); if (b) { const q = b.getBoundingClientRect(); l = Math.min(l, q.left - hx); r = Math.max(r, q.right - hx); }
+    });
+    return { l, r };
+  };
+  const set = (k, v) => bg.style.setProperty(k, v);
+
+  const draw = () => {
+    const W = hero.offsetWidth, H = hero.offsetHeight;
+    const A = box('.hero-fig .app'), C = box('.hero-copy');
+    if (!A || !C) return;
+    const phone = W < 720, wide = W >= 1100;
+    // horizon: op desktop achter het scherm (iets onder het midden), op tablet en gsm in de ruimte tussen de tekst en het scherm
+    // tablet en gsm: het glaspaneel staat op de horizon (de onderrand van het glas is de neonlijn)
+    const L = box('.hero-lede'), B = box('.hero-act');
+    const py = wide ? 46 : phone ? 22 : 36;
+    const hz = Math.round(wide && L && B ? (L.b + B.y) / 2 : Math.min(C.b + py, C.b + (A.y - C.b) * 0.66));
+    const vx = Math.round(wide ? A.x + A.w * 0.5 : W * 0.5);
+    const hf = H - hz;
+    set('--hz', `${hz}px`); set('--vx', `${vx}px`); set('--hf', `${hf}px`); set('--w', `${W}px`);
+    // glaspaneel achter de tekst; op de gsm bijna van rand tot rand (de tekst vult daar de breedte)
+    {
+      const ink = inkX(['.kicker', 'h1', '.hero-lede', '.hero-act', '.hero-fact'].map((s) => hero.querySelector(`.hero-copy ${s}`)));
+      const px = Math.max(phone ? 10 : 16, Math.min(wide ? 50 : 40, ink.l - (phone ? 6 : 10)));
+      const x0 = Math.max(phone ? 6 : 8, Math.round(ink.l - px)), x1 = phone ? W - x0 : Math.min(wide ? A.x - 28 : W - 8, Math.round(ink.r + px));
+      const y0 = Math.round(C.y - (phone ? 18 : py)), y1 = wide ? Math.round(C.b + py) : hz;
+      set('--px', `${x0}px`); set('--py', `${y0}px`); set('--pw', `${x1 - x0}px`); set('--ph', `${y1 - y0}px`);
+    }
+    // lijnen van de vloer naar het verdwijnpunt: onderaan gelijk verdeeld, naar de horizon toe vervagend
+    const step = phone ? 58 : wide ? 92 : 76;
+    let rays = '';
+    for (let x = vx - Math.ceil((vx + W * 1.2) / step) * step; x <= W * 2.2; x += step) rays += `M${vx} 0L${x.toFixed(0)} ${hf}`;
+    svg.setAttribute('width', W); svg.setAttribute('height', hf); svg.setAttribute('viewBox', `0 0 ${W} ${hf}`);
+    svg.innerHTML = `<defs><linearGradient id="hz-g" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" y2="${hf}"><stop offset="0" stop-color="#eafff8" stop-opacity="0"/><stop offset=".12" stop-color="#eafff8" stop-opacity=".1"/><stop offset=".5" stop-color="#eafff8" stop-opacity=".42"/><stop offset="1" stop-color="#fff" stop-opacity=".7"/></linearGradient>`
+      + `<linearGradient id="hz-h" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" y2="${hf}"><stop offset="0" stop-color="#2ff0a6" stop-opacity="0"/><stop offset=".4" stop-color="#2ff0a6" stop-opacity=".12"/><stop offset="1" stop-color="#13c7e6" stop-opacity=".22"/></linearGradient></defs>`
+      + `<path d="${rays}" fill="none" stroke="url(#hz-h)" stroke-width="4"/><path d="${rays}" fill="none" stroke="url(#hz-g)" stroke-width="1"/>`;
+    // het bijschrift onder het scherm leesbaar houden: een zachte, donkere vlek eronder
+    const K = box('.hero-cap');
+    if (K) { set('--kx', `${K.x - 40}px`); set('--ky', `${K.y - 26}px`); set('--kw', `${K.w + 80}px`); set('--kh', `${K.h + 52}px`); }
+    bg.classList.add('is-set');
+  };
+  // pauzeren buiten beeld en in een verborgen tabblad
+  let inView = true;
+  const setLive = () => bg.classList.toggle('is-paused', !(inView && !document.hidden));
+  if ('IntersectionObserver' in window) new IntersectionObserver((en) => { inView = en[0].isIntersecting; setLive(); }).observe(hero);
+  document.addEventListener('visibilitychange', setLive);
+  // Het scherm is matglas (backdrop-filter). Zolang de afgelopen laad-animatie (rise, fill both) op .hero-fig blijft hangen,
+  // ziet dat glas de achtergrond van de hero niet en lopen de lijnen er scherp doorheen. Na afloop de animatie opruimen:
+  // de eindtoestand (opacity 1, geen transform) is dezelfde, er verandert niets aan het scherm zelf.
+  const fig = hero.querySelector('.hero-fig');
+  if (fig && fig.getAnimations) fig.getAnimations().forEach((a) => a.finished.then(() => a.cancel(), () => {}));
+  draw();
+  let rz = 0, lw = window.innerWidth;
+  window.addEventListener('resize', () => { if (window.innerWidth === lw) return; lw = window.innerWidth; clearTimeout(rz); rz = setTimeout(draw, 160); }, { passive: true });
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(draw);
+})();

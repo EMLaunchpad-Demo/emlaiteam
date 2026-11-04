@@ -24,7 +24,7 @@
 <link rel="icon" href="assets/img/favicon.png" type="image/png" sizes="32x32">
 <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
 <link rel="preload" href="assets/fonts/archivo-latin.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="assets/css/site.css?v=26">
+<link rel="stylesheet" href="assets/css/site.css?v=27">
 <script>document.documentElement.classList.add('js')</script>
 <script type="application/ld+json">
 {
@@ -183,6 +183,23 @@
        Een mail komt binnen, de Offertemaker zet de offerte klaar, de Chief of Staff vraagt "Goedkeuren of wachten?" en de
        bezoeker kiest. Zonder JavaScript of met minder beweging staat het scherm meteen op de vraag. Voorbeeldgegevens. -->
   <section class="hero" id="top" aria-labelledby="hero-h">
+    <!-- Achtergrond van de hero, variant 2 "Horizon" (4/11/2026): een raster in perspectief (witte neonlijnen) onder een
+         lichtgevende horizon achter het scherm, en één groot glaspaneel achter de tekst. Alles decoratie (aria-hidden).
+         site.js zet de horizon, het verdwijnpunt en het glaspaneel op de maat van de hero; zonder JavaScript een standaard. -->
+    <div class="hbg hbg--2" aria-hidden="true">
+      <i class="hz-sun"></i>
+      <div class="hz-floor">
+        <svg class="hz-rays" width="0" height="0"></svg>
+        <i class="hz-row" style="--i:0"></i><i class="hz-row" style="--i:1"></i><i class="hz-row" style="--i:2"></i>
+        <i class="hz-row" style="--i:3"></i><i class="hz-row" style="--i:4"></i><i class="hz-row" style="--i:5"></i>
+        <i class="hz-row" style="--i:6"></i><i class="hz-row" style="--i:7"></i><i class="hz-row" style="--i:8"></i>
+      </div>
+      <i class="hz-line"></i>
+      <i class="hz-glint"></i>
+      <i class="hz-scrim"></i>
+      <i class="hz-pane"></i>
+      <i class="hbg-fade"></i>
+    </div>
     <div class="wrap hero-in">
       <div class="hero-copy">
         <p class="kicker" data-load style="--d:0ms">EML AI Team</p><!-- taste-skill-ignore: cyaan label (Martijn, ronde 3) -->
@@ -590,6 +607,6 @@
   </div>
 </dialog>
 
-<script src="assets/js/site.js?v=26" defer></script>
+<script src="assets/js/site.js?v=27" defer></script>
 </body>
 </html>
