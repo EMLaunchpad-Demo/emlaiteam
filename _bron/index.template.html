@@ -24,7 +24,11 @@
 <link rel="icon" href="assets/img/favicon.png" type="image/png" sizes="32x32">
 <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
 <link rel="preload" href="assets/fonts/archivo-latin.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="assets/css/site.css?v=28">
+<!-- marmer in de hero: de gsm-uitsnede meteen (LCP op de gsm); op hoge schermen is de hero zelf een LCP-kandidaat. Elders laadt het na de pagina (site.js) -->
+<link rel="preload" href="assets/img/marmer-gsm.avif" as="image" type="image/avif" media="(max-width: 720px)" fetchpriority="high">
+<link rel="preload" href="assets/img/marmer-1920.avif" as="image" type="image/avif" media="(min-width: 1100px) and (min-height: 960px)" fetchpriority="low">
+<link rel="preload" href="assets/img/marmer-goud-1920.webp" as="image" type="image/webp" media="(min-width: 1100px) and (min-height: 960px)" fetchpriority="low">
+<link rel="stylesheet" href="assets/css/site.css?v=29">
 <script>document.documentElement.classList.add('js')</script>
 <script type="application/ld+json">
 {
@@ -183,16 +187,9 @@
        Een mail komt binnen, de Offertemaker zet de offerte klaar, de Chief of Staff vraagt "Goedkeuren of wachten?" en de
        bezoeker kiest. Zonder JavaScript of met minder beweging staat het scherm meteen op de vraag. Voorbeeldgegevens. -->
   <section class="hero" id="top" aria-labelledby="hero-h">
-    <!-- Achtergrond van de hero, variant 1 "Lichtbanen" (4/11/2026): een lint van witte neonlijnen van linksonder achter het
-         scherm door naar rechtsboven, met losse glazen tegels erboven. Alles decoratie (aria-hidden). site.js tekent het lint op
-         de maat van de hero; zonder JavaScript blijven de kleurvelden en de tegels. -->
-    <div class="hbg hbg--1" aria-hidden="true">
-      <svg class="hbg-lines" width="0" height="0"></svg>
-      <i class="hbg-tile hbg-tile--a"></i>
-      <i class="hbg-tile hbg-tile--b"></i>
-      <i class="hbg-comet"></i><i class="hbg-comet"></i>
-      <i class="hbg-fade"></i>
-    </div>
+    <!-- Achtergrond van de hero: marmer (keuze Martijn, 6/11/2026). Decoratie (aria-hidden); het beeld en de verdonkering
+         zitten in ::before en ::after (site.css, ronde 6), op de gsm hangt de uitsnede aan het scherm (.hero-fig::after). -->
+    <div class="hbg" aria-hidden="true"><i class="hbg-fade"></i></div>
     <div class="wrap hero-in">
       <div class="hero-copy">
         <p class="kicker" data-load style="--d:0ms">EML AI Team</p><!-- taste-skill-ignore: cyaan label (Martijn, ronde 3) -->
@@ -600,6 +597,6 @@
   </div>
 </dialog>
 
-<script src="assets/js/site.js?v=28" defer></script>
+<script src="assets/js/site.js?v=29" defer></script>
 </body>
 </html>

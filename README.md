@@ -2,6 +2,8 @@
 
 Ontwerp: de variant "premium", goedgekeurd door Martijn op 3/11/2026 (ronde 1 tot 4: rustig en premium, idee A in de hero, het gewone EM-logo, het menu over het volle scherm, kleurvelden en glas, beweging in de hero). De vroegere versie met het 3D-gebouw staat in `_backup-v4j/` en `_backup-v4k/` (niet in de repo).
 
+Achtergrond (6/11/2026, keuze Martijn): marmer (navy, petrol en smaragd met aders van bladgoud) gedimd in de hero, in de plaats van de "Lichtbanen" van 4/11, en onder de pakketten en prijzen. Het marmer beweegt niet; het enige bewegende in de hero is het productscherm. CSS: `site.css`, ronde 6 (achteraan). Beelden: `assets/img/marmer-1920` (avif en webp), `marmer-goud-1920.webp` (alleen het bladgoud, met transparantie) en `marmer-gsm` (avif en webp). Het laden: `site.js` zet `marmer-geladen` op `<html>` na het laden van de pagina; de gsm-uitsnede en de hero op hoge schermen zijn voorgeladen in de head. Bron, scripts om de beelden opnieuw te maken, metingen en kritiek: `ai-team/content/media/2026-11-06-hero-achtergrond/` (LEESMIJ.md, `emlteam-scripts/`).
+
 Statische site, geen build-stap op Cloudflare. Domein: **https://emlteam.eu** (gekocht door Martijn bij Hostinger op 3/11/2026). Schrijf het altijd voluit met ".eu": emlteam.com is van iemand anders.
 
 Wat in deze map staat, gaat online, behalve wat in `.assetsignore` staat (`_bron/`, README, alle `.md`, `wrangler.jsonc`, `controle/`, `_backup-*`, `.taste-skill/`).
@@ -11,7 +13,7 @@ Wat in deze map staat, gaat online, behalve wat in `.assetsignore` staat (`_bron
 - `privacy.html`: de privacypagina, op `/privacy`. **Niet rechtstreeks aanpassen**: hij wordt gemaakt uit `_bron/privacy.template.html`.
 - `404.html`: pagina voor elk adres dat niet bestaat (absolute paden, `noindex`, geen domein erin).
 - `robots.txt` en `sitemap.xml` (homepage en `/privacy`): worden mee gemaakt door het bouwscript.
-- `assets/`: css, js, lettertypes (lokaal, geen Google Fonts) en afbeeldingen.
+- `assets/`: css, js, lettertypes (lokaal, geen Google Fonts) en afbeeldingen (ook het marmer: `assets/img/marmer-*`).
 - `_headers`: beveiligingsheaders, cache (css/js/fonts 1 jaar, afbeeldingen 1 week) en `noindex` alleen op het workers.dev-adres.
 - `wrangler.jsonc`: Cloudflare Worker `emlaiteam`, alleen statische bestanden, `not_found_handling: "404-page"`. Cloudflare toont `privacy.html` op `/privacy` en stuurt `/privacy.html` door naar `/privacy`.
 - `_bron/ghl-formulier.css`: de opmaak van het formulier in ons platform (zie "Formulier").
@@ -19,7 +21,7 @@ Wat in deze map staat, gaat online, behalve wat in `.assetsignore` staat (`_bron
 ## Aanpassen
 1. Pas `_bron/index.template.html` of `_bron/privacy.template.html` aan (of `_bron/maak-netwerk.mjs`).
 2. Bouw: `node _bron/maak-netwerk.mjs` (maakt `index.html`, `privacy.html`, `robots.txt` en `sitemap.xml`).
-3. Pas je `assets/css/site.css` of `assets/js/site.js` aan (nu `site.css?v=26`, `site.js?v=26`), verhoog dan het `?v=`-nummer waar het bestand geladen wordt (in de twee templates en in `404.html`): css en js worden een jaar gecachet.
+3. Pas je `assets/css/site.css` of `assets/js/site.js` aan (nu `site.css?v=29`, `site.js?v=29`), verhoog dan het `?v=`-nummer waar het bestand geladen wordt (in de twee templates en in `404.html`): css en js worden een jaar gecachet.
 4. Controle (de scripts staan in `controle/`, dat niet online en niet op GitHub gaat): `node controle/cfserver.mjs <absoluut pad> 8782` (lokale server die Cloudflare nabootst: `/privacy`, 404-pagina, `.assetsignore`; met een relatief pad vindt hij de pagina's niet), dan `node controle/maak-launch.mjs` (consolefouten, zijwaarts scrollen op 320 tot 1920, links en ankers, venster, beelden in `controle/launch/`). Het script voor cookies staat in `site-v4/controle/cookies.mjs`; aan cookies en externe verzoeken is in deze variant niets veranderd.
 
 ## Domein in één stap

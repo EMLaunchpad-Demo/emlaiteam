@@ -793,35 +793,95 @@ html.ga-open{overflow:hidden}
   .ga-frame,.ga-frame iframe{min-height:640px}
 }
 
-/* ================= ronde 5 (4/11/2026): achtergrond van de hero, variant 1 "Lichtbanen" =================
-   Martijn: "iets mooier die donkerblauw met dat groen, en dan misschien zo'n witte neon lijnen erover, met glass effects".
-   Donkerblauw (--bg) met een groot mintveld achter het scherm. Een lint van witte neonlijnen (kern 1px, mint gloed) loopt van
-   linksonder, onder de tekst door, achter het scherm (wazig door het glas) naar rechtsboven. Twee losse glazen tegels liggen
-   op het lint: matglas met blur, een lichtrand en een zachte schaduw. Beweging: de tegels zweven heel traag, twee lichtkometen
-   lopen af en toe over het lint (alleen transform en opacity). Pauzeert buiten beeld. Minder beweging: stil beeld. */
-.hero{background:var(--grain),radial-gradient(50% 64% at 70% 62%,rgba(47,240,166,.27),rgba(47,240,166,0) 70%),radial-gradient(30% 40% at 100% 0%,rgba(19,199,230,.3),rgba(19,199,230,0) 72%),radial-gradient(44% 58% at 0% 100%,rgba(47,123,255,.26),rgba(47,123,255,0) 72%),radial-gradient(38% 46% at 12% 0%,rgba(19,199,230,.09),rgba(19,199,230,0) 72%),var(--bg)} /* taste-skill-ignore: kleurveld van de hero (Martijn, ronde 5) */
+/* ================= ronde 6 (6/11/2026): marmer in de hero en onder de prijzen (keuze Martijn) =================
+   Martijn liet een marmer maken (navy, petrol en smaragd met aders van bladgoud) en koos op 6/11/2026 "1 en 2 samen":
+   - Hero: het marmer gedimd als achtergrond, in de plaats van de Lichtbanen (lint, tegels en kometen zijn weg). Er beweegt
+     maar één ding: het productscherm. Links blijft het donker voor de kop; in het beeld zijn de gouden aders links van x 900
+     en bovenaan weggewerkt, zodat ze op elke breedte pas bij het scherm beginnen. Het bladgoud ligt als eigen laag
+     (marmer-goud-1920, met transparantie) boven de verdonkering: zo leest het als goud en niet als kaki.
+     Gsm: een eigen staande uitsnede die aan het scherm hangt; de dikke ader ligt tussen de prijsregel en het scherm.
+   - Prijzen: steen onder de vier kolommen, matglas erover. Tablet en gsm: alleen een band tussen de inleiding en de
+     eerste kolom, de kolommen dicht.
+   Het bladgoud is bijgestuurd naar het merkgoud #E7C95C. Het marmer beweegt niet. Beelden in assets/img (avif, webp als
+   terugval; de goudlaag alleen webp). Bron, metingen en kritiek: ai-team/content/media/2026-11-06-hero-achtergrond/.
+   Laden: het marmer is decoratie en verschijnt pas na het laden van de pagina (site.js zet marmer-geladen op <html>), zodat
+   het niet concurreert met het lettertype en de kop (LCP). Uitzonderingen, met een preload in de head: de gsm-uitsnede van
+   de hero, en de hero op hoge schermen (min. 1100 x 960), waar het beeld zelf een LCP-kandidaat is. */
+.hero{background:var(--bg)} /* taste-skill-ignore: effen ondergrond onder het marmer */
 .hbg{position:absolute;inset:0;z-index:-1;pointer-events:none;overflow:hidden}
-.hbg-lines{position:absolute;left:0;top:0;overflow:visible}
+.hbg::before{content:"";position:absolute;top:0;bottom:0;left:50%;width:max(100%,1920px);transform:translateX(-50%);
+  background:url(../img/marmer-1920.webp) 50% 50%/cover no-repeat;
+  background:image-set(url(../img/marmer-1920.avif) type("image/avif"),url(../img/marmer-1920.webp) type("image/webp")) 50% 50%/cover no-repeat}
+.hbg::after{content:"";position:absolute;inset:0;pointer-events:none;
+  background:
+    url(../img/marmer-goud-1920.webp) 50% 50%/max(1920px,100%) auto no-repeat,
+    linear-gradient(180deg,rgba(11,21,38,.6) 0,rgba(11,21,38,0) 180px),
+    linear-gradient(0deg,rgba(9,13,20,.8) 0,rgba(9,13,20,.62) 150px,rgba(9,13,20,0) 260px),
+    linear-gradient(90deg,rgba(11,21,38,.86) 0%,rgba(11,21,38,.8) 34%,rgba(11,21,38,.6) 44%,rgba(11,21,38,.3) 53%,rgba(11,21,38,.2) 100%)} /* taste-skill-ignore: verdonkering op een foto, links donker genoeg voor de kop (AA) */
 .hbg-fade{position:absolute;left:0;right:0;bottom:0;height:200px;background:linear-gradient(180deg,rgba(9,13,20,0),var(--ink1))}
-/* glazen tegels: posities en maten zet site.js op het lint (zonder JavaScript deze standaard) */
-.hbg-tile{position:absolute;left:var(--x,6%);top:var(--y,80%);width:var(--w,200px);height:var(--h,120px);border-radius:22px;background:linear-gradient(150deg,rgba(255,255,255,.12),rgba(255,255,255,.02) 46%,rgba(255,255,255,.05)),rgba(14,24,44,.16);-webkit-backdrop-filter:blur(6px) saturate(1.15) brightness(1.08);backdrop-filter:blur(6px) saturate(1.15) brightness(1.08);box-shadow:inset 0 1px 0 rgba(255,255,255,.32),inset 0 0 0 1px rgba(255,255,255,.06),0 24px 48px -30px rgba(0,0,0,.6)} /* taste-skill-ignore: glazen tegel (Martijn, ronde 5) */
-.hbg-tile[hidden]{display:none}
-.hbg-tile::before{content:"";position:absolute;inset:0;border-radius:inherit;padding:1px;background:linear-gradient(140deg,rgba(255,255,255,.62),rgba(255,255,255,.06) 38%,rgba(255,255,255,0) 60%,rgba(47,240,166,.4));-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask:linear-gradient(#000 0 0) content-box exclude,linear-gradient(#000 0 0)} /* taste-skill-ignore: lichtrand van het glas */
-.hbg-tile--a{transform:perspective(900px) rotateY(-24deg) rotateZ(-7deg)}
-.hbg-tile--b{--x:52%;--y:4%;--w:150px;--h:96px;border-radius:18px;transform:perspective(900px) rotateY(20deg) rotateZ(6deg)}
-/* lichtkomeet: de kop staat op het punt, de staart erachter */
-.hbg-comet{position:absolute;left:0;top:0;width:120px;height:2px;margin:-1px 0 0 -120px;border-radius:2px;transform-origin:100% 50%;background:linear-gradient(90deg,rgba(47,240,166,0),rgba(47,240,166,.45) 55%,rgba(220,255,245,.95) 92%,#fff);box-shadow:0 0 10px 1px rgba(150,255,220,.55);opacity:0;will-change:transform,opacity} /* taste-skill-ignore: lichtkomeet (transform en opacity) */
-@media (prefers-reduced-motion:no-preference){
-  .hbg-tile--a{animation:hbg-float 13s ease-in-out infinite alternate}
-  .hbg-tile--b{animation:hbg-float 17s ease-in-out -6s infinite alternate}
-  .hbg.is-paused .hbg-tile{animation-play-state:paused}
+.hero-fig::before{opacity:.35} /* de mintgloed achter het scherm: het smaragd van het marmer zit er al */
+/* het glas van het scherm iets dichter: de groene statusbolletjes blijven het groenste in de zijbalk */
+@supports (backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px)){
+  .hero-fig .app{background:linear-gradient(180deg,rgba(255,255,255,.075),rgba(255,255,255,.02)),rgba(12,20,36,.7)} /* taste-skill-ignore: glas (K07) */
+  .plan:not(.plan--hi){background:linear-gradient(180deg,rgba(255,255,255,.07),rgba(255,255,255,.02)),rgba(10,17,30,.66)} /* taste-skill-ignore: matglas op steen (K07) */
 }
-@keyframes hbg-float{from{translate:0 0}to{translate:0 -10px}}
-@media (prefers-reduced-motion:reduce){.hbg-comet{display:none}}
-/* gsm: één kleine tegel aan de rechterrand, half achter de bovenhoek van het scherm (glas achter glas); het lint gloeit door
-   het scherm. De blur blijft op dat kleine vlak (geen zware filter op een groot vlak). */
+@media (max-width:1099px){
+  /* tablet: één kolom, de tekst boven het scherm. Egale verdonkering bovenaan, geen goudlaag */
+  .hbg::after{background:linear-gradient(180deg,rgba(11,21,38,.84) 0,rgba(11,21,38,.74) 44%,rgba(11,21,38,.34) 62%,rgba(11,21,38,.28) 100%)} /* taste-skill-ignore: verdonkering op een foto */
+}
 @media (max-width:720px){
-  .hero{background:var(--grain),radial-gradient(90% 40% at 70% 62%,rgba(47,240,166,.26),rgba(47,240,166,0) 70%),radial-gradient(70% 26% at 100% 0%,rgba(19,199,230,.26),rgba(19,199,230,0) 72%),radial-gradient(80% 30% at 0% 100%,rgba(47,123,255,.24),rgba(47,123,255,0) 72%),var(--bg)} /* taste-skill-ignore: kleurveld van de hero (gsm) */
-  .hbg-tile--b{display:none}
-  .hbg-tile--a{border-radius:16px;transform:perspective(700px) rotateY(-20deg) rotateZ(9deg)}
+  /* gsm: geen aders achter de kop. De laag hangt aan het scherm, zodat de dikke ader op elke gsm-breedte net boven het
+     scherm ligt. background:none ook, anders haalt Chrome het beeld van het pseudo-element toch op */
+  .hbg::before,.hbg::after{content:none;background:none}
+  .hero-fig::after{content:"";position:absolute;z-index:-1;pointer-events:none;
+    left:calc(-1 * var(--gut));right:calc(-1 * var(--gut));top:calc(-76vw - 60px);height:194.8vw;
+    background:url(../img/marmer-gsm.webp) 50% 0/100% auto no-repeat;
+    background:image-set(url(../img/marmer-gsm.avif) type("image/avif"),url(../img/marmer-gsm.webp) type("image/webp")) 50% 0/100% auto no-repeat;
+    -webkit-mask-image:linear-gradient(180deg,transparent 0,#000 24%,#000 48%,transparent 60%);
+    mask-image:linear-gradient(180deg,transparent 0,#000 24%,#000 48%,transparent 60%)}
 }
+
+/* ---- prijzen ---- */
+.plans::before{content:"";position:absolute;left:0;right:0;top:clamp(120px,14vw,220px);height:min(78vw,1180px);z-index:-1;pointer-events:none;
+  background:url(../img/marmer-1920.webp) 50% 50%/cover no-repeat;
+  background:image-set(url(../img/marmer-1920.avif) type("image/avif"),url(../img/marmer-1920.webp) type("image/webp")) 50% 50%/cover no-repeat;
+  -webkit-mask-image:linear-gradient(180deg,transparent 0,#000 24%,#000 58%,transparent 82%);
+  mask-image:linear-gradient(180deg,transparent 0,#000 24%,#000 58%,transparent 82%)}
+.plans::after{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;
+  background:radial-gradient(70% 48% at 50% 34%,rgba(9,13,20,.4),rgba(9,13,20,.64) 100%)} /* taste-skill-ignore: verdonkering op een foto */
+.ptab::before{opacity:.45} /* de groene gloed achter Groei zachter: het marmer geeft al kleur */
+.ptab-k span{color:var(--mid)} /* de labels staan op het marmer: een tint lichter (AA op elke breedte) */
+@media (max-width:1099px){
+  .plans::before{content:none;background:none}
+  .ptab::after{content:"";position:absolute;z-index:-1;pointer-events:none;
+    left:calc(-1 * var(--gut));right:calc(-1 * var(--gut));bottom:calc(100% - 56px);height:clamp(240px,46vw,380px);
+    background:url(../img/marmer-1920.webp) 50% 62%/cover no-repeat;
+    background:image-set(url(../img/marmer-1920.avif) type("image/avif"),url(../img/marmer-1920.webp) type("image/webp")) 50% 62%/cover no-repeat;
+    -webkit-mask-image:linear-gradient(180deg,transparent 0,#000 40%,#000 74%,transparent 100%);
+    mask-image:linear-gradient(180deg,transparent 0,#000 40%,#000 74%,transparent 100%)}
+  .plan:not(.plan--hi){background:linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.015)),#0c1220} /* taste-skill-ignore: effen vlak op tablet en gsm */
+  .plan--hi{background:linear-gradient(180deg,rgba(47,240,166,.12),rgba(47,240,166,.03)),#0b1c24} /* taste-skill-ignore: Groei als groen vlak */
+}
+@media (max-width:720px){
+  .ptab::after{height:300px;
+    background:url(../img/marmer-gsm.webp) 50% 30%/100% auto no-repeat;
+    background:image-set(url(../img/marmer-gsm.avif) type("image/avif"),url(../img/marmer-gsm.webp) type("image/webp")) 50% 30%/100% auto no-repeat}
+}
+
+/* ---- laden: geen beeld tot marmer-geladen (behalve de gsm-hero en de hero op hoge schermen) ---- */
+@media (max-width:1099px),(max-height:959px){
+  html:not(.marmer-geladen) .hbg::before{background-image:none}
+  html:not(.marmer-geladen) .hbg::after{background-image:
+    linear-gradient(180deg,rgba(11,21,38,.6) 0,rgba(11,21,38,0) 180px),
+    linear-gradient(0deg,rgba(9,13,20,.8) 0,rgba(9,13,20,.62) 150px,rgba(9,13,20,0) 260px),
+    linear-gradient(90deg,rgba(11,21,38,.86) 0%,rgba(11,21,38,.8) 34%,rgba(11,21,38,.6) 44%,rgba(11,21,38,.3) 53%,rgba(11,21,38,.2) 100%)} /* taste-skill-ignore: verdonkering op een foto */
+}
+@media (max-width:1099px){html:not(.marmer-geladen) .hbg::after{background-image:linear-gradient(180deg,rgba(11,21,38,.84) 0,rgba(11,21,38,.74) 44%,rgba(11,21,38,.34) 62%,rgba(11,21,38,.28) 100%)}} /* taste-skill-ignore: verdonkering op een foto */
+@media (max-width:720px){html:not(.marmer-geladen) .hbg::after{background-image:none}}
+html:not(.marmer-geladen) .plans::before,html:not(.marmer-geladen) .ptab::after{background-image:none}
+@media (prefers-reduced-motion:no-preference) and (max-height:959px){
+  .hbg::before{transition:opacity .5s ease}
+  html:not(.marmer-geladen) .hbg::before{opacity:0}
+}
+/* hoog contrast: geen decoratief beeld */
+@media (forced-colors:active){.hbg::before,.hbg::after,.hero-fig::after,.plans::before,.ptab::after{display:none}}

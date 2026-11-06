@@ -525,197 +525,31 @@
   }
 })();
 
-/* ---------- hero-achtergrond, variant 1 "Lichtbanen" (ronde 5, 4/11/2026) ----------
-   Tekent een lint van witte neonlijnen op de maat van de hero: de tekst en het scherm worden opgemeten (offsets, dus zonder
-   de kanteling of de laad-animatie), het lint blijft uit de tekst en loopt achter het scherm door. Opnieuw bij resize.
-   Twee lichtkometen lopen af en toe over het lint (WAAPI, alleen transform en opacity). Pauzeert buiten beeld en in een
-   verborgen tabblad. Minder beweging: het lint staat stil, geen kometen. */
+/* ---------- hero-achtergrond: marmer (keuze Martijn, 6/11/2026) ----------
+   De Lichtbanen (lint, tegels en kometen) zijn weg; het marmer staat in site.css (ronde 6) en beweegt niet. Het is decoratie
+   en verschijnt pas na het laden van de pagina: tot de class marmer-geladen op <html> staat, vraagt de browser het niet op
+   (behalve de voorgeladen gsm-uitsnede en de hero op hoge schermen). Op desktop wacht de class tot de twee beelden van de
+   hero gedecodeerd zijn, zodat steen en goud samen verschijnen; na 4 s komt de class er hoe dan ook. */
 (() => {
   'use strict';
-  const hero = document.querySelector('.hero'), bg = hero && hero.querySelector('.hbg--1');
-  if (!bg) return;
-  const svg = bg.querySelector('.hbg-lines');
-  const comets = [...bg.querySelectorAll('.hbg-comet')];
-  const tiles = [...bg.querySelectorAll('.hbg-tile')];
-  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const off = (el) => { let x = 0, y = 0; while (el && el !== hero) { x += el.offsetLeft; y += el.offsetTop; el = el.offsetParent; } return { x, y }; };
-  const box = (sel) => { const e = hero.querySelector(sel); if (!e) return null; const o = off(e); return { x: o.x, y: o.y, w: e.offsetWidth, h: e.offsetHeight, r: o.x + e.offsetWidth, b: o.y + e.offsetHeight }; };
-  const bez = (a, b, c, d, t) => { const u = 1 - t; return u * u * u * a + 3 * u * u * t * b + 3 * u * t * t * c + t * t * t * d; };
-  const dbez = (a, b, c, d, t) => { const u = 1 - t; return 3 * u * u * (b - a) + 6 * u * t * (c - b) + 3 * t * t * (d - c); };
-  // een ruggengraat uit kubische stukken [p0, c1, c2, p1, c3, c4, p2, ...] -> punten met normaal, gelijk verdeeld
-  const spine = (P, n) => {
-    const raw = [];
-    for (let s = 0; s + 3 < P.length; s += 3) {
-      for (let k = 0; k <= 80; k++) {
-        if (s > 0 && k === 0) continue;
-        const t = k / 80;
-        const x = bez(P[s][0], P[s + 1][0], P[s + 2][0], P[s + 3][0], t), y = bez(P[s][1], P[s + 1][1], P[s + 2][1], P[s + 3][1], t);
-        const dx = dbez(P[s][0], P[s + 1][0], P[s + 2][0], P[s + 3][0], t), dy = dbez(P[s][1], P[s + 1][1], P[s + 2][1], P[s + 3][1], t);
-        raw.push({ x, y, dx, dy });
-      }
-    }
-    let L = 0; raw.forEach((p, i) => { if (i) L += Math.hypot(p.x - raw[i - 1].x, p.y - raw[i - 1].y); p.l = L; });
-    const out = [];
-    for (let i = 0, j = 0; i <= n; i++) {
-      const target = (L * i) / n;
-      while (j < raw.length - 2 && raw[j + 1].l < target) j++;
-      const a = raw[j], b = raw[j + 1], f = b.l > a.l ? (target - a.l) / (b.l - a.l) : 0;
-      const x = a.x + (b.x - a.x) * f, y = a.y + (b.y - a.y) * f, dx = a.dx + (b.dx - a.dx) * f, dy = a.dy + (b.dy - a.dy) * f;
-      const m = Math.hypot(dx, dy) || 1;
-      out.push({ x, y, nx: -dy / m, ny: dx / m, a: Math.atan2(dy, dx), t: i / n });
-    }
-    out.L = L;
-    return out;
-  };
-  // vloeiend pad door punten (Catmull-Rom naar Bézier)
-  const smooth = (pts) => {
-    let d = `M${pts[0][0].toFixed(1)} ${pts[0][1].toFixed(1)}`;
-    for (let i = 0; i < pts.length - 1; i++) {
-      const p0 = pts[i - 1] || pts[i], p1 = pts[i], p2 = pts[i + 1], p3 = pts[i + 2] || p2;
-      const c1 = [p1[0] + (p2[0] - p0[0]) / 6, p1[1] + (p2[1] - p0[1]) / 6], c2 = [p2[0] - (p3[0] - p1[0]) / 6, p2[1] - (p3[1] - p1[1]) / 6];
-      d += `C${c1[0].toFixed(1)} ${c1[1].toFixed(1)} ${c2[0].toFixed(1)} ${c2[1].toFixed(1)} ${p2[0].toFixed(1)} ${p2[1].toFixed(1)}`;
-    }
-    return d;
-  };
-  let S = null, anims = [], live = true, inView = true, timers = [];
-
-  // één lint: punten van de ruggengraat -> N lijnen (kern en gloed) en de brede, wazige gloed eronder
-  const ribbon = (P, bw, N, knot, bright) => {
-    const pts = spine(P, 140);
-    const spread = (t) => 0.12 + 0.88 * Math.abs(Math.cos(Math.PI * (t - knot) * 1.1));
-    const lines = [], halos = [];
-    const pick = pts.filter((_, k) => k % 4 === 0 || k === pts.length - 1);
-    for (let i = 0; i < N; i++) {
-      const u = i / (N - 1) - 0.5, wob = (i % 3) - 1;
-      const d = smooth(pick.map((p) => { const o = u * bw * spread(p.t) + wob * 3 * Math.sin(p.t * Math.PI * 3 + i); return [p.x + p.nx * o, p.y + p.ny * o]; }));
-      const core = 1 - Math.abs(u) * 2;
-      lines.push(`<path d="${d}" stroke-opacity="${(bright * (0.2 + 0.75 * Math.pow(core, 1.3))).toFixed(2)}" stroke-width="${core > 0.55 ? 1.25 : 1}"/>`);
-      halos.push(`<path d="${d}" stroke-opacity="${(bright * (0.08 + 0.2 * core)).toFixed(2)}"/>`);
-    }
-    const sp = smooth(pick.map((p) => [p.x, p.y]));
-    return { pts, lines, halos, sp, P, bw };
-  };
-
-  const draw = () => {
-    const W = hero.offsetWidth, H = hero.offsetHeight;
-    const A = box('.hero-fig .app'), C = box('.hero-copy'), F = box('.hero-fact'), K = box('.hero-cap');
-    if (!A || !C) return;
-    const phone = W < 720, wide = W >= 1100;
-    const R = [];
-    if (wide) {
-      // hoofdlint: een boog van links (boven de tekst) naar de linkerbovenhoek van het scherm, erachter door naar rechts
-      const yl = Math.max(110, C.y - 30);
-      R.push(ribbon([[-0.06 * W, yl + 30], [0.16 * W, yl - 40], [A.x - 0.36 * A.w, A.y - 0.1 * A.h], [A.x + 0.08 * A.w, A.y - 0.02 * A.h],
-        [A.x + 0.5 * A.w, A.y + 0.05 * A.h], [A.x + 0.8 * A.w, A.y + 0.3 * A.h], [W * 1.06, A.y + 0.62 * A.h]], Math.min(150, W * 0.085), 13, 0.2, 1));
-      // tweede lint, smaller: van linksonder (onder de prijsregel) naar de linkeronderhoek van het scherm
-      const yb = Math.min(H - 80, C.b + 0.36 * (H - C.b));
-      R.push(ribbon([[-0.06 * W, yb + 10], [0.2 * W, yb + 26], [A.x - 0.3 * A.w, yb - 6], [A.x + 0.06 * A.w, A.b - 0.14 * A.h],
-        [A.x + 0.4 * A.w, A.b - 0.4 * A.h], [A.x + 0.75 * A.w, A.b - 0.36 * A.h], [W * 1.06, A.b - 0.3 * A.h]], 96, 9, 0.3, 0.9));
-    } else if (!phone) {
-      // tablet: van rechtsboven, naast de tekst, door de ruimte boven het scherm naar links achter het scherm
-      R.push(ribbon([[W * 1.06, C.y + 20], [W * 0.82, C.y + 60], [W * 0.78, A.y - 80], [W * 0.5, A.y - 10],
-        [W * 0.28, A.y + 30], [W * 0.05, A.y + 120], [-W * 0.08, A.y + 240]], 110, 11, 0.28, 1));
-    } else {
-      // gsm: van rechts, net onder de prijsregel, door de ruimte boven het scherm naar links, dan achter het scherm (wazig door het glas)
-      R.push(ribbon([[W * 1.08, C.b + 4], [W * 0.72, C.b + 18], [W * 0.42, A.y - 20], [W * 0.14, A.y + 14],
-        [-W * 0.02, A.y + 34], [-W * 0.1, A.y + 120], [-W * 0.3, A.y + 260]], 64, 9, 0.12, 1));
-    }
-    // de echte tekstregels en het scherm: een tegel mag daar niet over liggen (anders schuift ze op het lint, of valt ze weg)
-    const hb = hero.getBoundingClientRect(), ink = [];
-    ['.kicker', 'h1', '.hero-lede', '.hero-act .btn', '.hero-fact', '.hero-cap'].forEach((s) => {
-      const el = hero.querySelector(s); if (!el) return;
-      const eb = el.getBoundingClientRect(), o = off(el);
-      const qs = el.matches('.btn') ? [eb] : (() => { const rg = document.createRange(); rg.selectNodeContents(el); return [...rg.getClientRects()]; })();
-      qs.forEach((q) => { if (q.width > 1) ink.push({ x: q.left - hb.left, y: o.y + (q.top - eb.top), w: q.width, h: q.height }); });
-    });
-    ink.push({ x: A.x, y: A.y, w: A.w, h: A.h });
-    svg.setAttribute('width', W); svg.setAttribute('height', H); svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
-    // tekst beschermen: onder de tekst en het bijschrift is het lint bijna weg (zachte uitsparing; op de gsm per tekstregel,
-    // zodat het lint naast de korte laatste regel van de prijs wel zichtbaar blijft)
-    const pad = phone ? 10 : 28;
-    const hole = (b, p, o) => b ? `<rect x="${(b.x - p).toFixed(0)}" y="${(b.y - p).toFixed(0)}" width="${(b.w + 2 * p).toFixed(0)}" height="${(b.h + 2 * p).toFixed(0)}" rx="${phone ? 14 : 40}" fill="#000" fill-opacity="${o}" filter="url(#hbg1-soft)"/>` : '';
-    let defs = `<filter id="hbg1-blur" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="${phone ? 14 : 22}"/></filter>`
-      + `<filter id="hbg1-soft" x="-20%" y="${phone ? -120 : -50}%" width="140%" height="${phone ? 340 : 200}%"><feGaussianBlur stdDeviation="${phone ? 9 : 30}"/></filter>`
-      + `<mask id="hbg1-m" maskUnits="userSpaceOnUse" x="0" y="0" width="${W}" height="${H}"><rect width="${W}" height="${H}" fill="#fff"/>${phone ? ink.filter((q) => q.y < A.y).map((q) => hole(q, 10, 0.92)).join('') : hole(C, pad, 0.88)}${wide ? hole(K, 10, 0.7) : ''}</mask>`;
-    let body = '';
-    R.forEach((r, j) => {
-      const a = r.P[0], z = r.P[r.P.length - 1];
-      defs += `<linearGradient id="hbg1-w${j}" gradientUnits="userSpaceOnUse" x1="${a[0]}" y1="${a[1]}" x2="${z[0]}" y2="${z[1]}"><stop offset="0" stop-color="#fff" stop-opacity="0"/><stop offset=".16" stop-color="#fff"/><stop offset=".8" stop-color="#eafff7"/><stop offset="1" stop-color="#fff" stop-opacity=".25"/></linearGradient>`
-        + `<linearGradient id="hbg1-h${j}" gradientUnits="userSpaceOnUse" x1="${a[0]}" y1="${a[1]}" x2="${z[0]}" y2="${z[1]}"><stop offset="0" stop-color="#2ff0a6" stop-opacity="0"/><stop offset=".22" stop-color="#2ff0a6"/><stop offset=".7" stop-color="#13c7e6"/><stop offset="1" stop-color="#2f7bff" stop-opacity=".4"/></linearGradient>`;
-      body += `<path d="${r.sp}" stroke="url(#hbg1-h${j})" stroke-width="${r.bw}" stroke-opacity="${j ? 0.16 : 0.26}" filter="url(#hbg1-blur)"/>`
-        + `<g stroke="url(#hbg1-h${j})" stroke-width="4">${r.halos.join('')}</g><g stroke="url(#hbg1-w${j})">${r.lines.join('')}</g>`;
-    });
-    svg.innerHTML = `<defs>${defs}</defs><g mask="url(#hbg1-m)" fill="none" stroke-linecap="round">${body}</g>`;
-    S = { pts: R[0].pts, pts2: R[1] ? R[1].pts : R[0].pts, phone, wide };
-    // tegels op het lint (gsm: één kleine tegel, half achter de bovenhoek van het scherm)
-    const at = (r, t) => R[r].pts[Math.round(Math.max(0, Math.min(1, t)) * (R[r].pts.length - 1))];
-    const free = (x, y, w, h) => y >= 72 && x >= -w * 0.3 && x + w <= W + w * 0.3 && ink.every((q) => x + w + 22 < q.x || x - 22 > q.x + q.w || y + h + 22 < q.y || y - 22 > q.y + q.h);
-    const place = (el, r, t, w, h, dx, dy) => {
-      if (!el) return;
-      for (const s of [0, 0.03, -0.03, 0.06, -0.06, 0.1, -0.1, 0.14, -0.14]) {
-        const p = at(r, t + s), x = Math.round(p.x - w / 2 + dx), y = Math.round(p.y - h / 2 + dy);
-        if (free(x, y, w, h)) { el.style.setProperty('--x', `${x}px`); el.style.setProperty('--y', `${y}px`); el.style.setProperty('--w', `${w}px`); el.style.setProperty('--h', `${h}px`); el.hidden = false; return; }
-      }
-      el.hidden = true;
-    };
-    // het punt van een lint dat het dichtst bij een x-waarde ligt (als t van 0 tot 1)
-    const tAtX = (r, x) => { const p = R[r].pts; let bi = 0, bd = Infinity; p.forEach((q, i) => { const dd = Math.abs(q.x - x); if (dd < bd) { bd = dd; bi = i; } }); return bi / (p.length - 1); };
-    if (wide) {
-      // desktop: een kleine tegel op het bovenste lint, tussen het logo en de tekst; een grotere op het onderste lint, in de
-      // ruimte tussen de prijsregel en het scherm, net voor het lint achter het scherm verdwijnt
-      place(tiles[0], 0, tAtX(0, Math.max(C.x + 170, W * 0.19)), 96, 124, 0, 0);
-      place(tiles[1], 1, tAtX(1, A.x - 104), 104, 136, 0, -6);
-    } else if (!phone) { place(tiles[0], 0, 0.5, 104, 136, 0, 0); place(tiles[1], 0, 0.8, 84, 110, 0, 0); }
-    else if (tiles[0]) {
-      // gsm: één kleine tegel aan de rechterrand, half achter de bovenhoek van het scherm (glas achter glas), waar het lint
-      // binnenkomt; ze blijft onder de tekstregels die tot daar reiken
-      const w = 64, h = 86, x = Math.round(W - w + 6);
-      const above = ink.slice(0, -1).filter((q) => q.y < A.y && q.x + q.w + 12 > x);
-      const y = Math.round(Math.max(A.y - 58, ...above.map((q) => q.y + q.h + 14)));
-      const t0 = tiles[0];
-      t0.style.setProperty('--x', `${x}px`); t0.style.setProperty('--y', `${y}px`); t0.style.setProperty('--w', `${w}px`); t0.style.setProperty('--h', `${h}px`);
-      t0.hidden = false;
-      if (tiles[1]) tiles[1].hidden = true;
-    }
-    start();
-  };
-
-  // lichtkometen langs de ruggengraat (een stuk van het lint, met de richting mee gedraaid)
-  const stop = () => { anims.forEach((a) => a.cancel()); anims = []; timers.forEach(clearTimeout); timers = []; };
-  const start = () => {
-    stop();
-    if (reduce || !S || !comets[0] || !comets[0].animate) return;
-    const keys = (pts, t0, t1, shift) => {
-      const k = [], n = 26;
-      for (let i = 0; i <= n; i++) {
-        const t = t0 + ((t1 - t0) * i) / n, p = pts[Math.round(t * (pts.length - 1))];
-        const op = i === 0 || i === n ? 0 : i < 4 || i > n - 4 ? 0.55 : 1;
-        k.push({ transform: `translate3d(${(p.x + p.nx * shift).toFixed(1)}px,${(p.y + p.ny * shift).toFixed(1)}px,0) rotate(${p.a.toFixed(3)}rad)`, opacity: op, offset: i / n });
-      }
-      return k;
-    };
-    const run = (el, pts, t0, t1, shift, dur, wait, first) => {
-      const go = () => {
-        if (!live) return;
-        const a = el.animate(keys(pts, t0, t1, shift), { duration: dur, easing: 'cubic-bezier(.45,.05,.35,1)' });
-        anims.push(a);
-        a.onfinish = () => { anims = anims.filter((x) => x !== a); timers.push(setTimeout(go, wait)); };
-      };
-      timers.push(setTimeout(go, first));
-    };
-    run(comets[0], S.pts, 0, 1, -8, S.wide ? 5600 : 4200, 5600, 900);
-    run(comets[1], S.pts2, 0.02, 1, 6, S.wide ? 6200 : 5000, 7800, 4400);
-  };
-  const setLive = (v) => { if (v === live) return; live = v; bg.classList.toggle('is-paused', !v); if (!v) stop(); else start(); };
-  if ('IntersectionObserver' in window) new IntersectionObserver((en) => { inView = en[0].isIntersecting; setLive(inView && !document.hidden); }).observe(hero);
-  document.addEventListener('visibilitychange', () => setLive(inView && !document.hidden));
+  const root = document.documentElement;
   // Het scherm is matglas (backdrop-filter). Zolang de afgelopen laad-animatie (rise, fill both) op .hero-fig blijft hangen,
-  // ziet dat glas de achtergrond van de hero niet en lopen de lijnen er scherp doorheen. Na afloop de animatie opruimen:
-  // de eindtoestand (opacity 1, geen transform) is dezelfde, er verandert niets aan het scherm zelf.
-  const fig = hero.querySelector('.hero-fig');
+  // ziet dat glas de achtergrond van de hero niet. Na afloop de animatie opruimen: de eindtoestand (opacity 1, geen
+  // transform) is dezelfde, er verandert niets aan het scherm zelf.
+  const fig = document.querySelector('.hero .hero-fig');
   if (fig && fig.getAnimations) fig.getAnimations().forEach((a) => a.finished.then(() => a.cancel(), () => {}));
-  draw();
-  let rz = 0, lw = window.innerWidth;
-  window.addEventListener('resize', () => { if (window.innerWidth === lw) return; lw = window.innerWidth; clearTimeout(rz); rz = setTimeout(draw, 160); }, { passive: true });
-  if (document.fonts && document.fonts.ready) document.fonts.ready.then(draw);
+  const klaar = () => root.classList.add('marmer-geladen');
+  const decodeer = (src) => new Promise((ok) => {
+    const img = new Image();
+    img.onload = () => (img.decode ? img.decode() : Promise.resolve()).then(ok, ok);
+    img.onerror = () => ok();
+    img.src = src;
+  });
+  const start = () => {
+    if (!document.querySelector('.hero .hbg') || !window.matchMedia('(min-width: 1100px)').matches) { klaar(); return; }
+    const t = setTimeout(klaar, 4000);
+    Promise.all([decodeer('/assets/img/marmer-1920.avif'), decodeer('/assets/img/marmer-goud-1920.webp')]).then(() => { clearTimeout(t); klaar(); });
+  };
+  if (document.readyState === 'complete') start();
+  else window.addEventListener('load', start, { once: true });
 })();
